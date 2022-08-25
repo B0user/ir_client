@@ -1,0 +1,269 @@
+import { useQuery } from '@tanstack/react-query';
+import { useRef, useState } from "react";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import QRCode from '../qrcodes/QRCode';
+
+const UPDATE_URL = "/models/exact";
+const UPLOAD_URL = "/upload";
+const MEDIA_PATH = "/media";
+const HOST = 'http://localhost:3000';
+
+const ReadModel = () => {
+  const axiosPrivate = useAxiosPrivate();
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const errRef = useRef();
+
+  const [product_id, setProduct_id] = useState("");
+  const [color, setColor] = useState("");
+  const [sizeA, setSizeA] = useState("");
+  const [sizeB, setSizeB] = useState("");
+  const [model, setModel] = useState("");
+
+  const [errMsg, setErrMsg] = useState("");
+  const [changedInfo, setChangedInfo] = useState(false);
+  const [changedFile, setChangedFile] = useState(false);
+
+  const [success, setSuccess] = useState(false);
+
+  const { data: users, status: usersStatus } = useQuery(["users"], () =>
+    axiosPrivate.get("/users").then((res) => res.data)
+  );
+  const { data: products, status: productsStatus } = useQuery(
+    ["products"],
+    () => axiosPrivate.get("/products/all").then((res) => res.data)
+  );
+  const { status: modelinfoStatus } = useQuery([`modelinfo(${id}`, id], () =>
+    axiosPrivate.get(`/models/exact/${id}`).then((res) => {
+      const info = res.data;
+      setProduct_id(info.product_id);
+      setColor(info.color);
+      setSizeA(info.size.split("x")[0]);
+      setSizeB(info.size.split("x")[1]);
+      return info;
+    })
+  );
+
+  if (
+    usersStatus === "error" ||
+    productsStatus === "error" ||
+    modelinfoStatus === "error"
+  )
+    return <p>There was error loading data</p>;
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("model", model);
+    try {
+      // Add files to media
+      if (changedFile) {
+        console.log('$$$$$ changedFile');
+        const upload = await axiosPrivate.post(UPLOAD_URL, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        console.log(upload);
+        // Add to DB
+        const response = await axiosPrivate.put(
+          `${UPDATE_URL}/${id}`,
+          JSON.stringify({
+            color: color,
+            size: `${sizeA}x${sizeB}`,
+            model: `${MEDIA_PATH}/models/${model.name}`,
+          })
+        );
+        console.log(response);
+      } else {
+        const response = await axiosPrivate.put(
+          `${UPDATE_URL}/${id}`,
+          JSON.stringify({
+            color: color,
+            size: `${sizeA}x${sizeB}`,
+          })
+        );
+        console.log(response);
+      }
+      setSuccess(true);
+
+      setProduct_id("");
+      setColor("");
+      setSizeA("");
+      setSizeB("");
+      setModel("");
+    } catch (err) {
+      if (!err?.response) setErrMsg("No Server Response");
+      else setErrMsg("Update process failed");
+      console.error(err);
+      errRef.current.focus();
+    }
+  };
+
+  const handleDelete = async (e) => {
+    e.preventDefault();
+    try {
+      await axiosPrivate.delete(`/models/${id}`);
+      setSuccess(true);
+
+      setProduct_id("");
+      setColor("");
+      setSizeA("");
+      setSizeB("");
+    } catch (err) {
+      if (!err?.response) {
+        setErrMsg("No Server Response");
+      } else {
+        setErrMsg("Delete process failed");
+      }
+      errRef.current.focus();
+    }
+  };
+  const translateClient_id = (_id) => {
+    try {
+        const found = users.find(person => person._id === _id);
+        return found.username;
+    } catch (err) {
+        console.error(err);
+        return null;
+    }
+}
+
+  return (
+    <>
+      {success ? (
+        navigate("..", { replace: true })
+      ) : (
+        <>
+          <p
+            ref={errRef}
+            className={errMsg ? "errmsg" : "offscreen"}
+            aria-live="assertive"
+          >
+            {errMsg}
+          </p>
+          <h1>Model`s info</h1>
+          <form>
+            <fieldset>
+              <legend></legend>
+              <label htmlFor="name">Choose the product:</label>
+              {products?.length && users?.length ? (
+                <select
+                  disabled
+                  value={product_id}
+                  onChange={(e) => setProduct_id(e.target.value)}
+                  className="form-select"
+                >
+                  <option>None</option>
+
+                  {products.map((product, i) => (
+                    <option key={i} value={product._id}>
+                      {product.name} by {translateClient_id(product.client_id)}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <p>No products to display</p>
+              )}
+
+              <label htmlFor="color" className="form-label">
+                Color:
+              </label>
+              <input
+                type="text"
+                id="color"
+                onChange={(e) => {
+                  setChangedInfo(true);
+                  setColor(e.target.value);
+                }}
+                value={color}
+                className="form-control"
+                required
+              />
+
+              <label htmlFor="size" className="form-label">
+                Sizing: (m)
+              </label>
+              <div
+                className="sizes d-flex justify-content-between align-items-center"
+                id="size"
+              >
+                <input
+                  placeholder="A"
+                  type="number"
+                  id="sizeA"
+                  onChange={(e) => {
+                    setChangedInfo(true);
+                    setSizeA(e.target.value);
+                  }}
+                  value={sizeA}
+                  className="form-control me-2"
+                  required
+                />
+                x
+                <input
+                  placeholder="B"
+                  type="number"
+                  id="sizeB"
+                  onChange={(e) => {
+                    setChangedInfo(true);
+                    setSizeB(e.target.value);
+                  }}
+                  value={sizeB}
+                  className="form-control ms-2"
+                  required
+                />
+              </div>
+
+              <label htmlFor="model" className="form-label">
+                Set model
+              </label>
+              <input
+                name="model"
+                type="file"
+                id="model"
+                onChange={(e) => {
+                  setChangedFile(true);
+                  setModel(e.target.files[0]);
+                }}
+                className="form-control"
+                required
+              />
+            </fieldset>
+            <br />
+            
+            <div className="container-fluid text-white bg-primary text-center py-2">
+                <span>Link to model: <Link to={`/modelview/${product_id}?color=${color}&size=${sizeA}x${sizeB}`}>View the model</Link></span>
+                <br />
+                <QRCode url={`${HOST}/modelview/${product_id}?color=${color}&size=${sizeA}x${sizeB}`} isImage={false} isButton={true}/>
+            </div>
+            <br />
+            <div>
+              <button
+                onClick={(e) => handleUpdate(e)}
+                className="btn btn-cp bg-cp-nephritis col-8"
+                disabled={(!changedInfo && !changedFile) ? true : false}
+              >
+                Update
+              </button>
+              <button
+                onClick={(e) => handleDelete(e)}
+                className="btn btn-cp bg-cp-pomegranate col-3 offset-1"
+              >
+                Delete
+              </button>
+            </div>
+          </form>
+          <p>
+            <span className="line">
+            <Link to="..">Cancel</Link>
+            </span>
+          </p>
+        </>
+      )}
+    </>
+  );
+};
+
+export default ReadModel;
