@@ -42,7 +42,7 @@ const Users = () => {
 
     return (
         <div className="row">
-      <h1 className="text-center mb-4">Products List</h1>
+      <h1 className="text-center mb-4">Список пользователей</h1>
       <div className="wrapper ">
         <div className="input-group mb-4">
           <input
@@ -53,7 +53,7 @@ const Users = () => {
             aria-describedby="search-addon"
           />
           <button type="button" className="btn btn-outline-primary">
-            search
+            поиск
           </button>
         </div>
         {data?.length ? (
@@ -71,7 +71,7 @@ const Users = () => {
                         className="btn btn-primary me-2 rounded-pill"
                         onClick={() => readUser(user._id)}
                       >
-                        More
+                        Больше
                       </button>
                       <span className="ms-2">
                         <FontAwesomeIcon
@@ -89,10 +89,10 @@ const Users = () => {
                 ))}
           </ul>
         ) : (
-          <p>No users to display</p>
+          <p>Нет пользователей</p>
         )}
         <Link to="add">
-          <button className="btn btn-cp bg-cp-nephritis rounded-pill w-100">Add new user</button>
+          <button className="btn btn-cp bg-cp-nephritis rounded-pill w-100">Добавить нового пользователя</button>
         </Link>
         
       </div>

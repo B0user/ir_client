@@ -13,22 +13,22 @@ const PanelLayout = ({ role }) => {
                 <>
                   <li className="nav-item">
                     <Link to="/" className="nav-link align-middle px-0">
-                      <i className="fs-4 bi-house" /> <span className="ms-1 d-none d-sm-inline">Home</span>
+                      <i className="fs-4 bi-house" /> <span className="ms-1 d-none d-sm-inline">Главная</span>
                     </Link>
                   </li>
                   <li>
                     <Link to="/client" className="nav-link px-0 align-middle">
-                      <i className="fs-4 bi-speedometer2" /> <span className="ms-1 d-none d-sm-inline">Dashboard</span> </Link>
+                      <i className="fs-4 bi-speedometer2" /> <span className="ms-1 d-none d-sm-inline">Панель управления</span> </Link>
                   </li>
                   <li>
                     <Link to="#submenu3" data-bs-toggle="collapse" className="nav-link px-0 align-middle">
-                      <span className="ms-1 d-none d-sm-inline">Products</span> </Link>
+                      <span className="ms-1 d-none d-sm-inline">Товары</span> </Link>
                     <ul className="collapse nav flex-column ms-4" id="submenu3" data-bs-parent="#menu">
                       <li className="w-100">
-                        <Link to="/client/products" className="nav-link px-0"> <span className="d-none d-sm-inline">View all</span></Link>
+                        <Link to="/client/products" className="nav-link px-0"> <span className="d-none d-sm-inline">Посмотреть все</span></Link>
                       </li>
                       <li>
-                        <Link to="/client/products/add" className="nav-link px-0"> <span className="d-none d-sm-inline">Add new</span></Link>
+                        <Link to="/client/products/add" className="nav-link px-0"> <span className="d-none d-sm-inline">Добавить новый</span></Link>
                       </li>
                     </ul>
                   </li>
@@ -37,34 +37,34 @@ const PanelLayout = ({ role }) => {
                 <>
                   <li className="nav-item">
                     <Link to="/" className="nav-link align-middle px-0">
-                      <i className="fs-4 bi-house" /> <span className="ms-1 d-none d-sm-inline">Home</span>
+                      <i className="fs-4 bi-house" /> <span className="ms-1 d-none d-sm-inline">Главная</span>
                     </Link>
                   </li>
                   <li>
                     <Link to="/admin" className="nav-link px-0 align-middle">
-                      <i className="fs-4 bi-speedometer2" /> <span className="ms-1 d-none d-sm-inline">Dashboard</span> </Link>
+                      <i className="fs-4 bi-speedometer2" /> <span className="ms-1 d-none d-sm-inline">Админ-панель</span> </Link>
                   </li>
                   <li>
                     <Link to="#submenu-users" data-bs-toggle="collapse" className="nav-link px-0 align-middle">
-                      <i className="fs-4 bi-grid" /> <span className="ms-1 d-none d-sm-inline">Users</span> </Link>
+                      <i className="fs-4 bi-grid" /> <span className="ms-1 d-none d-sm-inline">Пользователи</span> </Link>
                     <ul className="collapse nav flex-column ms-4" id="submenu-users" data-bs-parent="#menu">
                       <li className="w-100">
-                        <Link to="/admin/users" className="nav-link px-0"> <span className="d-none d-sm-inline">View all</span></Link>
+                        <Link to="/admin/users" className="nav-link px-0"> <span className="d-none d-sm-inline">Посмотреть все</span></Link>
                       </li>
                       <li>
-                        <Link to="/admin/users/add" className="nav-link px-0"> <span className="d-none d-sm-inline">Add new</span></Link>
+                        <Link to="/admin/users/add" className="nav-link px-0"> <span className="d-none d-sm-inline">Добавить новый</span></Link>
                       </li>
                     </ul>
                   </li>
                   <li>
                     <Link to="#submenu-models" data-bs-toggle="collapse" className="nav-link px-0 align-middle">
-                      <i className="fs-4 bi-grid" /> <span className="ms-1 d-none d-sm-inline">Models</span> </Link>
+                      <i className="fs-4 bi-grid" /> <span className="ms-1 d-none d-sm-inline">Модели</span> </Link>
                     <ul className="collapse nav flex-column ms-4" id="submenu-models" data-bs-parent="#menu">
                       <li className="w-100">
-                        <Link to="/admin/models" className="nav-link px-0"> <span className="d-none d-sm-inline">View all</span></Link>
+                        <Link to="/admin/models" className="nav-link px-0"> <span className="d-none d-sm-inline">Посмотреть все</span></Link>
                       </li>
                       <li>
-                        <Link to="/admin/models/add" className="nav-link px-0"> <span className="d-none d-sm-inline">Add new</span></Link>
+                        <Link to="/admin/models/add" className="nav-link px-0"> <span className="d-none d-sm-inline">Добавить новый</span></Link>
                       </li>
                     </ul>
                   </li>

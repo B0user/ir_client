@@ -111,7 +111,7 @@ const AddUser = () => {
           >
             {errMsg}
           </p>
-          <h1>Add new user</h1>
+          <h1>Добавить нового пользователя</h1>
           <form onSubmit={handleSubmit}>
             <label htmlFor="username" className="form-label">
                 Username:
@@ -134,14 +134,14 @@ const AddUser = () => {
             />
             <p id="uidnote" className={userFocus && user && !validName ? "instructions" : "offscreen"}>
                 <FontAwesomeIcon icon={faInfoCircle} />
-                4 to 24 characters.<br />
-                Must begin with a letter.<br />
-                Letters, numbers, underscores, hyphens allowed.
+                От 4 до 24 символов.<br />
+                Должен содержать буквы.<br />
+                Буквы, цифры, подчеркивания, символы разрешены.
             </p>
 
 
             <label htmlFor="password" className="form-label">
-                Password:
+                Пароль:
                 <FontAwesomeIcon icon={faCheck} className={validPwd ? "valid" : "hide"} />
                 <FontAwesomeIcon icon={faTimes} className={validPwd || !pwd ? "hide" : "invalid"} />
             </label>
@@ -159,14 +159,14 @@ const AddUser = () => {
             />
             <p id="pwdnote" className={pwdFocus && !validPwd ? "instructions" : "offscreen"}>
                 <FontAwesomeIcon icon={faInfoCircle} />
-                8 to 24 characters.<br />
-                Must include uppercase and lowercase letters, a number and a special character.<br />
-                Allowed special characters: <span aria-label="exclamation mark">!</span> <span aria-label="at symbol">@</span> <span aria-label="hashtag">#</span> <span aria-label="dollar sign">$</span> <span aria-label="percent">%</span>
+                От 8 до 24 символов.<br />
+                Должен содержать верхний и нижний регистр, цифру и специальный знак.<br />
+                Разрешенные спец знаки: <span aria-label="exclamation mark">!</span> <span aria-label="at symbol">@</span> <span aria-label="hashtag">#</span> <span aria-label="dollar sign">$</span> <span aria-label="percent">%</span>
             </p>
 
 
             <label htmlFor="confirm_pwd" className="form-label">
-                Confirm Password:
+                Подтверждение пароля:
                 <FontAwesomeIcon icon={faCheck} className={validMatch && matchPwd ? "valid" : "hide"} />
                 <FontAwesomeIcon icon={faTimes} className={validMatch || !matchPwd ? "hide" : "invalid"} />
             </label>
@@ -184,11 +184,11 @@ const AddUser = () => {
             />
             <p id="confirmnote" className={matchFocus && !validMatch ? "instructions" : "offscreen"}>
                 <FontAwesomeIcon icon={faInfoCircle} />
-                Must match the first password input field.
+                Должен совпадать с заданным паролем.
             </p>
             <br />            
             <fieldset>
-                <legend>Roles:</legend>
+                <legend>Роли:</legend>
                 <div>
                     <input 
                         type="checkbox" 
@@ -196,7 +196,7 @@ const AddUser = () => {
                         onChange={(e)=>onRolesChange('user', e.target.checked)}
                         checked={roleUser}
                     />
-                    <label htmlFor="user">User</label>
+                    <label htmlFor="user">Пользователь</label>
                 </div>
                 <div>
                     <input 
@@ -205,15 +205,15 @@ const AddUser = () => {
                         onChange={(e) => onRolesChange('client', e.target.checked)}
                         checked={roleClient}
                     />
-                    <label htmlFor="client">Client</label>
+                    <label htmlFor="client">Клиент</label>
                 </div>
             </fieldset>
             <br />
-            <button disabled={!validName || !validPwd || !validMatch ? true : false}  className="btn btn-danger">Add</button>
+            <button disabled={!validName || !validPwd || !validMatch ? true : false}  className="btn btn-danger">Добавить</button>
           </form>
           <p>
             <span className="line">
-              <Link to="/admin/users">Cancel</Link>
+              <Link to="/admin/users">Отмена</Link>
             </span>
           </p>
         </>

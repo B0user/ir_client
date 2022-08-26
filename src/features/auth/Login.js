@@ -7,7 +7,7 @@ import useToggle from '../../hooks/useToggle';
 import axios from '../../api/axios';
 const LOGIN_URL = '/auth';
 
-const Login = ({ forrole }) => {
+const Login = () => {
     const { setAuth } = useAuth();
 
     const navigate = useNavigate();
@@ -65,7 +65,7 @@ const Login = ({ forrole }) => {
 
         <section>
             <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-            <h1>Sign In</h1>
+            <h1>Войти</h1>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="username" className="form-label">Username:</label>
                 <input
@@ -78,7 +78,7 @@ const Login = ({ forrole }) => {
                     required
                 />
 
-                <label htmlFor="password" className="form-label">Password:</label>
+                <label htmlFor="password" className="form-label">Пароль:</label>
                 <input
                     type="password"
                     id="password"
@@ -88,7 +88,7 @@ const Login = ({ forrole }) => {
                     required
                 />
                 <br />
-                <button className="btn btn-primary">Sign In</button>
+                <button className="btn btn-primary">Войти</button>
                 <div className="align-items-center d-flex form-check mt-2">
                     <input
                     className="form-check-input"
@@ -97,15 +97,15 @@ const Login = ({ forrole }) => {
                         onChange={toggleCheck}
                         checked={check}
                     />
-                    <label htmlFor="persist" className="form-check-label">Trust This Device</label>
+                    <label htmlFor="persist" className="form-check-label">Доверять этому устройству?</label>
                 </div>
             </form>
-            <p>
-                Need an Account?<br />
+            {/* <p>
+                Нужен аккаунт?<br />
                 <span className="line">
-                    <Link to="/register">Sign Up</Link>
+                    <Link to="/register">Зарегистрироваться</Link>
                 </span>
-            </p>
+            </p> */}
         </section>
 
     )

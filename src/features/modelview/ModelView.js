@@ -111,12 +111,12 @@ const ModelView = () => {
           data-bs-target="#info"
           className="btn btn-primary"
         >
-          UP
+          ВВЕРХ
         </button>
         <div className="collapse" id="info">
           {data?.length ? (
             <form onSubmit={() => handleSubmit()}>
-              <label htmlFor="color">Pick a color:</label>
+              <label htmlFor="color">Выберите цвет:</label>
               <select
                 name="color"
                 id="color"
@@ -130,7 +130,7 @@ const ModelView = () => {
                   </option>
                 ))}
               </select>
-              <label htmlFor="size">Pick a size:</label>
+              <label htmlFor="size">Выберите размер:</label>
               <select
                 name="size"
                 id="size"
@@ -148,10 +148,10 @@ const ModelView = () => {
                 )}
               </select>
               <br />
-              <button className="btn btn-success">Change Model</button>
+              <button className="btn btn-success">Применить настройки</button>
             </form>
           ) : (
-            <p>No Settings Available</p>
+            <p>Нет вариаций</p>
           )}
         </div>
       </div>

@@ -91,11 +91,11 @@ const AddModel = () => {
                     >
                         {errMsg}
                     </p>
-                    <h1>Attach Model</h1>
+                    <h1>Прикрепить модель</h1>
                     <form onSubmit={handleSubmit}>
                         <fieldset>
                             <legend></legend>
-                            <label htmlFor="name">Choose the product:</label>
+                            <label htmlFor="name">Выберите товар:</label>
                             {products?.length && users?.length
                                 ? (
                                     <select onChange={(e) => setProduct_id(e.target.value)} 
@@ -112,10 +112,10 @@ const AddModel = () => {
                                         )}
                                     </select>
                                 )
-                                : <p>No products to display</p>
+                                : <p>Нет товаров</p>
                             }
 
-                            <label htmlFor="color" className="form-label">Color:</label>
+                            <label htmlFor="color" className="form-label">Цвет:</label>
                             <input
                             type="text"
                             id="color"
@@ -125,7 +125,7 @@ const AddModel = () => {
                             required
                             /> 
                             
-                            <label htmlFor="size" className="form-label">Sizing: (m)</label>
+                            <label htmlFor="size" className="form-label">Размер: (см)</label>
                             <div className="sizes d-flex justify-content-between align-items-center" id="size">
                                 <input
                                 placeholder="A"
@@ -148,7 +148,7 @@ const AddModel = () => {
                                 />
                             </div>
                             
-                            <label htmlFor="model" className="form-label">Set model</label> 
+                            <label htmlFor="model" className="form-label">Загрузить модель</label> 
                             <input 
                             name="model"
                             type="file" 
@@ -160,11 +160,11 @@ const AddModel = () => {
                         
                         </fieldset>
                         <br />
-                        <button className="btn btn-danger">Attach</button>
+                        <button className="btn btn-danger">Прикрепить</button>
                     </form>
                     <p>
                         <span className="line">
-                        <Link to="..">Cancel</Link>
+                        <Link to="..">Отмена</Link>
                         </span>
                     </p>
 

@@ -127,7 +127,7 @@ const ReadUserInfo = () => {
           >
             {errMsg}
           </p>
-          <h1>User`s info</h1>
+          <h1>Информация о пользователе</h1>
           <form>
             <label htmlFor="username" className="form-label">
                 Username:
@@ -150,12 +150,12 @@ const ReadUserInfo = () => {
             />
             <p id="uidnote" className={userFocus && user && !validName ? "instructions" : "offscreen"}>
                 <FontAwesomeIcon icon={faInfoCircle} />
-                4 to 24 characters.<br />
-                Must begin with a letter.<br />
-                Letters, numbers, underscores, hyphens allowed.
+                От 4 до 24 символов.<br />
+                Должен содержать буквы.<br />
+                Буквы, цифры, подчеркивания, символы разрешены.
             </p>         
             <fieldset>
-                <legend>Roles:</legend>
+                <legend>Роли:</legend>
                 <div>
                     <input 
                         type="checkbox" 
@@ -163,7 +163,7 @@ const ReadUserInfo = () => {
                         onChange={(e)=>onRolesChange('user', e.target.checked)}
                         checked={roleUser}
                     />
-                    <label htmlFor="user">User</label>
+                    <label htmlFor="user">Пользователь</label>
                 </div>
                 <div>
                     <input 
@@ -172,19 +172,19 @@ const ReadUserInfo = () => {
                         onChange={(e) => onRolesChange('client', e.target.checked)}
                         checked={roleClient}
                     />
-                    <label htmlFor="client">Client</label>
+                    <label htmlFor="client">Клиент</label>
                 </div>
             </fieldset>
             <br />
             
             <div>
-                <button onClick={(e) => handleUpdate(e)} className="btn btn-cp bg-cp-nephritis col-8" disabled={!changed ? true : false}>Update</button>
-                <button onClick={(e) => handleDelete(e)} className="btn btn-cp bg-cp-pomegranate col-3 offset-1">Delete</button>
+                <button onClick={(e) => handleUpdate(e)} className="btn btn-cp bg-cp-nephritis col-8" disabled={!changed ? true : false}>Обновить</button>
+                <button onClick={(e) => handleDelete(e)} className="btn btn-cp bg-cp-pomegranate col-3 offset-1">Удалить</button>
             </div>
           </form>
           <p>
             <span className="line">
-              <Link to="/admin/users">Cancel</Link>
+              <Link to="/admin/users">Отмена</Link>
             </span>
           </p>
         </>

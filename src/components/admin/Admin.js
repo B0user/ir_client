@@ -3,14 +3,14 @@ import { Link } from "react-router-dom";
 const Admin = () => {
     return (
         <>
-            <h1>Admins Page</h1>
+            <h1>Админ-панель</h1>
             <br />
-            <Link to="users">Users</Link>
+            <Link to="users">Пользователи</Link>
             <br />
-            <Link to="models">Models</Link>
+            <Link to="models">Модели</Link>
             <br />
             <div className="flexGrow">
-                <Link to="/">Home</Link>
+                <Link to="/">Главная</Link>
             </div>
         </>
     )

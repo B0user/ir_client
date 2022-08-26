@@ -28,7 +28,7 @@ const QRCode = ({url, isImage, isButton}) => {
     <div className="wrapper my-2">
         <div ref={qrRef} className={!isImage ? "visually-hidden" : ""}>{qrcode}</div>
         <button  onClick={(e) => downloadQRCode(e)} className={!isButton ? "btn btn-outline-light visually-hidden" : "btn btn-outline-light"}>
-            Download QR code
+            Скачать QR код
         </button>
     </div>
   );

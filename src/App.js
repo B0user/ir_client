@@ -37,8 +37,7 @@ function App() {
       <Route path="/" element={<Layout />}>
         {/* public routes */}
         <Route path="/" element={<Home/>} />
-        <Route path="login" element={<Login forrole={1101} />} />
-        <Route path="adlogin" element={<Login forroles={2004} />} />
+        <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="linkpage" element={<LinkPage />} />
         <Route path="modelview/:id" element={<ModelView/>} />

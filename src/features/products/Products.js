@@ -44,9 +44,9 @@ const Products = () => {
 
   return (
     <div className="row">
-      <h1 className="text-center mb-4">Products List</h1>
+      <h1 className="text-center mb-4">Список товаров</h1>
       <div className="wrapper ">
-        <div className="input-group mb-4">
+        {/* <div className="input-group mb-4">
           <input
             type="search"
             className="form-control rounded"
@@ -55,9 +55,9 @@ const Products = () => {
             aria-describedby="search-addon"
           />
           <button type="button" className="btn btn-outline-primary">
-            search
+            поиск
           </button>
-        </div>
+        </div> */}
         {data?.length ? (
           <ul className="ps-0 ms-1" id="cats">
             <li>
@@ -66,7 +66,7 @@ const Products = () => {
                 data-bs-toggle="collapse"
                 className="px-0 align-middle"
               >
-                <span className="d-none d-sm-inline">Carpets</span>{" "}
+                <span className="d-none d-sm-inline">Ковры</span>{" "}
               </Link>
               <ul
                 className="collapse show nav flex-column vl-left-dotted ms-3"
@@ -79,14 +79,14 @@ const Products = () => {
                     className="info d-flex justify-content-between align-items-center ms-3 mb-2"
                   >
                     <li>
-                      {product?.name} for {product.price}
+                      {product?.name}
                     </li>
                     <div className="icons">
                       <button
                         className="btn btn-primary me-2 rounded-pill"
                         onClick={() => readProduct(product._id)}
                       >
-                        More
+                        Больше
                       </button>
                       <span className="ms-2">
                         <FontAwesomeIcon
@@ -110,7 +110,7 @@ const Products = () => {
                 data-bs-toggle="collapse"
                 className="px-0 align-middle"
               >
-                <span className="d-none d-sm-inline">Sofas</span>{" "}
+                <span className="d-none d-sm-inline">Диваны</span>{" "}
               </Link>
               <ul
                 className="collapse nav flex-column vl-left-dotted ms-3"
@@ -123,14 +123,14 @@ const Products = () => {
                     className="info d-flex justify-content-between align-items-center ms-3 mb-2"
                   >
                     <li>
-                      {product.name} for {product.price}
+                      {product.name}
                     </li>
                     <div className="icons">
                       <button
                         className="btn btn-primary me-2 rounded-pill"
                         onClick={() => readProduct(product._id)}
                       >
-                        More
+                        Больше
                       </button>
                       <span className="ms-2">
                         <FontAwesomeIcon
@@ -154,7 +154,7 @@ const Products = () => {
                 data-bs-toggle="collapse"
                 className="px-0 align-middle"
               >
-                <span className="d-none d-sm-inline">Chairs</span>{" "}
+                <span className="d-none d-sm-inline">Стулья</span>{" "}
               </Link>
               <ul
                 className="collapse nav flex-column vl-left-dotted ms-3"
@@ -167,14 +167,14 @@ const Products = () => {
                     className="info d-flex justify-content-between align-items-center ms-3 mb-2"
                   >
                     <li>
-                      {product.name} for {product.price}
+                      {product.name}
                     </li>
                     <div className="icons">
                       <button
                         className="btn btn-primary me-2 rounded-pill"
                         onClick={() => readProduct(product._id)}
                       >
-                        More
+                        Больше
                       </button>
                       <span className="ms-2">
                         <FontAwesomeIcon
@@ -194,10 +194,10 @@ const Products = () => {
             </li>
           </ul>
         ) : (
-          <p>No products to display</p>
+          <p>Нет товаров</p>
         )}
         <Link to="add">
-          <button className="btn btn-cp bg-cp-nephritis rounded-pill w-100">Add new product</button>
+          <button className="btn btn-cp bg-cp-nephritis rounded-pill w-100">Добавить новый товар</button>
         </Link>
         
       </div>

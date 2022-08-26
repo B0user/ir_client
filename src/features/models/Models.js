@@ -54,7 +54,7 @@ const Models = () => {
 
   return (
     <div className="row">
-      <h1 className="text-center mb-4">Models List</h1>
+      <h1 className="text-center mb-4">Список моделей</h1>
       <div className="wrapper ">
         <div className="input-group mb-4">
           <input
@@ -65,7 +65,7 @@ const Models = () => {
             aria-describedby="search-addon"
           />
           <button type="button" className="btn btn-outline-primary">
-            search
+            поиск
           </button>
         </div>
         {models?.length ? (
@@ -75,13 +75,13 @@ const Models = () => {
                 key={i}
                 className="info d-flex justify-content-between align-items-center ms-3 mb-2"
               >
-                <li><b>{products?.length ? translateProduct_id(model.product_id) : 'Loading...'}{'--->'}</b>  <b>color:</b> {model.color} <b>size:</b> {model.size}</li>
+                <li><b>{products?.length ? translateProduct_id(model.product_id) : 'Loading...'}{'--->'}</b>  <b>цвет:</b> {model.color} <b>размер:</b> {model.size}</li>
                 <div className="icons">
                   <button
                     className="btn btn-primary me-2 rounded-pill"
                     onClick={() => readModel(model._id)}
                   >
-                    More
+                    Больше
                   </button>
                   <span className="ms-2">
                     <FontAwesomeIcon
@@ -99,11 +99,11 @@ const Models = () => {
             ))}
           </ul>
         ) : (
-          <p>No models to display</p>
+          <p>Нет моделей</p>
         )}
         <Link to="add">
           <button className="btn btn-cp bg-cp-nephritis rounded-pill w-100">
-            Attach new model
+            Добавить новую модель
           </button>
         </Link>
       </div>

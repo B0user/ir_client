@@ -96,14 +96,14 @@ const ReadProduct = () => {
         > 
           {errMsg}
         </p>
-        <h1 className="text-center">Products's info</h1>
+        <h1 className="text-center">Информация о товаре</h1>
         <form>
-          <label htmlFor="cat" className="form-label" >Category:</label>
+          <label htmlFor="cat" className="form-label" >Категория:</label>
           <select className="form-select" disabled>
             <option value="">None</option>
           </select>
 
-          <label htmlFor="name" className="form-label" >Name of the product:</label>
+          <label htmlFor="name" className="form-label" >Наименование:</label>
           <input
             className="form-control" 
             type="text"
@@ -117,7 +117,7 @@ const ReadProduct = () => {
             required
           />
 
-          <label htmlFor="description" className="form-label" >Description:</label>
+          <label htmlFor="description" className="form-label" >Описание:</label>
           <textarea 
             className="form-control" 
             rows="3" id="description" name="text"
@@ -128,7 +128,7 @@ const ReadProduct = () => {
             required
           />
 
-          <label htmlFor="price" className="form-label" >Price:</label>
+          <label htmlFor="price" className="form-label" >Цена:</label>
           <input
             className="form-control" 
             type="number"
@@ -149,13 +149,13 @@ const ReadProduct = () => {
           }
           <br />
           <div>
-            <button onClick={(e) => handleUpdate(e)} className="btn btn-cp bg-cp-nephritis col-8" disabled={!changed ? true : false}>Update</button>
-            <button onClick={(e) => handleDelete(e)} className="btn btn-cp bg-cp-pomegranate col-3 offset-1">Delete</button>
+            <button onClick={(e) => handleUpdate(e)} className="btn btn-cp bg-cp-nephritis col-8" disabled={!changed ? true : false}>Обновить</button>
+            <button onClick={(e) => handleDelete(e)} className="btn btn-cp bg-cp-pomegranate col-3 offset-1">Удалить</button>
           </div>
         </form>
         <p>
           <span className="line">
-            <Link to="/client/products">Cancel</Link>
+            <Link to="/client/products">Отмена</Link>
           </span>
         </p>
     </div>  

@@ -62,16 +62,16 @@ const AddProduct = () => {
           >
             {errMsg}
           </p>
-          <h1>Add new Product</h1>
+          <h1>Добавить новый товар</h1>
           <form onSubmit={handleSubmit}>
-            <label htmlFor="cat" className="form-label" >Category:</label>
+            <label htmlFor="cat" className="form-label" >Категория:</label>
             <select className="form-select" onChange={(e) => setCategory(e.target.value)}>
-              <option value="carpet">Carpet</option>
-              <option value="sofa">Sofa</option>
-              <option value="chair">Chair</option>
+              <option value="carpet">Ковры</option>
+              <option value="sofa">Диваны</option>
+              <option value="chair">Стулья</option>
             </select>
 
-            <label htmlFor="name" className="form-label">Name of the product:</label>
+            <label htmlFor="name" className="form-label">Наименование:</label>
             <input
               type="text"
               id="name"
@@ -83,7 +83,7 @@ const AddProduct = () => {
               required
             />
 
-            <label htmlFor="description" className="form-label">Description:</label>
+            <label htmlFor="description" className="form-label">Описание:</label>
             <textarea 
               className="form-control" 
               rows="5" id="description" name="text"
@@ -92,7 +92,7 @@ const AddProduct = () => {
               required
             />
 
-            <label htmlFor="price" className="form-label">Price:</label>
+            <label htmlFor="price" className="form-label">Цена:</label>
             <input
               type="number"
               id="price"
@@ -102,11 +102,11 @@ const AddProduct = () => {
               required
             />
             <br />
-            <button className="btn btn-danger">Add</button>
+            <button className="btn btn-danger">Добавить</button>
           </form>
           <p>
             <span className="line">
-              <Link to="/client/products">Cancel</Link>
+              <Link to="/client/products">Отмена</Link>
             </span>
           </p>
         </>

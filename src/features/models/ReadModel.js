@@ -143,11 +143,11 @@ const ReadModel = () => {
           >
             {errMsg}
           </p>
-          <h1>Model`s info</h1>
+          <h1>Информация о модели</h1>
           <form>
             <fieldset>
               <legend></legend>
-              <label htmlFor="name">Choose the product:</label>
+              <label htmlFor="name">Товар:</label>
               {products?.length && users?.length ? (
                 <select
                   disabled
@@ -164,11 +164,11 @@ const ReadModel = () => {
                   ))}
                 </select>
               ) : (
-                <p>No products to display</p>
+                <p>нет товаров</p>
               )}
 
               <label htmlFor="color" className="form-label">
-                Color:
+                Цвет:
               </label>
               <input
                 type="text"
@@ -183,7 +183,7 @@ const ReadModel = () => {
               />
 
               <label htmlFor="size" className="form-label">
-                Sizing: (m)
+                Размер: (м)
               </label>
               <div
                 className="sizes d-flex justify-content-between align-items-center"
@@ -217,7 +217,7 @@ const ReadModel = () => {
               </div>
 
               <label htmlFor="model" className="form-label">
-                Set model
+                Загрузить модель
               </label>
               <input
                 name="model"
@@ -234,7 +234,7 @@ const ReadModel = () => {
             <br />
             
             <div className="container-fluid text-white bg-primary text-center py-2">
-                <span>Link to model: <Link to={`/modelview/${product_id}?color=${color}&size=${sizeA}x${sizeB}`}>View the model</Link></span>
+                <span>Ссылка: <Link to={`/modelview/${product_id}?color=${color}&size=${sizeA}x${sizeB}`}>Посмотреть модель</Link></span>
                 <br />
                 <QRCode url={`${HOST}/modelview/${product_id}?color=${color}&size=${sizeA}x${sizeB}`} isImage={false} isButton={true}/>
             </div>
@@ -245,19 +245,19 @@ const ReadModel = () => {
                 className="btn btn-cp bg-cp-nephritis col-8"
                 disabled={(!changedInfo && !changedFile) ? true : false}
               >
-                Update
+                Обновить
               </button>
               <button
                 onClick={(e) => handleDelete(e)}
                 className="btn btn-cp bg-cp-pomegranate col-3 offset-1"
               >
-                Delete
+                Удалить
               </button>
             </div>
           </form>
           <p>
             <span className="line">
-            <Link to="..">Cancel</Link>
+            <Link to="..">Отмена</Link>
             </span>
           </p>
         </>

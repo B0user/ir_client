@@ -3,12 +3,12 @@ import { Link } from "react-router-dom";
 const Client = () => {
   return ( 
     <>
-      <h1>Client Panel</h1>
+      <h1>Панель управления</h1>
       <br />
-      <Link to="products">All Products</Link>
+      <Link to="products">Товары</Link>
       <br />
       <div className="flexGrow">
-        <Link to="/">Home</Link>
+        <Link to="/">Главная</Link>
       </div>
     </>
   )

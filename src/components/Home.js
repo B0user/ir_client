@@ -12,13 +12,13 @@ const Home = () => {
 
     return (
         <section>
-            <h1>Home</h1>
+            <h1>Главная</h1>
             <br />
-            <p>You are logged in!</p>
-            <Link to="/linkpage">Go to the link page</Link>
+            <p>Вы зашли в аккаунт!</p>
+            <Link to="/linkpage">Страница ссылок</Link>
             <br />
             <div className="flexGrow">
-                <button onClick={signOut} className="btn btn-danger">Sign Out</button>
+                <button onClick={signOut} className="btn btn-danger">Выйти</button>
             </div>
         </section>
     )
