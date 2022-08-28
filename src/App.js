@@ -16,7 +16,6 @@ import Unauthorized from './components/Unauthorized';
 // Private
 import LoginRedir from './features/auth/LoginRedir';
 import Admin from './components/admin/Admin';
-import Lounge from './components/Lounge';
 import Client from './components/client/Client';
 // Products CRUD
 import Products from './features/products/Products';
@@ -74,10 +73,6 @@ function App() {
                   <Route path=":id" element={<ReadModel />}/>
                 </Route>
             </Route>
-          </Route>
-
-          <Route element={<RequireAuth allowedRoles={[1101, 2004]} />}>
-            <Route path="lounge" element={<Lounge />} />
           </Route>
         </Route>
 

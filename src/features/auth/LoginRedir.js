@@ -1,5 +1,6 @@
 import { Navigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
+import jwt_decode from "jwt-decode";
 
 const LoginRedir = () => {
     const { auth } = useAuth();

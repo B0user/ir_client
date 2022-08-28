@@ -44,7 +44,7 @@ const AddModel = () => {
         formData.append('model', model);
         try {
             // Add files to media
-            const upload = await axiosPrivate.post(
+            const { model_path} = await axiosPrivate.post(
                 UPLOAD_URL,
                 formData,
                 {
@@ -59,7 +59,7 @@ const AddModel = () => {
                 JSON.stringify({
                     color: color,
                     size: `${sizeA}x${sizeB}`,
-                    model: `${MEDIA_PATH}/models/${model.name}`
+                    model: model_path
                 })
             );
             console.log(response);

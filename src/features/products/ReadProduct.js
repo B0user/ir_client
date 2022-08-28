@@ -3,8 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { Link, Navigate, useParams } from "react-router-dom";
 import QRCode from "../qrcodes/QRCode";
-
-const HOST='http://localhost:3000';
+import {BASE_URL} from "../../config";
 
 const ReadProduct = () => {
   const axiosPrivate = useAxiosPrivate();
@@ -143,7 +142,7 @@ const ReadProduct = () => {
           {hasModel?.length ?
             <div className="container-fluid text-white bg-primary text-center py-2">
               <span>Link to model: <Link to={`/modelview/${id}`}>{`inroom.tech/modelview/${id}`}</Link></span>
-              <QRCode url={`${HOST}/modelview/${id}`} isImage={false} isButton={true}/>
+              <QRCode url={`${BASE_URL}/modelview/${id}`} isImage={false} isButton={true}/>
             </div>
             : <></>
           }

@@ -3,11 +3,11 @@ import { useRef, useState } from "react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import QRCode from '../qrcodes/QRCode';
+import {BASE_URL} from "../../config";
 
 const UPDATE_URL = "/models/exact";
 const UPLOAD_URL = "/upload";
 const MEDIA_PATH = "/media";
-const HOST = 'http://localhost:3000';
 
 const ReadModel = () => {
   const axiosPrivate = useAxiosPrivate();
@@ -59,20 +59,18 @@ const ReadModel = () => {
     try {
       // Add files to media
       if (changedFile) {
-        console.log('$$$$$ changedFile');
-        const upload = await axiosPrivate.post(UPLOAD_URL, formData, {
+        const { model_path } = await axiosPrivate.post(UPLOAD_URL, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         });
-        console.log(upload);
         // Add to DB
         const response = await axiosPrivate.put(
           `${UPDATE_URL}/${id}`,
           JSON.stringify({
             color: color,
             size: `${sizeA}x${sizeB}`,
-            model: `${MEDIA_PATH}/models/${model.name}`,
+            model: model_path
           })
         );
         console.log(response);
@@ -236,7 +234,7 @@ const ReadModel = () => {
             <div className="container-fluid text-white bg-primary text-center py-2">
                 <span>Ссылка: <Link to={`/modelview/${product_id}?color=${color}&size=${sizeA}x${sizeB}`}>Посмотреть модель</Link></span>
                 <br />
-                <QRCode url={`${HOST}/modelview/${product_id}?color=${color}&size=${sizeA}x${sizeB}`} isImage={false} isButton={true}/>
+                <QRCode url={`${BASE_URL}/modelview/${product_id}?color=${color}&size=${sizeA}x${sizeB}`} isImage={false} isButton={true}/>
             </div>
             <br />
             <div>
