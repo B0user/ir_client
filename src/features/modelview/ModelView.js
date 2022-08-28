@@ -56,6 +56,8 @@ const ModelView = () => {
   if(isSuccess) {
     const uniqueColors = [...new Set(data.map((model) => model.color))];
     const found = data.find((model) => { return model.color === color && model.size === size; });
+    const path = API_URL+found.model;
+    console.log(path);
     if (!found) return( <p>Модель не найдена, ваш URL был изменен</p>);  
     return ( 
     <model-viewer
