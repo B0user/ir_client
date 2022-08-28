@@ -61,7 +61,7 @@ const ModelView = () => {
     if (!found) return( <p>Модель не найдена, ваш URL был изменен</p>);  
     return ( 
       <>
-        <MobileView>
+        <MobileView className="h-100">
           <model-viewer
             src={API_URL+found.model}
             alt="Couch"
