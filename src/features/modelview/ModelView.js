@@ -5,6 +5,7 @@ import "@google/model-viewer/dist/model-viewer";
 import "../../mv.css";
 import { useState} from "react";
 import { RWebShare } from 'react-web-share';
+import { API_URL } from "../../config";
 
 const ModelView = () => {
   const navigate = useNavigate();
@@ -58,7 +59,7 @@ const ModelView = () => {
     if (!found) return( <p>Модель не найдена, ваш URL был изменен</p>);  
     return ( 
     <model-viewer
-      src={found.model}
+      src={API_URL+found.model}
       alt="Couch"
       ar
       ar-modes="webxr quick-look"
