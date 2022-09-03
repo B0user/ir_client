@@ -5,6 +5,9 @@ import { Link, Navigate, useParams } from "react-router-dom";
 import QRCode from "../qrcodes/QRCode";
 import {BASE_URL} from "../../config";
 
+
+const UPLOAD_URL   = '/files/upload/images';
+
 const ReadProduct = () => {
   const axiosPrivate = useAxiosPrivate();
   const {id} = useParams();
@@ -15,10 +18,12 @@ const ReadProduct = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
+  const [thumb, setThumb] = useState("");
 
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
   const [changed, setChanged] = useState(false);
+  const [changedFile, setChangedFile] = useState(false);
 
 
   useEffect(() => {
@@ -46,16 +51,46 @@ const ReadProduct = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      await axiosPrivate.put(
-        `/products/${id}`,
-        JSON.stringify({ name, description, price })
-      );
-      
+      if( changedFile ) {
+        const formData = new FormData();
+        formData.append('thumb', thumb);
+        const result = await axiosPrivate.post(
+          UPLOAD_URL,
+          formData,
+          {
+              headers: {
+                  'Content-Type': 'multipart/form-data'
+              }
+          }
+        )
+
+        await axiosPrivate.put(
+          `/products/${id}`,
+          JSON.stringify({ 
+            name: name,
+            description: description,
+            price: price,
+            thumb_id: result.data.file_id, 
+            thumb_path: result.data.path 
+          })
+        );
+      }
+      else {
+        await axiosPrivate.put(
+          `/products/${id}`,
+          JSON.stringify({ 
+            name: name,
+            description: description,
+            price: price
+          })
+        );
+      }
       setSuccess(true);
       //clear state and controlled inputs
       setName("");
       setDescription("");
       setPrice("");
+      setThumb("");
     } catch (err) {
       if (!err?.response) {
         setErrMsg("No Server Response");
@@ -138,6 +173,18 @@ const ReadProduct = () => {
             value={price}
             required
           />
+          <label htmlFor="thumb" className="form-label">Загрузить обложку</label> 
+          <input 
+          name="thumb"
+          type="file" 
+          id="thumb" 
+          onChange={(e) => {
+            setThumb(e.target.files[0])
+            setChangedFile(true);
+          }}
+          className="form-control"
+          required
+          />
           <br />
           {hasModel?.length ?
             <div className="container-fluid text-white bg-primary text-center py-2">
@@ -148,7 +195,7 @@ const ReadProduct = () => {
           }
           <br />
           <div>
-            <button onClick={(e) => handleUpdate(e)} className="btn btn-cp bg-cp-nephritis col-8" disabled={!changed ? true : false}>Обновить</button>
+            <button onClick={(e) => handleUpdate(e)} className="btn btn-cp bg-cp-nephritis col-8" disabled={(!changed && !changedFile) ? true : false}>Обновить</button>
             <button onClick={(e) => handleDelete(e)} className="btn btn-cp bg-cp-pomegranate col-3 offset-1">Удалить</button>
           </div>
         </form>

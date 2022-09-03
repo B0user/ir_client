@@ -5,8 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { faCommentsDollar } from "@fortawesome/free-solid-svg-icons";
 
 const ADDMODEL_URL = '/models';
-const UPLOAD_URL   = '/upload';
-const MEDIA_PATH   = '/media';
+const UPLOAD_URL   = '/files/upload/models';
 
 const AddModel = () => {
     const axiosPrivate                  = useAxiosPrivate();
@@ -41,10 +40,13 @@ const AddModel = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData();
+        const product = await products.find((prod)=> prod._id === product_id);
         formData.append('model', model);
+        formData.append('client_id', product.client_id);
+        formData.append('product_id', product_id);
         try {
             // Add files to media
-            const { model_path} = await axiosPrivate.post(
+            const result = await axiosPrivate.post(
                 UPLOAD_URL,
                 formData,
                 {
@@ -53,13 +55,16 @@ const AddModel = () => {
                     }
                 }
             )
+            const file = result.data.file_id;
+            const link = result.data.path;
             // Add to DB
             const response = await axiosPrivate.post(
                 `${ADDMODEL_URL}/${product_id}`,
                 JSON.stringify({
                     color: color,
                     size: `${sizeA}x${sizeB}`,
-                    model: model_path
+                    file_id: file,
+                    link: link
                 })
             );
             console.log(response);

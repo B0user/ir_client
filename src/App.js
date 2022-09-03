@@ -5,12 +5,14 @@ import Layout from './components/Layouts/Layout';
 import PanelLayout from './components/Layouts/PanelLayout';
 import RequireAuth from './components/Layouts/RequireAuth';
 import PersistLogin from './components/Layouts/PersistLogin';
+// Fitting Room
+import BrandFittingRoom from './features/modelview/BrandFittingRoom';
+import ModelView from './features/modelview/ModelView';
 // Public
 import Home from './components/Home';
 import Register from './features/auth/Register';
 import Login from './features/auth/Login';
 import LinkPage from './components/LinkPage';
-import ModelView from './features/modelview/ModelView';
 import Missing from './components/Missing';
 import Unauthorized from './components/Unauthorized';
 // Private
@@ -39,7 +41,8 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="linkpage" element={<LinkPage />} />
-        <Route path="modelview/:id" element={<ModelView/>} />
+        <Route path="modelview/:client_id" element={<BrandFittingRoom/>} />
+        <Route path="modelview/:client_id/:product_id" element={<ModelView/>} />
         <Route path="unauthorized" element={<Unauthorized />} />
 
         {/* Protected */}

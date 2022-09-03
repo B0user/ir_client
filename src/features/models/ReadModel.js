@@ -6,8 +6,7 @@ import QRCode from '../qrcodes/QRCode';
 import {BASE_URL} from "../../config";
 
 const UPDATE_URL = "/models/exact";
-const UPLOAD_URL = "/upload";
-const MEDIA_PATH = "/media";
+const UPLOAD_URL = "/files/upload/models";
 
 const ReadModel = () => {
   const axiosPrivate = useAxiosPrivate();
@@ -15,7 +14,8 @@ const ReadModel = () => {
   const { id } = useParams();
   const errRef = useRef();
 
-  const [product_id, setProduct_id] = useState("");
+  const [product_id, setProduct_id]   = useState();
+  const [client_id, setClient_id]   = useState();
   const [color, setColor] = useState("");
   const [sizeA, setSizeA] = useState("");
   const [sizeB, setSizeB] = useState("");
@@ -34,7 +34,7 @@ const ReadModel = () => {
     ["products"],
     () => axiosPrivate.get("/products/all").then((res) => res.data)
   );
-  const { status: modelinfoStatus } = useQuery([`modelinfo(${id}`, id], () =>
+  const { status: modelinfoStatus } = useQuery([`modelinfo-${id}`, id], () =>
     axiosPrivate.get(`/models/exact/${id}`).then((res) => {
       const info = res.data;
       setProduct_id(info.product_id);
@@ -56,21 +56,28 @@ const ReadModel = () => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("model", model);
+    formData.append('client_id', client_id);
+    formData.append('product_id', product_id);
     try {
+
       // Add files to media
       if (changedFile) {
-        const { model_path } = await axiosPrivate.post(UPLOAD_URL, formData, {
+        const result = await axiosPrivate.post(UPLOAD_URL, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         });
+        
+        const file = result.data.file_id;
+        const link = result.data.path;
         // Add to DB
         const response = await axiosPrivate.put(
           `${UPDATE_URL}/${id}`,
           JSON.stringify({
             color: color,
             size: `${sizeA}x${sizeB}`,
-            model: model_path
+            file: file,
+            link: link
           })
         );
         console.log(response);
@@ -85,8 +92,7 @@ const ReadModel = () => {
         console.log(response);
       }
       setSuccess(true);
-
-      setProduct_id("");
+      setProduct_id('');
       setColor("");
       setSizeA("");
       setSizeB("");
@@ -104,8 +110,6 @@ const ReadModel = () => {
     try {
       await axiosPrivate.delete(`/models/${id}`);
       setSuccess(true);
-
-      setProduct_id("");
       setColor("");
       setSizeA("");
       setSizeB("");
@@ -126,7 +130,7 @@ const ReadModel = () => {
         console.error(err);
         return null;
     }
-}
+  }
 
   return (
     <>
@@ -150,14 +154,13 @@ const ReadModel = () => {
                 <select
                   disabled
                   value={product_id}
-                  onChange={(e) => setProduct_id(e.target.value)}
                   className="form-select"
                 >
                   <option>None</option>
 
-                  {products.map((product, i) => (
-                    <option key={i} value={product._id}>
-                      {product.name} by {translateClient_id(product.client_id)}
+                  {products.map((prod, i) => (
+                    <option key={i} value={prod._id}>
+                      {prod.name} by {translateClient_id(prod.client_id)}
                     </option>
                   ))}
                 </select>
@@ -232,9 +235,9 @@ const ReadModel = () => {
             <br />
             
             <div className="container-fluid text-white bg-primary text-center py-2">
-                <span>Ссылка: <Link to={`/modelview/${product_id}?color=${color}&size=${sizeA}x${sizeB}`}>Посмотреть модель</Link></span>
+                <span>Ссылка: <Link to={`/modelview/${client_id}/${product_id}?color=${color}&size=${sizeA}x${sizeB}`}>Посмотреть модель</Link></span>
                 <br />
-                <QRCode url={`${BASE_URL}/modelview/${product_id}?color=${color}&size=${sizeA}x${sizeB}`} isImage={false} isButton={true}/>
+                <QRCode url={`${BASE_URL}/modelview/${client_id}/${product_id}?color=${color}&size=${sizeA}x${sizeB}`} isImage={false} isButton={true}/>
             </div>
             <br />
             <div>

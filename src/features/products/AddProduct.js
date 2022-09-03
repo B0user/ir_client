@@ -3,6 +3,7 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { Link, useNavigate } from "react-router-dom";
 
 const ADDPRODUCT_URL = '/products';
+const UPLOAD_URL   = '/files/upload/images';
 
 const AddProduct = () => {
   const axiosPrivate = useAxiosPrivate();
@@ -11,6 +12,7 @@ const AddProduct = () => {
   const errRef = useRef();
 
   const [category, setCategory] = useState("carpet");
+  const [thumb, setThumb] = useState("");
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
@@ -27,11 +29,31 @@ const AddProduct = () => {
   }, [name, description, price]);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
     try {
+      e.preventDefault();
+      const formData = new FormData();
+      formData.append('thumb', thumb);
+      // Add files to media
+      const result = await axiosPrivate.post(
+        UPLOAD_URL,
+        formData,
+        {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }
+      )
+
       const response = await axiosPrivate.post(
         ADDPRODUCT_URL,
-        JSON.stringify({ category, name, description, price })
+        JSON.stringify({ 
+          category: category,
+          name: name,
+          description: description,
+          price: price,
+          thumb_id: result.data.file_id, 
+          thumb_path: result.data.path 
+        })
       );
       setSuccess(true);
       //clear state and controlled inputs
@@ -101,6 +123,17 @@ const AddProduct = () => {
               className="form-control"
               required
             />
+
+            <label htmlFor="thumb" className="form-label">Загрузить обложку</label> 
+            <input 
+            name="thumb"
+            type="file" 
+            id="thumb" 
+            onChange={(e) => setThumb(e.target.files[0])}
+            className="form-control"
+            required
+            />
+
             <br />
             <button className="btn btn-danger">Добавить</button>
           </form>
