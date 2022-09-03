@@ -57,7 +57,7 @@ const BrandFittingRoom = () => {
             {products?.length 
             ? products.map((prod, i) => (
               <div key={i} className="catalog-item col-10 rounded bg-white container-fluid mb-3 p-2">
-                <img src={API_URL+prod.thumb_link} className="img-fluid rounded catalog-item-img" alt={prod.name} id="image"/>
+                <img crossorigin="anonymous" src={API_URL+prod.thumb_link} className="img-fluid rounded catalog-item-img" alt={prod.name} id="image"/>
                 <form>
                   <label htmlFor="image"><b>{prod.name}</b></label>
                   <br />
