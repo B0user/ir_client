@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import axios from "../../api/axios";
+import { useParams, useSearchParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import React, { useState } from 'react';
+// Custom
+import axios from "../../api/axios";
 import { API_URL } from "../../config";
-import { useParams, useSearchParams, useNavigate, Link,  } from "react-router-dom";
-import CatalogSwiper from "./CatalogSwiper";
 
 
 const fetchBrandProducts = ( client_id ) => {

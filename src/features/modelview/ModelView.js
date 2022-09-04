@@ -1,16 +1,15 @@
-import axios from "../../api/axios";
-import { useQuery } from "@tanstack/react-query";
-import { useParams, useSearchParams, Link, useNavigate  } from "react-router-dom";
-import "@google/model-viewer/dist/model-viewer";
-import "../../mv.css";
-import { useState} from "react";
-import { RWebShare } from 'react-web-share';
-import { API_URL } from "../../config";
+import { useParams, useSearchParams, useNavigate  } from "react-router-dom";
 import { BrowserView, MobileView} from 'react-device-detect';
-import QRCode from "../qrcodes/QRCode";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleUp } from "@fortawesome/free-solid-svg-icons";
+import { useQuery } from "@tanstack/react-query";
+import "@google/model-viewer/dist/model-viewer";
+import { RWebShare } from 'react-web-share';
+import { useState } from "react";
+// Custom
 import CatalogSwiper from "./CatalogSwiper";
+import { API_URL } from "../../config";
+import QRCode from "../qrcodes/QRCode";
+import axios from "../../api/axios";
+import "../../mv.css";
 
 
 const fetchModelInfo = ( product_id ) => {
