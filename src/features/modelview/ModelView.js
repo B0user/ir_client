@@ -96,6 +96,7 @@ const ModelView = () => {
   };
 
   if(isSuccess) {
+    document.title = 'BritishAsia Home';
     const uniqueColors = [...new Set(variations?.data?.map((model) => model.color))];
     return ( 
       <>
@@ -115,7 +116,7 @@ const ModelView = () => {
                 <RWebShare
                   data = {{
                     title: 'BritishAsia Home',
-                    text: '[BritishAsia Home] Примерьте ковер не выходя из дома!',
+                    text: 'Выбирайте ковер не выходя из дома',
                     url: window.location.href
                   }}
                   onClick={() => console.log("onShare successfully!")}
