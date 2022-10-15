@@ -26,7 +26,7 @@ const CatalogSwiper = ({data = {}, client_id = ''}) => {
             data.map((prod, i) => (
                 <SwiperSlide key={i} onClick={(e) => navigate(`/modelview/${client_id}/${prod._id}`)}>
                     <div key={i} className="view">
-                        <img src={API_URL+prod.thumb_link} crossorigin="anonymous" className="img-fluid rounded catalog-item-img" alt={prod.name}/>
+                        <img src={API_URL+prod.thumb} crossorigin="anonymous" className="img-fluid rounded catalog-item-img" alt={prod.name}/>
                         <div className="img-size-info">
                             <p>Размеры:</p>
                             {prod.sizes?.map((size, j) => (

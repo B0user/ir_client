@@ -13,11 +13,11 @@ import "../../mv.css";
 
 
 const fetchModelInfo = ( product_id ) => {
-  return axios.get(`/modelview/${product_id}`);
+  return axios.get(`/mv/models/${product_id}`);
 };
 
 const fetchBrandProducts = ( client_id ) => {
-  return axios.get(`/modelview/products/${client_id}`);
+  return axios.get(`/mv/products/${client_id}`);
 }
 
 const ModelView = () => {
@@ -102,7 +102,7 @@ const ModelView = () => {
       <>
         <MobileView className="h-100">
           <model-viewer
-            src={API_URL+found?.link}
+            src={API_URL+found?.file}
             alt="Carpet model"
             ar-modes="scene-viewer quick-look"
             ar ar-scale="fixed"

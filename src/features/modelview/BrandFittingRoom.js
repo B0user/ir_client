@@ -120,7 +120,7 @@ const Filters = ({ products, setSearchResults }) => {
                 {/* Sizes show */}
                 {sizes?.map((size, i) => (
                   <div className="size my-2 w-50" key={i}>
-                    <input className="form-check-input" type="checkbox" value={size} id={i} onChange={handleCheckedSize} defaultChecked={true}/>
+                    <input className="form-check-input" type="checkbox" value={size} id={i} onChange={handleCheckedSize} defaultChecked={false}/>
                     <label className="form-check-label" htmlFor="size1">{size} см</label>
                   </div> 
                 ))}
@@ -148,7 +148,7 @@ const Catalog = ({ products, setSize }) => {
       {products?.length 
       ? products.map((prod, i) => (
         <div key={i} className="catalog-item col-10 rounded bg-white container-fluid mb-3 p-2">
-          <img crossOrigin="anonymous" src={API_URL+prod.thumb_link} className="img-fluid rounded catalog-item-img" alt={prod.name} id="image"/>
+          <img crossOrigin="anonymous" src={API_URL+prod.thumb} className="img-fluid rounded catalog-item-img" alt={prod.name} id="image"/>
           <form>
             <label htmlFor="image"><b>{prod.name}</b></label>
             <br />
@@ -188,7 +188,7 @@ const BrandFittingRoom = () => {
 
   const { data:products, isError, error } = useQuery(
     ["products-brand", client_id], 
-    () => axios.get(`/modelview/products/${client_id}`),
+    () => axios.get(`/mv/products/${client_id}`),
     {
       select: (data) => {
         const withModels = data.data.filter((prod) => !!prod.models.length);
