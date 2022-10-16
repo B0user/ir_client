@@ -102,7 +102,7 @@ const ModelView = () => {
       <>
         <MobileView className="h-100">
           <model-viewer
-            src={API_URL+found?.file}
+            src={API_URL+found?.model_path}
             alt="Carpet model"
             ar-modes="scene-viewer quick-look"
             ar ar-scale="fixed"
