@@ -43,6 +43,8 @@ const Filters = ({ products, setSearchResults }) => {
   const [highPrice, setHighPrice] = useState(10000000);
   const [sizes, setSizes] = useState([]);
   const [sizesChosen, setSizesChosen] = useState([]);
+  const [chars, setChars] = useState([]);
+  const [charsChosen, setCharsChosen] = useState([]);
 
   useEffect(() => {
     if (products) {
@@ -55,17 +57,42 @@ const Filters = ({ products, setSearchResults }) => {
       const rawSizes = products.map(prod => prod.sizes); 
       const allSizes = [...new Set(rawSizes.flat())];
       setSizes([...allSizes]);
-      setSizesChosen([...allSizes]);
+      // setSizesChosen([...allSizes]);
+
+      // Characteristics
+      const rawChars = products.map((prod) => getChars(prod.description));
+      const allChars = [...new Set(rawChars.flat())];
+      setChars([...allChars]);
+      // setCharsChosen([...allChars]);      
     }
   }, [products]);
+
+  const getChars = (str) => {
+    let res = str.replace(/\s+/, '');
+    res = res?.split(/\r?\n/);
+    res = res.filter((line) => line.startsWith("СОСТАВ:")).toString().toUpperCase();
+    res = res?.split(': ');
+    res = res[1]?.replace(' / ', ', ').replace(' И ', ', ').split(', ');
+    console.log(res);
+    return res;
+  }
 
   // Functions
   const handleSubmit = (e) => {
     e.preventDefault();
     if ( highPrice < lowPrice ) return console.log('mistake in pricing');
+
+    let resultsArray = products;
+    
     const priceRanged = products?.filter(product => parseInt(product.price) >= lowPrice &&  parseInt(product.price) <= highPrice);
-    console.log(sizesChosen);
-    const resultsArray = sizesChosen.length ? priceRanged.filter(product => product.sizes.some(size => sizesChosen.includes(size))) : null;
+    if(priceRanged) resultsArray = priceRanged;
+
+    if(sizesChosen.length) resultsArray = resultsArray.filter(product => product.sizes.some(size => sizesChosen.includes(size)));
+
+    if(charsChosen.length) resultsArray = resultsArray.filter(product => charsChosen.some(char => getChars(product.description).includes(char)));
+
+    
+    console.log(resultsArray);
     setSearchResults(resultsArray);
   }
 
@@ -76,6 +103,16 @@ const Filters = ({ products, setSearchResults }) => {
     else {
       var index = sizesChosen.indexOf(e.target.value);
       if (index !== -1) sizesChosen.splice(index, 1);
+    }
+  }
+
+  const handleCheckedChar = (e) => {
+    if ( e.target.checked ) {
+      charsChosen.push(e.target.value);
+    }
+    else {
+      var index = charsChosen.indexOf(e.target.value);
+      if (index !== -1) charsChosen.splice(index, 1);
     }
   }
 
@@ -119,7 +156,7 @@ const Filters = ({ products, setSearchResults }) => {
 
                 {/* Sizes show */}
                 {sizes?.map((size, i) => (
-                  <div className="size my-2 w-50" key={i}>
+                  <div className="size my-2 me-3 d-flex align-items-center" key={i}>
                     <input className="form-check-input" type="checkbox" value={size} id={i} onChange={handleCheckedSize} defaultChecked={false}/>
                     <label className="form-check-label" htmlFor="size1">{size} см</label>
                   </div> 
@@ -129,9 +166,30 @@ const Filters = ({ products, setSearchResults }) => {
             </div>
             <br />
           </div>
+          <div className="accordion-item">
+            <h2 className="accordion-header" id="flush-headingTwo">
+              <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseTwo">
+                Характеристика
+              </button>
+            </h2>
+            <div id="flush-collapseThree" className="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+              <div className="accordion-body">
+                <div className="sizeFilter d-flex flex-column">
+                {/* Sizes show */}
+                {chars?.map((char, i) => (
+                  <div className="char my-2 d-flex align-items-center" key={i}>
+                    <input className="form-check-input" type="checkbox" value={char} id={i} onChange={handleCheckedChar} defaultChecked={false}/>
+                    <label className="form-check-label" htmlFor={i}>{char}</label>
+                  </div> 
+                ))}
+                </div>
+              </div>
+            </div>
+            <br />
+          </div>
         </div>
         
-        <input type="submit" value="Применить"/>
+        <input type="submit" value="Применить" data-bs-toggle="collapse" data-bs-target="#filters"/>
         </form>
       </div>
     </div>
