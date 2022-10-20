@@ -73,7 +73,6 @@ const Filters = ({ products, setSearchResults }) => {
     res = res.filter((line) => line.startsWith("СОСТАВ:")).toString().toUpperCase();
     res = res?.split(': ');
     res = res[1]?.replace(' / ', ', ').replace(' И ', ', ').split(', ');
-    console.log(res);
     return res;
   }
 
@@ -261,7 +260,7 @@ const BrandFittingRoom = () => {
   return (
     <div className="h-100 text-center w-100">
       <nav className="bg-dark d-flex justify-content-center navbar navbar-dark navbar-expand-sm text-white">
-        <Link to={"https://britishasiahome.kz/"}><span>BritishAsia Home</span></Link>
+        <a target="_blank" rel="noreferrer" href='https://britishasiahome.kz/'><span>BritishAsia Home</span></a>
       </nav>
 
       <SearchBar products={products} setSearchResults={setSearchResults}/>
