@@ -93,6 +93,14 @@ const ModelView = () => {
   const handleSubmit = () => {
     searchParams.set("color", color);
     searchParams.set("size", size);
+    const model = variations.data.find((md) => (md.size === sizeQuery));
+    if (model) {
+      setFound(model);
+      setSize(sizeQuery);
+    }
+    else {
+      return( <p>Модель не найдена, ваш URL был изменен</p>); 
+    }
   };
 
   if(isSuccess) {
