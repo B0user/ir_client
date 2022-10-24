@@ -24,13 +24,20 @@ const CatalogSwiper = ({data = {}, client_id = ''}) => {
     >
         {data?.length ? (
             data.map((prod, i) => (
-                <SwiperSlide key={i} onClick={(e) => navigate(`/modelview/${client_id}/${prod._id}`)}>
+                <SwiperSlide key={i}>
                     <div key={i} className="view">
-                        <img src={API_URL+prod.thumb_path} crossorigin="anonymous" className="img-fluid rounded catalog-item-img" alt={prod.name}/>
+                        <img src={API_URL+prod.thumb_path} crossOrigin="anonymous" className="img-fluid rounded catalog-item-img" alt={prod.name} height={250} onClick={(e) => navigate(`/modelview/${client_id}/${prod._id}`)}/>
                         <div className="img-size-info">
                             <p>Размеры:</p>
                             {prod.sizes?.map((size, j) => (
-                                <p key={j} >{size}</p>
+                                <button
+                                onClick={(e) => navigate(`/modelview/${client_id}/${prod._id}?size=${size}`)}
+                                className="btn btn-sm btn-outline-dark rounded-pill mt-1"
+                                key={j} 
+
+                                >
+                                    {size}
+                                </button>
                             ))}
                         </div>
                     </div>
@@ -39,7 +46,7 @@ const CatalogSwiper = ({data = {}, client_id = ''}) => {
             )
         )
         : (
-            <p>Нет слайдов</p>
+            <p>Нет Товаров</p>
         )    
         }   
     </Swiper>

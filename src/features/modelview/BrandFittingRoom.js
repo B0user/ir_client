@@ -205,7 +205,7 @@ const Catalog = ({ products, setSize }) => {
       {products?.length 
       ? products.map((prod, i) => (
         <div key={i} className="catalog-item col-10 rounded bg-white container-fluid mb-3 p-2">
-          <img crossOrigin="anonymous" src={API_URL+prod.thumb_path} className="img-fluid rounded catalog-item-img" alt={prod.name} id="image"/>
+          <img crossOrigin="anonymous" src={API_URL+prod.thumb_path} className="img-fluid rounded catalog-item-img" alt={prod.name} id="image" height={1100} width={700} />
           <form>
             <label htmlFor="image"><b>{prod.name}</b></label>
             <br />
