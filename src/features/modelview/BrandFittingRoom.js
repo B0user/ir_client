@@ -4,196 +4,11 @@ import React, { useState, useEffect } from 'react';
 // Custom
 import axios from "../../api/axios";
 import { API_URL } from "../../config";
+import SearchBar from "./SearchBar";
+import Filters from "./Filters";
 // Design
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter } from "@fortawesome/free-solid-svg-icons";
-
-const SearchBar = ({ products, setSearchResults }) => {
-  const handleSubmit = (e) => e.preventDefault()
-
-  const handleSearchChange = (e) => {
-    if (!e.target.value && !!products) return setSearchResults(products)
-
-    const resultsArray = products?.filter(product => product.name.toLowerCase().includes(e.target.value.toLowerCase()) || product.description.toLowerCase().includes(e.target.value.toLowerCase()))
-
-    setSearchResults(resultsArray)
-  }
-
-  return (
-
-    <div className="input-group mb-3 px-1 pt-2">
-      <input
-        type="search"
-        className="form-control rounded"
-        placeholder="Введите название"
-        aria-label="Введите название"
-        aria-describedby="search-addon"
-        onChange={handleSearchChange}
-      />
-      <button type="button" className="btn btn-outline-primary" onClick={handleSubmit}>
-        поиск
-      </button>
-    </div>
-  )
-}
-
-const Filters = ({ products, setSearchResults }) => {
-  // Filtering attributes
-  const [lowPrice, setLowPrice] = useState(1);
-  const [highPrice, setHighPrice] = useState(10000000);
-  const [sizes, setSizes] = useState([]);
-  const [sizesChosen, setSizesChosen] = useState([]);
-  const [chars, setChars] = useState([]);
-  const [charsChosen, setCharsChosen] = useState([]);
-
-  useEffect(() => {
-    if (products) {
-      //  Price boundaries
-      const allPrices = products.map(prod => parseInt(prod.price));
-      setLowPrice(Math.min(...allPrices));
-      setHighPrice(Math.max(...allPrices));
-
-      // Sizes options
-      const rawSizes = products.map(prod => prod.sizes); 
-      const allSizes = [...new Set(rawSizes.flat())];
-      setSizes([...allSizes]);
-      // setSizesChosen([...allSizes]);
-
-      // Characteristics
-      const rawChars = products.map((prod) => getChars(prod.description));
-      const allChars = [...new Set(rawChars.flat())];
-      setChars([...allChars]);
-      // setCharsChosen([...allChars]);      
-    }
-  }, [products]);
-
-  const getChars = (str) => {
-    let res = str.replace(/\s+/, '');
-    res = res?.split(/\r?\n/);
-    res = res.filter((line) => line.startsWith("СОСТАВ:")).toString().toUpperCase();
-    res = res?.split(': ');
-    res = res[1]?.replace(' / ', ', ').replace(' И ', ', ').split(', ');
-    return res;
-  }
-
-  // Functions
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if ( highPrice < lowPrice ) return console.log('mistake in pricing');
-
-    let resultsArray = products;
-    
-    const priceRanged = products?.filter(product => parseInt(product.price) >= lowPrice &&  parseInt(product.price) <= highPrice);
-    if(priceRanged) resultsArray = priceRanged;
-
-    if(sizesChosen.length) resultsArray = resultsArray.filter(product => product.sizes.some(size => sizesChosen.includes(size)));
-
-    if(charsChosen.length) resultsArray = resultsArray.filter(product => charsChosen.some(char => getChars(product.description).includes(char)));
-
-    
-    console.log(resultsArray);
-    setSearchResults(resultsArray);
-  }
-
-  const handleCheckedSize = (e) => {
-    if ( e.target.checked ) {
-      sizesChosen.push(e.target.value);
-    }
-    else {
-      var index = sizesChosen.indexOf(e.target.value);
-      if (index !== -1) sizesChosen.splice(index, 1);
-    }
-  }
-
-  const handleCheckedChar = (e) => {
-    if ( e.target.checked ) {
-      charsChosen.push(e.target.value);
-    }
-    else {
-      var index = charsChosen.indexOf(e.target.value);
-      if (index !== -1) charsChosen.splice(index, 1);
-    }
-  }
-
-  return (
-
-    <div className="mb-3 px-1 pt-2">
-      <button data-bs-toggle="collapse" data-bs-target="#filters" className="text-center m-auto">Фильтр <FontAwesomeIcon icon={faFilter}/></button>
-      <div className="collapse" id="filters">
-        <form onSubmit={handleSubmit}>
-
-        <div className="accordion accordion-flush" id="accordionFlushExample">
-          <div className="accordion-item">
-            <h2 className="accordion-header" id="flush-headingOne">
-              <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                Цена
-              </button>
-            </h2>
-            <div id="flush-collapseOne" className="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-              <div className="accordion-body">
-                <label htmlFor="priceFilter">В диапозоне:</label>
-                <div className="priceFilter d-flex justify-content-between align-items-center">
-                  <input type="number" className="form-control rounded-pill" id="lowPrice" value={lowPrice} onChange={(e) => setLowPrice(parseInt(e.target.value))}/>
-                  
-                  <svg height={2} width={100} className="mx-1">
-                    <line x1={0} y1={0} x2={100} y2={0} style={{stroke: 'rgb(0,0,0)', strokeWidth: 2}} />
-                  </svg>
-                  <input type="number" className="form-control rounded-pill" id="highPrice" value={highPrice} onChange={(e) => setHighPrice(parseInt(e.target.value))}/>  
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="accordion-item">
-            <h2 className="accordion-header" id="flush-headingTwo">
-              <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                Размеры
-              </button>
-            </h2>
-            <div id="flush-collapseTwo" className="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-              <div className="accordion-body">
-                <div className="sizeFilter d-flex flex-wrap">
-
-                {/* Sizes show */}
-                {sizes?.map((size, i) => (
-                  <div className="size my-2 me-3 d-flex align-items-center" key={i}>
-                    <input className="form-check-input" type="checkbox" value={size} id={i} onChange={handleCheckedSize} defaultChecked={false}/>
-                    <label className="form-check-label" htmlFor="size1">{size} см</label>
-                  </div> 
-                ))}
-                </div>
-              </div>
-            </div>
-            <br />
-          </div>
-          <div className="accordion-item">
-            <h2 className="accordion-header" id="flush-headingTwo">
-              <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseTwo">
-                Характеристика
-              </button>
-            </h2>
-            <div id="flush-collapseThree" className="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-              <div className="accordion-body">
-                <div className="sizeFilter d-flex flex-column">
-                {/* Sizes show */}
-                {chars?.map((char, i) => (
-                  <div className="char my-2 d-flex align-items-center" key={i}>
-                    <input className="form-check-input" type="checkbox" value={char} id={i} onChange={handleCheckedChar} defaultChecked={false}/>
-                    <label className="form-check-label" htmlFor={i}>{char}</label>
-                  </div> 
-                ))}
-                </div>
-              </div>
-            </div>
-            <br />
-          </div>
-        </div>
-        
-        <input type="submit" value="Применить" data-bs-toggle="collapse" data-bs-target="#filters"/>
-        </form>
-      </div>
-    </div>
-  )
-}
 
 const Catalog = ({ products, setSize }) => {
   const navigate = useNavigate();
@@ -264,6 +79,8 @@ const BrandFittingRoom = () => {
       </nav>
 
       <SearchBar products={products} setSearchResults={setSearchResults}/>
+      
+      <button data-bs-toggle="collapse" data-bs-target="#filters" className="btn btn-outline-dark m-auto text-center collapsed">Фильтр <FontAwesomeIcon icon={faFilter}/></button>
       <Filters products={products} setSearchResults={setSearchResults}/>
       <Catalog products={searchResults} setSize={setSize}/>
 
