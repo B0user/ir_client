@@ -111,7 +111,7 @@ const ModelView = () => {
           <model-viewer
             src={API_URL+found?.model_path}
             alt="Carpet model"
-            ar-modes="webxr"
+            ar-modes="webxr quick-look"
             ar ar-scale="fixed"
             environment-image="neutral"
             auto-rotate
