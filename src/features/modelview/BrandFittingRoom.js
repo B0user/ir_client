@@ -23,12 +23,12 @@ const Catalog = ({ products, size, setSize }) => {
             <label htmlFor="image"><b>{prod.name}</b></label>
             <br />
             <div className="d-flex align-items-center justify-content-between text-nowrap">
-              <label htmlFor="sizes" className="me-2">Размер:</label>
+              <label htmlFor="sizes" className="me-1">Размер:</label>
               <select 
               name="sizes" 
               id="sizes" 
               onChange={(e) => setSize(e.target.value)} 
-              className="form-select w-75 px-2 py-1 rounded-pill"
+              className="w-75 py-1 rounded-pill"
               >
                 {prod.sizes?.map((size, j) => (
                   <option value={size} key={j}>
