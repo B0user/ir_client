@@ -26,6 +26,13 @@ body {
   /* padding: 1rem 0.5rem; */
 }
 
+.catalog *{
+    font-size: 15px;
+}
+.catalog * > select {
+    font-size: 11px;
+}
+
 section {
     width: 100%;
     max-width: 420px;

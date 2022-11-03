@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faChevronLeft, faSliders} from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 
 const Checkbox = ({value, id, chosen}) => {
   const [checked, setChecked] = useState(false);
@@ -16,7 +16,7 @@ const Checkbox = ({value, id, chosen}) => {
     }
   }
 
-  useEffect(() => {
+  useEffect((value) => {
     chosen.includes(value)? setChecked(true): setChecked(false);
   }, [chosen])
 
