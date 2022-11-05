@@ -38,7 +38,7 @@ const Catalog = ({ products, size, setSize }) => {
               </select>
             </div>
             
-            <button className="btn-sm btn-success rounded-pill mt-2" onClick={(e) => navigate(`${prod._id}`)}>Примерить</button>
+            <button className="btn-sm btn-success rounded-pill mt-2" onClick={(e) => navigate(`${prod._id}?size=${size}`)}>Примерить</button>
           </form>
         </div>
       ))
@@ -55,7 +55,7 @@ const BrandFittingRoom = () => {
   const [ size, setSize ] = useState('');
   const [searchResults, setSearchResults] = useState();
 
-  const { data:products, isError, error } = useQuery(
+  const { data:products, isSuccess } = useQuery(
     ["products-brand", client_id], 
     () => axios.get(`/mv/products/${client_id}`),
     {
@@ -67,21 +67,21 @@ const BrandFittingRoom = () => {
     }
   );
 
-  if (isError) return <p>{error}</p>
-
   return (
     <div className="h-100 text-center w-100">
       <nav className="bg-dark d-flex justify-content-center navbar navbar-dark navbar-expand-sm text-white">
         <a target="_blank" rel="noreferrer" href='https://britishasiahome.kz/'><span>BritishAsia Home</span></a>
       </nav>
-
-      <SearchBar products={products} setSearchResults={setSearchResults}/>
+      {isSuccess ? (
+        <>
+        <SearchBar products={products} setSearchResults={setSearchResults}/>
       
-      <button data-bs-toggle="collapse" data-bs-target="#filters" className="btn btn-outline-dark m-auto text-center collapsed">Фильтр <FontAwesomeIcon icon={faFilter}/></button>
-      <Filters products={products} setSearchResults={setSearchResults}/>
-      <h2>Каталог:</h2>
-      <Catalog products={searchResults} size={size} setSize={setSize}/>
-
+        <button data-bs-toggle="collapse" data-bs-target="#filters" className="btn btn-outline-dark m-auto text-center collapsed">Фильтр <FontAwesomeIcon icon={faFilter}/></button>
+        <Filters products={products} setSearchResults={setSearchResults}/>
+        <h2>Каталог:</h2>
+        <Catalog products={searchResults} size={size} setSize={setSize}/>
+        </>
+      ) : <p>У этого бренда нет товаров</p>}
       <footer className="bg-dark d-flex justify-content-center text-white p-3">
         <span>INROOM.TECH 2022&copy;</span>
       </footer>

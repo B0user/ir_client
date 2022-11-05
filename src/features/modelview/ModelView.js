@@ -30,19 +30,17 @@ const ModelView = () => {
   // URL data
   const { client_id, product_id } = useParams();
   const [searchParams] = useSearchParams();
-  const colorQuery = searchParams.get("color");
   const sizeQuery = searchParams.get("size");
   const [searchResults, setSearchResults] = useState();
 
   // Settings
-  const [color, setColor] = useState();
   const [size, setSize] = useState();       
 
   // Model Info
   const [found, setFound] = useState();
 
   // Get all Products with models
-  const { data:products } = useQuery(
+  const { isError:isProductsFetchError, data:products } = useQuery(
     ["products-by-client", client_id], 
     () => fetchBrandProducts(client_id),
     {
@@ -54,43 +52,43 @@ const ModelView = () => {
     }
   );
 
-  const chooseModel = (data) => {
-    if (!colorQuery || !sizeQuery) {
-      setColor(data.data[0].color);
-      setSize(data.data[0].size);
-      setFound(data.data[0]);
+
+  const chooseModel = (models) => {
+    if (!sizeQuery) {
+      setSize(models?.data[0]?.size);
+      setFound(models?.data[0]);
     }
     else {
-      const model = data.data.find((md) => (md.color === colorQuery && md.size === sizeQuery));
+      const model = models.data.find((m) => m.size === sizeQuery);
       if (model) {
         setFound(model);
-        setColor(colorQuery);
         setSize(sizeQuery);
       }
       else {
-        return( <p>Модель не найдена, ваш URL был изменен</p>); 
+        return( <p>Модель не найдена, ваш URL был изменен <Link to={-1}>Вернуться</Link></p>); 
       }
     }
   }
 
   // Fetching all models for product
-  const { isLoading, isError, isSuccess, data:variations, error } = useQuery(
+  const { isLoading, isError, isSuccess, data:variations } = useQuery(
     ["variations", product_id], 
     () => fetchModelInfo(product_id),
     {
       onSuccess: chooseModel,
     }
   );
+  
+  if(isProductsFetchError) return(<p>Бренд не найден, ваш URL был изменен <Link to={-1}>Вернуться</Link></p>);
 
   if (isLoading) return(
     <span className='spinner-border'/>
   )
-  if (isError) return(
-    <p>Что-то пошло не так... {error}</p>
-  )
+  if (isError) {
+    return(<p>Модель не найдена, ваш URL был изменен</p>);
+  }
 
   const handleSubmit = () => {
-    searchParams.set("color", color);
     searchParams.set("size", size);
     const model = variations.data.find((md) => (md.size === sizeQuery));
     if (model) {
@@ -105,7 +103,8 @@ const ModelView = () => {
   if(isSuccess) {
     document.title = 'BritishAsia Home';
     const linkToProduct = found ? products?.filter((prod)=> prod._id === found.product_id)[0].link : null;
-    return ( 
+    if (!variations) console.log('wrong URL');
+    else return ( 
       <>
         <MobileView className="h-100">
           <model-viewer
@@ -161,13 +160,12 @@ const ModelView = () => {
                 }}
                 value={sizeQuery}
                 >
-                  {variations?.data?.map(
-                    (model, i) =>
-                      model.color === color && (
-                        <option key={i} value={model.size} >
-                          {model.size}
-                        </option>
-                      )
+                  {variations.data?.map( (model, i) => 
+                    (
+                      <option key={i} value={model.size} >
+                        {model.size}
+                      </option>
+                    )
                   )}
                 </select>
               </div>
@@ -229,7 +227,7 @@ const ModelView = () => {
           <p>Создано <Link to="/">INROOM.TECH</Link>&copy;</p>
         </BrowserView>
       </>
-    );  
+    ); 
   }
 };
 
