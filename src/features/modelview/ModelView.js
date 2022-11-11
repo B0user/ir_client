@@ -161,6 +161,8 @@ const ModelView = () => {
                 value={sizeQuery}
                 >
                   {variations.data?.map( (model, i) => 
+                    model.active
+                    &&
                     (
                       <option key={i} value={model.size} >
                         {model.size}
