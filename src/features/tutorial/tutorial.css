@@ -1,0 +1,30 @@
+.tutorial {
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    opacity: 0;
+    display: none;
+    transition: 0.5s;
+}
+
+.tutorial.active {
+    pointer-events: all;
+    opacity: 1;
+    display: flex;
+}
+
+.tutorial-slide {
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tutorial-slide-content {
+    padding: 20px;
+    margin: 0 50px;
+    border-radius: 12px;
+    background-color: whitesmoke;
+}
