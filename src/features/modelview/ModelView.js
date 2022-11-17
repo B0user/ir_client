@@ -100,7 +100,7 @@ const ModelView = () => {
   };
   const requestARAccess = () => {
     navigator.getUserMedia(
-      { ar: true },
+      { augmentedReality: true },
       function (stream) {
         stream.getTracks().forEach((x) => x.stop());
       },
