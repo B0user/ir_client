@@ -98,8 +98,8 @@ const ModelView = () => {
     navigate(`?size=${size}`);
     searchParams.set("size", size);
   };
-  const requestCameraAccess = () => {
-    MediaDevices.getUserMedia(
+  const requestARAccess = () => {
+    navigator.getUserMedia(
       { ar: true },
       function (stream) {
         stream.getTracks().forEach((x) => x.stop());
@@ -205,7 +205,7 @@ const ModelView = () => {
               <button
                 slot="ar-button"
                 id="ar-button"
-                onClick={requestCameraAccess}
+                onClick={requestARAccess}
               >
                 Посмотреть у себя
               </button>
