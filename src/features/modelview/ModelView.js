@@ -47,9 +47,6 @@ const ModelView = () => {
   const [tutorialActive, setTutorialActive] = useState(false);
   const [tutorialPopupActive, setTutorialPopupActive] = useState(false);
 
-  useEffect(() => {
-    if (localStorage.getItem('no-tutorial') !== 'true') setTutorialPopupActive(true);
-  }, []);
   // Get all Products with models
   const { isError: isProductsFetchError, data: products } = useQuery(
     ["products-by-client", client_id],
@@ -62,27 +59,6 @@ const ModelView = () => {
       onSuccess: (data) => setSearchResults(data),
     }
   );
-
-  const chooseModel = (models) => {
-    if (!sizeQuery) {
-      setSize(models?.data[0]?.size);
-      setFound(models?.data[0]);
-    } else {
-      const model = models.data.find((m) => m.size === sizeQuery);
-      if (model) {
-        setFound(model);
-        setSize(sizeQuery);
-      } else {
-        return (
-          <p>
-            Модель не найдена, ваш URL был изменен{" "}
-            <Link to={-1}>Вернуться</Link>
-          </p>
-        );
-      }
-    }
-  };
-
   // Fetching all models for product
   const {
     isLoading,
@@ -90,8 +66,47 @@ const ModelView = () => {
     isSuccess,
     data: variations,
   } = useQuery(["variations", product_id], () => fetchModelInfo(product_id), {
-    onSuccess: chooseModel,
+    onSuccess: (models) => chooseModel(models, sizeQuery),
   });
+
+  useEffect(() => {
+    if (localStorage.getItem("no-tutorial") !== "true")
+      setTutorialPopupActive(true);
+  }, []);
+  useEffect(() => {
+    if (variations) chooseModel(variations, sizeQuery);
+  }, [sizeQuery, variations]);
+
+  function chooseModel(models, sizeVar) {
+    if (sizeVar) {
+      const model = models.data?.find((m) => m.size === sizeVar);
+      if (model) {
+        setSize(sizeVar);
+        setFound(model);
+      } else {
+        setSize(models.data[0]?.size);
+        setFound(models.data[0]);
+      }
+    } else {
+      setSize(models.data[0]?.size);
+      setFound(models.data[0]);
+    }
+  }
+
+  const handleSizeChanged = (e) => {
+    var size = e.target.value;
+    navigate(`?size=${size}`);
+    searchParams.set("size", size);
+  };
+  const requestCameraAccess = () => {
+    navigator.getUserMedia(
+      { audio: true, video: true },
+      function (stream) {
+        stream.getTracks().forEach((x) => x.stop());
+      },
+      (err) => console.log(err)
+    );
+  };
 
   if (isProductsFetchError)
     return (
@@ -99,21 +114,8 @@ const ModelView = () => {
         Бренд не найден, ваш URL был изменен <Link to={-1}>Вернуться</Link>
       </p>
     );
-
   if (isLoading) return <span className="spinner-border" />;
   if (isError) return <p>Модель не найдена, ваш URL был изменен</p>;
-
-  const handleSubmit = () => {
-    searchParams.set("size", size);
-    const model = variations.data.find((md) => md.size === sizeQuery);
-    if (model) {
-      setFound(model);
-      setSize(sizeQuery);
-    } else {
-      return <p>Модель не найдена, ваш URL был изменен</p>;
-    }
-  };
-
   if (isSuccess) {
     const linkToProduct = found
       ? products?.filter((prod) => prod._id === found.product_id)[0].link
@@ -186,11 +188,7 @@ const ModelView = () => {
                 <div className="container-fluid justify-content-center d-flex">
                   <select
                     className="form-select w-50 mt-2"
-                    onChange={(e) => {
-                      setSize(e.target.value);
-                      handleSubmit();
-                      navigate(`?size=${e.target.value}`);
-                    }}
+                    onChange={handleSizeChanged}
                     value={sizeQuery}
                   >
                     {variations.data?.map(
@@ -204,7 +202,11 @@ const ModelView = () => {
                   </select>
                 </div>
               </nav>
-              <button slot="ar-button" id="ar-button">
+              <button
+                slot="ar-button"
+                id="ar-button"
+                onClick={requestCameraAccess}
+              >
                 Посмотреть у себя
               </button>
               <div className="container-fluid fixed-bottom pt-2 px-0 d-flex justify-content-center align-items-center flex-column">
@@ -221,7 +223,10 @@ const ModelView = () => {
                 >
                   <nav className="navbar navbar-dark navbar-expand-sm text-white bg-dark">
                     <div className="container-fluid d-flex ">
-                      <h3> <Link to={`/modelview/${client_id}`}>Каталог</Link></h3>
+                      <h3>
+                        {" "}
+                        <Link to={`/modelview/${client_id}`}>Каталог</Link>
+                      </h3>
 
                       <button
                         data-bs-toggle="collapse"
@@ -292,7 +297,7 @@ const ModelView = () => {
                       className="btn btn-outline-secondary"
                       onClick={() => {
                         setTutorialPopupActive(false);
-                        localStorage.setItem('no-tutorial', 'true');
+                        localStorage.setItem("no-tutorial", "true");
                       }}
                     >
                       Никогда
