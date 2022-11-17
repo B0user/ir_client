@@ -99,8 +99,8 @@ const ModelView = () => {
     searchParams.set("size", size);
   };
   const requestCameraAccess = () => {
-    navigator.getUserMedia(
-      { audio: true, video: true },
+    MediaDevices.getUserMedia(
+      { ar: true },
       function (stream) {
         stream.getTracks().forEach((x) => x.stop());
       },
