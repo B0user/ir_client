@@ -16,6 +16,10 @@ const CatalogSwiper = ({ data = {}, client_id = "" }) => {
       slidesPerView={2}
       spaceBetween={15}
       slidesPerGroup={2}
+      
+      mousewheel={true}
+      direction="vertical"
+      scrollbar={{ draggable: true }}
       loop={true}
       loopFillGroupWithBlank={true}
       navigation={true}
