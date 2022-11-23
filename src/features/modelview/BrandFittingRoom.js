@@ -29,6 +29,7 @@ const Catalog = ({ products, size, setSize }) => {
               id="image"
               height={205}
               width={130}
+              onClick={(e) => navigate(`${prod._id}?size=${size}`)}
             />
             <form>
               <label htmlFor="image">
