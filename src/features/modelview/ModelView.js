@@ -10,16 +10,16 @@ import "@google/model-viewer/dist/model-viewer";
 import { RWebShare } from "react-web-share";
 import { useEffect, useState } from "react";
 // Custom
-import Filters from "./Filters";
-import SearchBar from "./SearchBar";
-import CatalogSwiper from "./CatalogSwiper";
+// import Filters from "./Filters";
+// import SearchBar from "./SearchBar";
+// import CatalogSwiper from "./CatalogSwiper";
 import { API_URL } from "../../config";
 import QRCode from "../qrcodes/QRCode";
 import axios from "../../api/axios";
 import "../../mv.css";
 // Design
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFilter, faQuestion } from "@fortawesome/free-solid-svg-icons";
+import { faQuestion } from "@fortawesome/free-solid-svg-icons";
 import TutorialSwiper from "../tutorial/TutorialSwiper";
 import Popup from "../popup/Popup";
 
@@ -201,64 +201,10 @@ const ModelView = () => {
               <div className="container-fluid fixed-bottom pt-2 px-0 d-flex justify-content-center align-items-center flex-column">
                 <button
                   className="btn btn-primary rounded-0 rounded-top"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#catalog,#settings"
+                  onClick={() => navigate(`/modelview/${client_id}`)}
                 >
                   Другой продукт
                 </button>
-                <div
-                  className="collapse text-center bg-light fixed-bottom h-100"
-                  id="catalog"
-                >
-                  <nav className="navbar navbar-dark navbar-expand-sm text-white bg-dark">
-                    <div className="container-fluid d-flex ">
-                      <h3>
-                        {" "}
-                        <Link to={`/modelview/${client_id}`}>Каталог</Link>
-                      </h3>
-
-                      <button
-                        data-bs-toggle="collapse"
-                        data-bs-target="#filters"
-                        className="collapsed m-auto py-1 rounded-3 text-center bg-white"
-                      >
-                        Фильтр <FontAwesomeIcon icon={faFilter} />
-                      </button>
-                      <svg
-                        className="back justify-self-end"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#catalog,#settings"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="1em"
-                        height="1em"
-                        fill="currentColor"
-                        viewBox="0 0 320 512"
-                      >
-                        <path d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z" />
-                      </svg>
-
-                      <SearchBar
-                        products={products}
-                        setSearchResults={setSearchResults}
-                      />
-                    </div>
-                  </nav>
-                  <div className="fixed-bottom">
-                    {/* Catalog */}
-                    {products?.length ? (
-                      <CatalogSwiper
-                        data={searchResults}
-                        client_id={client_id}
-                      />
-                    ) : (
-                      <p>Товаров у этого бренда больше нет</p>
-                    )}
-                  </div>
-                  <Filters
-                    products={products}
-                    setSearchResults={setSearchResults}
-                  />
-                </div>
               </div>
               <Popup
                 active={tutorialPopupActive}

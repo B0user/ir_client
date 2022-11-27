@@ -18,8 +18,8 @@ const CatalogSwiper = ({ data = {}, client_id = "" }) => {
       slidesPerGroup={2}
       loop={true}
       loopFillGroupWithBlank={true}
-      navigation={true}
       modules={[Navigation]}
+      navigation={true}
       className="catalog"
     >
       {data?.length ? (
