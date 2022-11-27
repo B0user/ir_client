@@ -75,7 +75,11 @@ const BrandFittingRoom = () => {
   const [size, setSize] = useState("");
   const [searchResults, setSearchResults] = useState();
 
-  const { data: products, isSuccess } = useQuery(
+  const {
+    data: products,
+    isSuccess,
+    isLoading,
+  } = useQuery(
     ["products-brand", client_id],
     () => axios.get(`/mv/products/${client_id}`),
     {
@@ -109,6 +113,8 @@ const BrandFittingRoom = () => {
           <h2>Каталог:</h2>
           <Catalog products={searchResults} size={size} setSize={setSize} />
         </>
+      ) : isLoading ? (
+        <p>Товары загружаются...</p>
       ) : (
         <p>У этого бренда нет товаров</p>
       )}
