@@ -51,14 +51,16 @@ const Filters = ({ products, setSearchResults }) => {
 
   useEffect(() => {
     if (products) {
+      console.log(products);
       //  Price boundaries
-      const allPrices = products.map((prod) => parseInt(prod.price));
+      const allPrices = products.map((prod) => prod.spoma_chain.map(chain => parseInt(chain.price))).flat();
       setLowPrice(Math.min(...allPrices));
       setHighPrice(Math.max(...allPrices));
 
       // Sizes options
-      const rawSizes = products.map((prod) => prod.sizes);
+      const rawSizes = products.map((prod) => prod.spoma_chain.map(chain => chain.size));
       const allSizes = [...new Set(rawSizes.flat())];
+      console.log(allSizes);
       setSizes([...allSizes]);
       // setSizesChosen([...allSizes]);
 
@@ -90,15 +92,13 @@ const Filters = ({ products, setSearchResults }) => {
     let resultsArray = products;
 
     const priceRanged = products?.filter(
-      (product) =>
-        parseInt(product.price) >= lowPrice &&
-        parseInt(product.price) <= highPrice
+      (product) => product.spoma_chain.some((chain) => parseInt(chain.price) >= lowPrice && parseInt(chain.price) <= highPrice)
     );
     if (priceRanged) resultsArray = priceRanged;
 
     if (sizesChosen?.length)
       resultsArray = resultsArray.filter((product) =>
-        product.sizes.some((size) => sizesChosen.includes(size))
+        product.spoma_chain.some((chain) => sizesChosen.includes(chain.size))
       );
 
     if (charsChosen?.length)

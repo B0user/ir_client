@@ -20,15 +20,11 @@ import "../../mv.css";
 // Design
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuestion } from "@fortawesome/free-solid-svg-icons";
-import TutorialSwiper from "../tutorial/TutorialSwiper";
+import { HowToUseHelp, NoButtonHelp, DissapearingButtonHelp } from "../tutorial/TutorialSwiper";
 import Popup from "../popup/Popup";
 
 const fetchModelInfo = (product_id) => {
   return axios.get(`/mv/models/${product_id}`);
-};
-
-const fetchBrandProducts = (client_id) => {
-  return axios.get(`/mv/products/${client_id}`);
 };
 
 const ModelView = () => {
@@ -37,28 +33,19 @@ const ModelView = () => {
   const { client_id, product_id } = useParams();
   const [searchParams] = useSearchParams();
   const sizeQuery = searchParams?.get("size");
-  const [searchResults, setSearchResults] = useState();
   // Settings
   const [size, setSize] = useState();
   // Model Info
   const [found, setFound] = useState();
 
-  // Tutorial
+  // Tutorial & Help
   const [tutorialActive, setTutorialActive] = useState(false);
+  const [noButtonActive, setNoButtonActive] = useState(false);
+  const [dissapearingButtonActive, setDissapearingButtonActive] = useState(false);
+  // Popups
   const [tutorialPopupActive, setTutorialPopupActive] = useState(false);
+  const [faqPopupActive, setFaqPopupActive] = useState(false);
 
-  // Get all Products with models
-  const { isError: isProductsFetchError, data: products } = useQuery(
-    ["products-by-client", client_id],
-    () => fetchBrandProducts(client_id),
-    {
-      select: (data) => {
-        const withModels = data.data.filter((prod) => !!prod.models.length);
-        return withModels;
-      },
-      onSuccess: (data) => setSearchResults(data),
-    }
-  );
   // Fetching all models for product
   const {
     isLoading,
@@ -66,7 +53,7 @@ const ModelView = () => {
     isSuccess,
     data: variations,
   } = useQuery(["variations", product_id], () => fetchModelInfo(product_id), {
-    onSuccess: (models) => chooseModel(models, sizeQuery),
+    onSuccess: (info) => chooseModel(info.data.models, sizeQuery),
   });
 
   useEffect(() => {
@@ -74,22 +61,25 @@ const ModelView = () => {
       setTutorialPopupActive(true);
   }, []);
   useEffect(() => {
-    if (variations) chooseModel(variations, sizeQuery);
+    if (variations) chooseModel(variations.data.models, sizeQuery);
   }, [sizeQuery, variations]);
 
   function chooseModel(models, sizeVar) {
     if (sizeVar) {
-      const model = models.data?.find((m) => m.size === sizeVar);
+      const model = models?.find((m) => m.size === sizeVar);
       if (model) {
         setSize(sizeVar);
         setFound(model);
       } else {
-        setSize(models.data[0]?.size);
-        setFound(models.data[0]);
+        setSize(models[0]?.size);
+        setFound(models[0]);
       }
     } else {
-      setSize(models.data[0]?.size);
-      setFound(models.data[0]);
+      if (models[0])
+      {
+        setSize(models[0].size);
+        setFound(models[0]);
+      }      
     }
   }
 
@@ -109,26 +99,25 @@ const ModelView = () => {
   //   );
   // };
 
-  if (isProductsFetchError)
-    return (
-      <p>
-        Бренд не найден, ваш URL был изменен <Link to={-1}>Вернуться</Link>
-      </p>
-    );
   if (isLoading) return <span className="spinner-border" />;
   if (isError) return <p>Модель не найдена, ваш URL был изменен</p>;
   if (isSuccess) {
-    const linkToProduct = found
-      ? products?.filter((prod) => prod._id === found.product_id)[0].link
-      : null;
     if (!variations) console.log("wrong URL");
     else
       return (
         <>
           <MobileView className="h-100">
-            <TutorialSwiper
+            <HowToUseHelp
               active={tutorialActive}
               setActive={setTutorialActive}
+            />
+            <NoButtonHelp
+              active={noButtonActive}
+              setActive={setNoButtonActive}
+            />
+            <DissapearingButtonHelp
+              active={dissapearingButtonActive}
+              setActive={setDissapearingButtonActive}
             />
             <model-viewer
               src={API_URL + found?.model_path}
@@ -164,15 +153,15 @@ const ModelView = () => {
                   </RWebShare>
                   <a
                     className="btn rounded-pill btn-primary w-75 text-white"
-                    href={linkToProduct}
+                    href={variations?.data?.link}
                     rel="noreferrer"
                     target="_blank"
                   >
-                    Подробнее
+                    {variations?.data?.name}
                   </a>
                   <FontAwesomeIcon
                     icon={faQuestion}
-                    onClick={() => setTutorialPopupActive(true)}
+                    onClick={() => setFaqPopupActive(true)}
                   />
                 </div>
                 <div className="container-fluid justify-content-center d-flex">
@@ -181,7 +170,7 @@ const ModelView = () => {
                     onChange={handleSizeChanged}
                     value={sizeQuery}
                   >
-                    {variations.data?.map(
+                    {variations.data?.models?.map(
                       (model, i) =>
                         model.active && (
                           <option key={i} value={model.size}>
@@ -206,6 +195,37 @@ const ModelView = () => {
                   Другой продукт
                 </button>
               </div>
+              <Popup
+                active={faqPopupActive}
+                setActive={setFaqPopupActive}
+              >
+                <div className="tutorial-popup mx-2">
+                    <h3 className="mb-3 text-center">Частые вопросы:</h3>
+                    <button
+                      className="btn btn-outline-danger mb-1"
+                      onClick={() => { setFaqPopupActive(false); setTutorialActive(true) }}
+                    >
+                      Как пользоваться примеркой?
+                    </button>
+                    <button
+                      className="btn btn-outline-dark mb-1 collapsed"
+                      onClick={() => { setFaqPopupActive(false); setNoButtonActive(true) }}
+                    >
+                      Нет кнопки "Примерить у себя"?
+                    </button>
+                    <button
+                      className="btn btn-outline-dark mb-1 collapsed"
+                      onClick={() => { setFaqPopupActive(false); setDissapearingButtonActive(true) }}
+                    >
+                      Исчезает кнопка "Примерить у себя"
+                    </button>
+
+                    <footer className="mt-3">
+                      <p className="small">Нашли проблему? Сообщите нам</p>
+                    </footer>
+                  </div>
+
+              </Popup>
               <Popup
                 active={tutorialPopupActive}
                 setActive={setTutorialPopupActive}
@@ -240,6 +260,7 @@ const ModelView = () => {
                   </div>
                 </div>
               </Popup>
+              
             </model-viewer>
           </MobileView>
           <BrowserView className="text-center">

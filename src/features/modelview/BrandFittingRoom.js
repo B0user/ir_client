@@ -46,9 +46,9 @@ const Catalog = ({ products, size, setSize }) => {
                   onChange={(e) => setSize(e.target.value)}
                   className="w-75 py-1 rounded-pill"
                 >
-                  {prod.sizes?.map((size, j) => (
-                    <option value={size} key={j}>
-                      {size} см
+                  {prod.spoma_chain?.map((chain, j) => (
+                    <option value={chain.size} key={j}>
+                      {chain.size} см
                     </option>
                   ))}
                 </select>
@@ -84,7 +84,7 @@ const BrandFittingRoom = () => {
     () => axios.get(`/mv/products/${client_id}`),
     {
       select: (data) => {
-        const withModels = data.data.filter((prod) => !!prod.models.length);
+        const withModels = data.data.filter((prod) => !!prod.spoma_chain.map((chain) => chain.model));
         return withModels;
       },
       onSuccess: (data) => setSearchResults(data),
