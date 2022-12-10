@@ -39,21 +39,21 @@ const HowToUseHelp = ({active, setActive}) => {
           <h2>Шаг 2:</h2>
           <p>Наведите камеру на пустую поверхность и поводите вокруг</p>
           {/* GIF, animation or video */}
-          <img src="/tutorial/gif1.gif" alt="" className="w-100"/>
+          <img src="/tutorial/basic/gif1.gif" alt="" className="w-100"/>
         </div>
       </SwiperSlide>
       <SwiperSlide className="tutorial-slide">
         <div className="tutorial-slide-content block-3"  onClick={(e) => e.stopPropagation()}>
           <h2>Шаг 3:</h2>
           <p>Для перемещения модели водите пальцем</p>
-          <img src="/tutorial/gif2.gif" alt="" className="w-100"/>
+          <img src="/tutorial/basic/gif2.gif" alt="" className="w-100"/>
         </div>
       </SwiperSlide>
       <SwiperSlide className="tutorial-slide">
         <div className="tutorial-slide-content block-4"  onClick={(e) => e.stopPropagation()}>
           <h2>Шаг 4:</h2>
           <p>Поворачивайте модель двумя пальцами</p>
-          <img src="/tutorial/gif3.gif" alt="" className="w-100"/>
+          <img src="/tutorial/basic/gif3.gif" alt="" className="w-100"/>
         </div>
       </SwiperSlide>
       <SwiperSlide className="tutorial-slide">
@@ -88,38 +88,17 @@ const NoButtonHelp = ({active, setActive}) => {
       <div className="quit fixed-top d-flex justify-content-center align-items-center p-2"><button className="btn btn-outline-danger rounded-pill" onClick={quitTutorial}>Завершить обучение</button></div>
       <SwiperSlide className="tutorial-slide">
         <div className="tutorial-slide-content block-1" onClick={(e) => e.stopPropagation()}>
-          <h2>Шаг 1:</h2>
-          <p>Нажмите на кнопку "Примерить у себя"</p>
-          <button id="ar-button" onClick={() => swiper.slideTo(1)}>Примерить у себя</button>
+          <img src="/tutorial/browser/1.jpg" alt="" className="w-100"/>
         </div>
       </SwiperSlide>
       <SwiperSlide className="tutorial-slide">
-        <div className="tutorial-slide-content block-2"  onClick={(e) => e.stopPropagation()}>
-          <h2>Шаг 2:</h2>
-          <p>Наведите камеру на пустую поверхность и поводите вокруг</p>
-          {/* GIF, animation or video */}
-          <img src="/tutorial/gif1.gif" alt="" className="w-100"/>
+        <div className="tutorial-slide-content block-1" onClick={(e) => e.stopPropagation()}>
+          <img src="/tutorial/browser/2.jpg" alt="" className="w-100"/>
         </div>
       </SwiperSlide>
       <SwiperSlide className="tutorial-slide">
-        <div className="tutorial-slide-content block-3"  onClick={(e) => e.stopPropagation()}>
-          <h2>Шаг 3:</h2>
-          <p>Для перемещения модели водите пальцем</p>
-          <img src="/tutorial/gif2.gif" alt="" className="w-100"/>
-        </div>
-      </SwiperSlide>
-      <SwiperSlide className="tutorial-slide">
-        <div className="tutorial-slide-content block-4"  onClick={(e) => e.stopPropagation()}>
-          <h2>Шаг 4:</h2>
-          <p>Поворачивайте модель двумя пальцами</p>
-          <img src="/tutorial/gif3.gif" alt="" className="w-100"/>
-        </div>
-      </SwiperSlide>
-      <SwiperSlide className="tutorial-slide">
-        <div className="tutorial-slide-content block-5"  onClick={(e) => e.stopPropagation()}>
-          <h2>Шаг 5:</h2>
-          <p>Попробуйте на реальной модели</p>
-          <button className="btn btn-outline-primary rounded-pill w-100" onClick={quitTutorial}>Попробовать</button>
+        <div className="tutorial-slide-content block-1" onClick={(e) => e.stopPropagation()}>
+          <img src="/tutorial/browser/3.jpg" alt="" className="w-100"/>
         </div>
       </SwiperSlide>
     </Swiper>
@@ -147,38 +126,27 @@ const DissapearingButtonHelp = ({active, setActive}) => {
       <div className="quit fixed-top d-flex justify-content-center align-items-center p-2"><button className="btn btn-outline-danger rounded-pill" onClick={quitTutorial}>Завершить обучение</button></div>
       <SwiperSlide className="tutorial-slide">
         <div className="tutorial-slide-content block-1" onClick={(e) => e.stopPropagation()}>
-          <h2>Шаг 1:</h2>
-          <p>Нажмите на кнопку "Примерить у себя"</p>
-          <button id="ar-button" onClick={() => swiper.slideTo(1)}>Примерить у себя</button>
+          <img src="/tutorial/permission/1.jpg" alt="" className="w-100"/>
         </div>
       </SwiperSlide>
       <SwiperSlide className="tutorial-slide">
-        <div className="tutorial-slide-content block-2"  onClick={(e) => e.stopPropagation()}>
-          <h2>Шаг 2:</h2>
-          <p>Наведите камеру на пустую поверхность и поводите вокруг</p>
-          {/* GIF, animation or video */}
-          <img src="/tutorial/gif1.gif" alt="" className="w-100"/>
+        <div className="tutorial-slide-content block-1" onClick={(e) => e.stopPropagation()}>
+          <img src="/tutorial/permission/2.jpg" alt="" className="w-100"/>
         </div>
       </SwiperSlide>
       <SwiperSlide className="tutorial-slide">
-        <div className="tutorial-slide-content block-3"  onClick={(e) => e.stopPropagation()}>
-          <h2>Шаг 3:</h2>
-          <p>Для перемещения модели водите пальцем</p>
-          <img src="/tutorial/gif2.gif" alt="" className="w-100"/>
+        <div className="tutorial-slide-content block-1" onClick={(e) => e.stopPropagation()}>
+          <img src="/tutorial/permission/3.jpg" alt="" className="w-100"/>
         </div>
       </SwiperSlide>
       <SwiperSlide className="tutorial-slide">
-        <div className="tutorial-slide-content block-4"  onClick={(e) => e.stopPropagation()}>
-          <h2>Шаг 4:</h2>
-          <p>Поворачивайте модель двумя пальцами</p>
-          <img src="/tutorial/gif3.gif" alt="" className="w-100"/>
+        <div className="tutorial-slide-content block-1" onClick={(e) => e.stopPropagation()}>
+          <img src="/tutorial/permission/4.png" alt="" className="w-100"/>
         </div>
       </SwiperSlide>
       <SwiperSlide className="tutorial-slide">
-        <div className="tutorial-slide-content block-5"  onClick={(e) => e.stopPropagation()}>
-          <h2>Шаг 5:</h2>
-          <p>Попробуйте на реальной модели</p>
-          <button className="btn btn-outline-primary rounded-pill w-100" onClick={quitTutorial}>Попробовать</button>
+        <div className="tutorial-slide-content block-1" onClick={(e) => e.stopPropagation()}>
+          <img src="/tutorial/permission/5.jpg" alt="" className="w-100"/>
         </div>
       </SwiperSlide>
     </Swiper>

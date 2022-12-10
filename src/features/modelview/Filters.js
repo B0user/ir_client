@@ -37,7 +37,9 @@ const Checkbox = ({ value, id, chosen }) => {
 
 const Filters = ({ products, setSearchResults }) => {
   // Filtering attributes
+  const [lowestPrice, setLowestPrice] = useState(1);
   const [lowPrice, setLowPrice] = useState(1);
+  const [highestPrice, setHighestPrice] = useState(10000000);
   const [highPrice, setHighPrice] = useState(10000000);
   const [sizes, setSizes] = useState([]);
   const [sizesChosen, setSizesChosen] = useState([]);
@@ -51,22 +53,22 @@ const Filters = ({ products, setSearchResults }) => {
 
   useEffect(() => {
     if (products) {
-      console.log(products);
       //  Price boundaries
-      const allPrices = products.map((prod) => prod.spoma_chain.map(chain => parseInt(chain.price))).flat();
+      const allPrices = products.map((prod) => prod.spoma_chain.map(chain => parseInt(chain.price))).flat().filter((size) => !Number.isNaN(size));
       setLowPrice(Math.min(...allPrices));
+      setLowestPrice(Math.min(...allPrices));
       setHighPrice(Math.max(...allPrices));
+      setHighestPrice(Math.max(...allPrices));
 
       // Sizes options
       const rawSizes = products.map((prod) => prod.spoma_chain.map(chain => chain.size));
       const allSizes = [...new Set(rawSizes.flat())];
-      console.log(allSizes);
       setSizes([...allSizes]);
       // setSizesChosen([...allSizes]);
 
       // Characteristics
       const rawChars = products.map((prod) => getChars(prod.description));
-      const allChars = [...new Set(rawChars.flat())];
+      const allChars = [...new Set(rawChars.flat().filter(val => !!val))];
       setChars([...allChars]);
       // setCharsChosen([...allChars]);
     }
@@ -76,10 +78,10 @@ const Filters = ({ products, setSearchResults }) => {
     let res = str.replace(/\s+/, "");
     res = res?.split(/\r?\n/);
     res = res
-      .filter((line) => line.startsWith("СОСТАВ:"))
+      .filter((line) => line.startsWith("СОСТАВ: "))
       .toString()
       .toUpperCase();
-    res = res?.split(": ");
+    res = res?.replace(",СОСТАВ: ", ", ").split(": ");
     res = res[1]?.replace(" / ", ", ").replace(" И ", ", ").split(", ");
     return res;
   };
@@ -100,15 +102,29 @@ const Filters = ({ products, setSearchResults }) => {
       resultsArray = resultsArray.filter((product) =>
         product.spoma_chain.some((chain) => sizesChosen.includes(chain.size))
       );
-
+      console.log(charsChosen);
     if (charsChosen?.length)
       resultsArray = resultsArray.filter((product) =>
-        charsChosen.some((char) => getChars(product.description).includes(char))
+       {
+        var fromProduct = getChars(product.description);
+        var result = charsChosen.some((charInProductd) => fromProduct?.includes(charInProductd));
+        return result;
+       }
       );
 
     console.log(resultsArray);
     setSearchResults(resultsArray);
   };
+
+  const handleChangeLowPrice = (e) => {
+    var price = parseInt(e.target.value)
+    if (price >= lowestPrice) setLowPrice(price)
+  } 
+  const handleChangeHighPrice = (e) => {
+    var price = parseInt(e.target.value)
+    if (price <= highestPrice) setHighPrice(price)
+  } 
+
 
   return (
     <div
@@ -160,7 +176,7 @@ const Filters = ({ products, setSearchResults }) => {
                     className="form-control rounded-pill ms-1"
                     id="lowPrice"
                     value={lowPrice}
-                    onChange={(e) => setLowPrice(parseInt(e.target.value))}
+                    onChange={handleChangeLowPrice}
                   />
                   <svg height={2} width={100} className="mx-1">
                     <line
@@ -177,7 +193,7 @@ const Filters = ({ products, setSearchResults }) => {
                     className="form-control rounded-pill ms-1"
                     id="highPrice"
                     value={highPrice}
-                    onChange={(e) => setHighPrice(parseInt(e.target.value))}
+                    onChange={handleChangeHighPrice}
                   />
                 </div>
               </div>
