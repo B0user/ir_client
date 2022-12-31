@@ -8,7 +8,7 @@ import { BrowserView, MobileView } from "react-device-detect";
 import { useQuery } from "@tanstack/react-query";
 import "@google/model-viewer/dist/model-viewer";
 import { RWebShare } from "react-web-share";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useReducer, useRef } from "react";
 // Custom
 // import Filters from "./Filters";
 // import SearchBar from "./SearchBar";
@@ -20,8 +20,14 @@ import "../../mv.css";
 // Design
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuestion } from "@fortawesome/free-solid-svg-icons";
-import { HowToUseHelp, NoButtonHelp, DissapearingButtonHelp } from "../tutorial/TutorialSwiper";
+import {
+  HowToUseHelp,
+  NoButtonHelp,
+  DissapearingButtonHelp,
+} from "../tutorial/TutorialSwiper";
 import Popup from "../popup/Popup";
+import { FormGroup, FormControl, TextField, Button } from "@mui/material";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const fetchModelInfo = (product_id) => {
   return axios.get(`/mv/models/${product_id}`);
@@ -29,22 +35,68 @@ const fetchModelInfo = (product_id) => {
 
 const ModelView = () => {
   const navigate = useNavigate();
+  const recaptchaRef = useRef();
   // URL data
   const { client_id, product_id } = useParams();
   const [searchParams] = useSearchParams();
   const sizeQuery = searchParams?.get("size");
   // Settings
-  const [size, setSize] = useState();
+  const [, setSize] = useState();
   // Model Info
   const [found, setFound] = useState();
 
   // Tutorial & Help
   const [tutorialActive, setTutorialActive] = useState(false);
   const [noButtonActive, setNoButtonActive] = useState(false);
-  const [dissapearingButtonActive, setDissapearingButtonActive] = useState(false);
+  const [dissapearingButtonActive, setDissapearingButtonActive] =
+    useState(false);
   // Popups
   const [tutorialPopupActive, setTutorialPopupActive] = useState(false);
   const [faqPopupActive, setFaqPopupActive] = useState(false);
+  const [bugreportActive, setBugreportActive] = useState(false);
+
+  // TEMP ---> reportReducer
+  const INITIAL_REPORT_STATE = {
+    title: "Public MV report",
+    messages: [],
+    details: {},
+  };
+  const reportReducer = (state, action) => {
+    switch (action.type) {
+      case "CHANGE_INPUT":
+        return {
+          ...state,
+          messages: [
+            {
+              source: "anonymous",
+              [action.payload.name]: action.payload.value,
+              date: new Date(),
+            },
+          ],
+        };
+      case "NULL":
+        return INITIAL_REPORT_STATE;
+      default:
+        return state;
+    }
+  };
+
+  const [state, dispatch] = useReducer(reportReducer, INITIAL_REPORT_STATE);
+  const handleReportInputChange = (e) => {
+    dispatch({
+      type: "CHANGE_INPUT",
+      payload: { name: e.target.name, value: e.target.value },
+    });
+  };
+
+  const handleReportSubmit = async () => {
+    const token = await recaptchaRef.current.executeAsync();
+    if (token && state.messages?.length) {
+      await axios.post("/publicreports", state);
+    } else {
+      console.log("CAPTCHA failed");
+    }
+  };
 
   // Fetching all models for product
   const {
@@ -75,11 +127,10 @@ const ModelView = () => {
         setFound(models[0]);
       }
     } else {
-      if (models[0])
-      {
+      if (models[0]) {
         setSize(models[0].size);
         setFound(models[0]);
-      }      
+      }
     }
   }
 
@@ -181,10 +232,7 @@ const ModelView = () => {
                   </select>
                 </div>
               </nav>
-              <button
-                slot="ar-button"
-                id="ar-button"
-              >
+              <button slot="ar-button" id="ar-button">
                 Посмотреть у себя
               </button>
               <div className="container-fluid fixed-bottom pt-2 px-0 d-flex justify-content-center align-items-center flex-column">
@@ -195,36 +243,49 @@ const ModelView = () => {
                   Другой продукт
                 </button>
               </div>
-              <Popup
-                active={faqPopupActive}
-                setActive={setFaqPopupActive}
-              >
+              <Popup active={faqPopupActive} setActive={setFaqPopupActive}>
                 <div className="tutorial-popup mx-2">
-                    <h3 className="mb-3 text-center">Частые вопросы:</h3>
-                    <button
-                      className="btn btn-outline-danger mb-1"
-                      onClick={() => { setFaqPopupActive(false); setTutorialActive(true) }}
-                    >
-                      Как пользоваться примеркой?
-                    </button>
-                    <button
-                      className="btn btn-outline-dark mb-1 collapsed"
-                      onClick={() => { setFaqPopupActive(false); setNoButtonActive(true) }}
-                    >
-                      Нет кнопки "Примерить у себя"?
-                    </button>
-                    <button
-                      className="btn btn-outline-dark mb-1 collapsed"
-                      onClick={() => { setFaqPopupActive(false); setDissapearingButtonActive(true) }}
-                    >
-                      Исчезает кнопка "Примерить у себя"
-                    </button>
+                  <h3 className="mb-3 text-center">Частые вопросы:</h3>
+                  <button
+                    className="btn btn-outline-danger mb-1"
+                    onClick={() => {
+                      setFaqPopupActive(false);
+                      setTutorialActive(true);
+                    }}
+                  >
+                    Как пользоваться примеркой?
+                  </button>
+                  <button
+                    className="btn btn-outline-dark mb-1 collapsed"
+                    onClick={() => {
+                      setFaqPopupActive(false);
+                      setNoButtonActive(true);
+                    }}
+                  >
+                    Нет кнопки "Примерить у себя"?
+                  </button>
+                  <button
+                    className="btn btn-outline-dark mb-1 collapsed"
+                    onClick={() => {
+                      setFaqPopupActive(false);
+                      setDissapearingButtonActive(true);
+                    }}
+                  >
+                    Исчезает кнопка "Примерить у себя"
+                  </button>
 
-                    <footer className="mt-3">
-                      <p className="small">Нашли проблему? Сообщите нам</p>
-                    </footer>
-                  </div>
-
+                  <footer className="mt-3">
+                    <p
+                      className="small"
+                      onClick={() => {
+                        setFaqPopupActive(false);
+                        setBugreportActive(true);
+                      }}
+                    >
+                      Нашли проблему? Сообщите нам
+                    </p>
+                  </footer>
+                </div>
               </Popup>
               <Popup
                 active={tutorialPopupActive}
@@ -260,7 +321,30 @@ const ModelView = () => {
                   </div>
                 </div>
               </Popup>
-              
+              <Popup active={bugreportActive} setActive={setBugreportActive}>
+                <FormGroup>
+                  <h3>Отправка отзыва о сервисе "InRoom"</h3>
+                  <FormControl>
+                    <TextField
+                      id="outlined-basic"
+                      label="Опишите свою проблему или предложение"
+                      variant="outlined"
+                      margin="normal"
+                      rows={4}
+                      multiline
+                      name="text"
+                      onChange={handleReportInputChange}
+                    />
+                  </FormControl>
+                  {/* CAPTCHA */}
+                  <ReCAPTCHA
+                    ref={recaptchaRef}
+                    size="invisible"
+                    sitekey="6Lck1KUjAAAAAKAtlVOTFgVboCkD3wcDBa3tJI2J"
+                  />
+                  <Button onClick={handleReportSubmit}>Отправить</Button>
+                </FormGroup>
+              </Popup>
             </model-viewer>
           </MobileView>
           <BrowserView className="text-center">
