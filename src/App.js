@@ -14,11 +14,11 @@ import Unauthorized from './components/Unauthorized';
 function App() {
   return (
     <Routes>
+      <Route index element={<Home/>} />
       <Route path="/" element={<Layout />}>
         {/* public routes */}
         <Route path="modelview/:client_id" element={<BrandFittingRoom/>} />
         <Route path="modelview/:client_id/:product_id" element={<ModelView/>} />
-        <Route path="/" element={<Home/>} />
         <Route path="linkpage" element={<LinkPage />} />
         <Route path="unauthorized" element={<Unauthorized />} />
         {/* catch all */}
