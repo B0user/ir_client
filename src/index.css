@@ -13,6 +13,7 @@ html {
 }
 
 body {
+    font-family: 'Montserrat', sans-serif;
     height: 100%;
     background-color: #ecf0f1;
 }
@@ -53,9 +54,9 @@ form {
     padding-bottom: 1rem;
 }
 
-a, a:visited {
+/* a, a:visited {
     color: #2c3e50;
-}
+} */
 
 input[type="text"],
 input[type="password"],
