@@ -7,6 +7,7 @@ import 'bootstrap/dist/js/bootstrap.min.js';
 import React, { useState, useRef } from 'react';
 import ReCAPTCHA from "react-google-recaptcha";
 import axios from "../api/axios";
+import { FormGroup, FormControl, TextField, Button } from "@mui/material";
 
 const ContactForm = () => {
   const recaptchaRef = useRef();
@@ -48,76 +49,51 @@ const ContactForm = () => {
   return (
     <section className="py-5 bg-light" id="request">
         <div className="container">
-          <h2 className="text-center mb-5">Оставить заявку</h2>
-          <form onSubmit={handleSubmit}>
-            <div className="form-group my-2">
-              <label htmlFor="name">Имя</label>
-              <input
-                type="text"
-                className="form-control"
-                id="name"
+          <FormGroup>
+            <h3 className="text-center mb-3">Оставить заявку</h3>
+            <FormControl>
+              <TextField
+                required
+                id="outlined-required"
+                label="Ваше имя"
+                variant="outlined"
+                margin="dense"
                 name="name"
                 onChange={handleInputChange}
-                placeholder="Введите ваше имя"
-                required=""
               />
-            </div>
-            <div className="form-group my-2">
-              <label htmlFor="email">Email</label>
-              <input
-                type="email"
-                className="form-control"
-                id="email"
+              <TextField
+                required
+                id="outlined-required"
+                label="Ваш email"
+                variant="outlined"
+                margin="dense"
                 name="email"
+                type="email"
                 onChange={handleInputChange}
-                placeholder="Введите ваш email"
-                required=""
               />
-            </div>
-            <div className="form-group my-2">
-              <label htmlFor="phone">Телефон</label>
-              <div className="input-group">
-                <div className="input-group-prepend">
-                  <select className="form-control" id="countryCode">
-                    <option value={+7}>+7</option>
-                  </select>
-                </div>
-                <input
-                  type="tel"
-                  className="form-control"
-                  id="phone"
-                  name="phone"
-                  onChange={handleInputChange}
-                  placeholder="Номер телефона"
-                  pattern="\(\d{3}\) \d{3}-\d{4}"
-                  required=""
-                />
-              </div>
-            </div>
-            <div className="form-group my-2">
-              <label htmlFor="message">
-                Опишите, как хотите применить AR (опционально)
-              </label>
-              <textarea
-                className="form-control"
-                id="message"
+              <TextField
+                required
+                id="outlined-required"
+                label="Ваш номер"
+                variant="outlined"
+                margin="dense"
+                name="phone"
+                type="tel"
+                onChange={handleInputChange}
+              />
+              <TextField
+                id="outlined-basic"
+                label="Опишите как хотите применить AR (опционально)"
+                variant="outlined"
+                margin="normal"
+                rows={4}
+                multiline
                 name="message"
                 onChange={handleInputChange}
-                rows={3}
-                placeholder="Хочу сделать виртуальную примерку ковров..."
               />
-            </div>
-            {/* CAPTCHA */}
-            {/* <ReCAPTCHA
-              ref={recaptchaRef}
-              size="invisible"
-              sitekey="6Lck1KUjAAAAAKAtlVOTFgVboCkD3wcDBa3tJI2J"
-            /> */}
-
-            <button type="submit" disabled={!formData.name || !formData.email || !formData.phone || formSubmitted} className="btn btn-primary btn-block">
-              Оставить заявку
-            </button>
-          </form>
+            </FormControl>
+            <Button onClick={handleSubmit} type="submit" disabled={!formData.name || !formData.email || !formData.phone || formSubmitted} className="btn btn-primary btn-block">Отправить</Button>
+          </FormGroup>
         </div>
         {recaptchaError && (
           <div className="alert alert-danger mt-2" role="alert">
@@ -152,9 +128,9 @@ const Home = () => {
     <div className="collapse navbar-collapse" id="navbarNav">
       <ul className="navbar-nav ms-auto">
         <li className="nav-item">
-          <a className="nav-link" href="tel:+11234567890">
+          <a className="nav-link" href="tel:+77051051127">
             <i className="fas fa-phone" />
-            +1 123 456 7890
+            +7 705 105 1127
           </a>
         </li>
         <li className="nav-item">
@@ -224,8 +200,8 @@ const Home = () => {
           <img
             src="/landing/img/problem1.png"
             className="me-3"
-            width={35}
-            height={35}
+            width={50}
+            height={50}
             alt="Problem 1"
           />
           <p className="text-white small mt-2">
@@ -236,8 +212,8 @@ const Home = () => {
           <img
             src="/landing/img/problem2.png"
             className="me-3"
-            width={35}
-            height={35}
+            width={50}
+            height={50}
             alt="Problem 2"
           />
           <p className="text-white small mt-2">Высокий процент возвратов</p>
@@ -246,8 +222,8 @@ const Home = () => {
           <img
             src="/landing/img/problem3.png"
             className="me-3"
-            width={35}
-            height={35}
+            width={50}
+            height={50}
             alt="Problem 3"
           />
           <p className="text-white small mt-2">
@@ -269,8 +245,8 @@ const Home = () => {
           <img
             src="/landing/img/solution1.png"
             className="me-3"
-            width={35}
-            height={35}
+            width={50}
+            height={50}
             alt="Solution 1"
           />
           <p className="text-white small mt-2">
@@ -282,8 +258,8 @@ const Home = () => {
           <img
             src="/landing/img/solution2.png"
             className="me-3"
-            width={35}
-            height={35}
+            width={50}
+            height={50}
             alt="Solution 2"
           />
           <p className="text-white small mt-2">
@@ -294,8 +270,8 @@ const Home = () => {
           <img
             src="/landing/img/solution3.png"
             className="me-3"
-            width={35}
-            height={35}
+            width={50}
+            height={50}
             alt="Solution 3"
           />
           <p className="text-white small mt-2">
@@ -323,7 +299,7 @@ const Home = () => {
               Клиент с удовольствием вспоминает о вашем бренде в будущем
             </li>
           </ol>
-          <div className="row">
+          {/* <div className="row">
             <div className="col-12 col-md-6 my-3">
               <video
                 src="/landing/video.mp4"
@@ -331,7 +307,7 @@ const Home = () => {
                 style={{ height: 300 }}
               />
             </div>
-          </div>
+          </div> */}
         </div>
       </section>
       <section
@@ -478,16 +454,16 @@ const Home = () => {
         <div className="container">
           <div className="d-flex flex-column align-items-center mb-3">
             <div className="h4 text-white">Свяжитесь с нами:</div>
-            <a href="tel:+77028579133" className="text-center text-white mb-3 text-decoration-none">
+            <a href="tel:+77051051127" className="text-center text-white mb-3 text-decoration-none">
               <i className="fas fa-phone me-2"></i>
-              +7 702 857 9133
+              +7 705 105 1127
             </a>
             <a href="mailto:inroom.tech.info@gmail.com" className="text-center text-white mb-3 text-decoration-none">
               <i className="fas fa-envelope me-2"></i>
               inroom.tech.info@gmail.com
             </a>
           </div>
-          <a href="https://wa.me/1234567890" className="btn btn-success mb-3 w-100">
+          <a href="https://wa.me/message/3YWQEJSHGMSQB1" className="btn btn-success mb-3 w-100">
               <i className="fab fa-whatsapp me-2"></i>
               Написать на WhatsApp
             </a>
