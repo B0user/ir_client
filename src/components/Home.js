@@ -126,7 +126,7 @@ const ContactForm = () => {
         )}
         {formSubmitted && (
           <div className="alert alert-success mt-2" role="alert">
-            Your form has been submitted successfully!
+            Мы получили ваш запрос!
           </div>
         )}
       </section>
