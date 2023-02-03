@@ -129,13 +129,13 @@ const Home = () => {
       <ul className="navbar-nav ms-auto">
         <li className="nav-item">
           <a className="nav-link" href="tel:+77051051127">
-            <i className="fas fa-phone" />
+            <i className="fas fa-phone me-2" />
             +7 705 105 1127
           </a>
         </li>
         <li className="nav-item">
           <a className="nav-link" href="mailto:inroom.tech.info@gmail.com">
-            <i className="fas fa-envelope" />
+            <i className="fas fa-envelope me-2" />
             inroom.tech.info@gmail.com
           </a>
         </li>
