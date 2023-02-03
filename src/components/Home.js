@@ -108,11 +108,11 @@ const ContactForm = () => {
               />
             </div>
             {/* CAPTCHA */}
-            <ReCAPTCHA
+            {/* <ReCAPTCHA
               ref={recaptchaRef}
               size="invisible"
               sitekey="6Lck1KUjAAAAAKAtlVOTFgVboCkD3wcDBa3tJI2J"
-            />
+            /> */}
 
             <button type="submit" disabled={!formData.name || !formData.email || !formData.phone || formSubmitted} className="btn btn-primary btn-block">
               Оставить заявку
