@@ -4,11 +4,143 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'jquery/dist/jquery.min.js';
 import 'popper.js/dist/umd/popper.min.js';
 import 'bootstrap/dist/js/bootstrap.min.js';
+import React, { useState, useRef } from 'react';
+import ReCAPTCHA from "react-google-recaptcha";
+import axios from "../api/axios";
+
+const ContactForm = () => {
+  const recaptchaRef = useRef();
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    message: ''
+  });
+  const [recaptchaToken, setRecaptchaToken] = useState(null);
+  const [recaptchaError, setRecaptchaError] = useState(null);
+  const [formSubmitted, setFormSubmitted] = useState(false);
+
+  const handleInputChange = e => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setFormSubmitted(true);
+
+    await axios.post("/contactform", formData);
+    // try {
+    //   setRecaptchaToken(await recaptchaRef.current.executeAsync());
+    // } catch (error) {
+    //   console.error(error);
+    //   setRecaptchaError(error.message);
+    // }
+    // if (recaptchaToken) {
+    //   try {
+    //     await axios.post("/contactform", formData);
+    //     setFormSubmitted(true);
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // }
+  };
+
+  return (
+    <section className="py-5 bg-light" id="request">
+        <div className="container">
+          <h2 className="text-center mb-5">Оставить заявку</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="form-group my-2">
+              <label htmlFor="name">Имя</label>
+              <input
+                type="text"
+                className="form-control"
+                id="name"
+                name="name"
+                onChange={handleInputChange}
+                placeholder="Введите ваше имя"
+                required=""
+              />
+            </div>
+            <div className="form-group my-2">
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                className="form-control"
+                id="email"
+                name="email"
+                onChange={handleInputChange}
+                placeholder="Введите ваш email"
+                required=""
+              />
+            </div>
+            <div className="form-group my-2">
+              <label htmlFor="phone">Телефон</label>
+              <div className="input-group">
+                <div className="input-group-prepend">
+                  <select className="form-control" id="countryCode">
+                    <option value={+7}>+7</option>
+                  </select>
+                </div>
+                <input
+                  type="tel"
+                  className="form-control"
+                  id="phone"
+                  name="phone"
+                  onChange={handleInputChange}
+                  placeholder="Номер телефона"
+                  pattern="\(\d{3}\) \d{3}-\d{4}"
+                  required=""
+                />
+              </div>
+            </div>
+            <div className="form-group my-2">
+              <label htmlFor="message">
+                Опишите, как хотите применить AR (опционально)
+              </label>
+              <textarea
+                className="form-control"
+                id="message"
+                name="message"
+                onChange={handleInputChange}
+                rows={3}
+                placeholder="Хочу сделать виртуальную примерку ковров..."
+              />
+            </div>
+            {/* CAPTCHA */}
+            <ReCAPTCHA
+              ref={recaptchaRef}
+              size="invisible"
+              sitekey="6Lck1KUjAAAAAKAtlVOTFgVboCkD3wcDBa3tJI2J"
+            />
+
+            <button type="submit" disabled={!formData.name || !formData.email || !formData.phone || formSubmitted} className="btn btn-primary btn-block">
+              Оставить заявку
+            </button>
+          </form>
+        </div>
+        {recaptchaError && (
+          <div className="alert alert-danger mt-2" role="alert">
+            {recaptchaError}
+          </div>
+        )}
+        {formSubmitted && (
+          <div className="alert alert-success mt-2" role="alert">
+            Your form has been submitted successfully!
+          </div>
+        )}
+      </section>
+  )
+}
+
 
 const Home = () => {
+
+
+
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-dark fixed-top" style={{ backgroundColor: "#036830" }}>
+      <nav className="navbar navbar-expand-lg navbar-dark fixed-top" style={{ backgroundColor: "#004F24" }}>
   <div className="container-fluid">
     <a className="navbar-brand d-flex align-items-center" href="#">
       <img src="/landing/img/logo.png" width={26} height={26} alt="Logo" className="me-2" />
@@ -38,9 +170,13 @@ const Home = () => {
       {/* Hero Section */}
   <section
     className="d-flex align-items-center position-relative"
-    style={{ backgroundColor: "rgba(0, 0, 0, 0.65)", height: "100vh" }}
+    style={{ backgroundColor: "#004F24", height: "100vh" }}
   >
-    <video
+    {/* <video autoPlay loop muted>
+      <source src="/landing/video/video.webm" type="video/webm" />
+      Your browser does not support the video tag.
+    </video> */}
+    {/* <video
       autoPlay=""
       loop=""
       muted=""
@@ -56,7 +192,7 @@ const Home = () => {
       }}
     >
       <source src="/landing/video/video.mp4" type="video/mp4" />
-    </video>
+    </video> */}
     <div className="container-fluid">
       <div className="row">
         <div className="d-flex align-items-center justify-content-start">
@@ -80,7 +216,7 @@ const Home = () => {
     </div>
   </section>
   {/* Problem section */}
-  <section style={{ backgroundColor: "#004F24", padding: "75px 0" }}>
+  <section style={{ backgroundColor: "#036830", padding: "75px 0" }}>
     <div className="container">
       <h2 className="text-center text-white mb-4">Частая проблема?</h2>
       <div className="">
@@ -122,7 +258,7 @@ const Home = () => {
     </div>
   </section>
   {/* Solution section */}
-  <section style={{ backgroundColor: "#036830", padding: "75px 0" }}>
+  <section style={{ backgroundColor: "#008F40", padding: "75px 0" }}>
     <div className="container">
       <h2 className="text-center text-white mb-2">Решите все разом с INROOM</h2>
       <div className="h6 text-center text-white mb-4">
@@ -269,7 +405,7 @@ const Home = () => {
                 <img
                   src="/landing/img/feature1.png"
                   alt="Feature 1"
-                  className="feature-img mr-3"
+                  className="feature-img me-3"
                   height={200}
                   width={200}
                 />
@@ -303,7 +439,7 @@ const Home = () => {
                 <img
                   src="/landing/img/feature3.png"
                   alt="Feature 3"
-                  className="feature-img mr-3"
+                  className="feature-img me-3"
                   height={200}
                   width={200}
                 />
@@ -325,7 +461,7 @@ const Home = () => {
           <div className="row">
             <div className="col-lg-9 mx-auto text-center">
               <h3 className="mb-3 text-white">
-                Наши услуги востребованны на рынке
+                Наши услуги очень востребованны на рынке
               </h3>
               <a href="#request" className="btn btn-danger rounded-pill w-100">
                 Успейте оставить заявку
@@ -334,70 +470,28 @@ const Home = () => {
           </div>
         </div>
       </section>
-      <section className="py-5 bg-light" id="request">
-        <div className="container">
-          <h2 className="text-center mb-5">Оставить заявку</h2>
-          <form>
-            <div className="form-group my-2">
-              <label htmlFor="name">Имя</label>
-              <input
-                type="text"
-                className="form-control"
-                id="name"
-                placeholder="Введите ваше имя"
-                required=""
-              />
-            </div>
-            <div className="form-group my-2">
-              <label htmlFor="email">Email</label>
-              <input
-                type="email"
-                className="form-control"
-                id="email"
-                placeholder="Введите ваш email"
-                required=""
-              />
-            </div>
-            <div className="form-group my-2">
-              <label htmlFor="phone">Телефон</label>
-              <div className="input-group">
-                <div className="input-group-prepend">
-                  <select className="form-control" id="countryCode">
-                    <option value={+7}>+7</option>
-                  </select>
-                </div>
-                <input
-                  type="tel"
-                  className="form-control"
-                  id="phone"
-                  placeholder="Оставьте ваш номер телефона"
-                  pattern="\(\d{3}\) \d{3}-\d{4}"
-                  required=""
-                />
-              </div>
-            </div>
-            <div className="form-group my-2">
-              <label htmlFor="message">
-                Опишите, как хотите применить AR (опционально)
-              </label>
-              <textarea
-                className="form-control"
-                id="message"
-                rows={3}
-                placeholder="Хочу сделать виртуальную примерку ковров..."
-                defaultValue={""}
-              />
-            </div>
-            <button type="submit" className="btn btn-primary btn-block">
-              Оставить заявку
-            </button>
-          </form>
-        </div>
-      </section>
+      
+      <ContactForm/>
+
       {/* Footer */}
       <footer className="py-5 bg-dark">
         <div className="container">
-          <p className="text-center text-white">Copyright INROOM.TECH© 2023</p>
+          <div className="d-flex flex-column align-items-center mb-3">
+            <div className="h4 text-white">Свяжитесь с нами:</div>
+            <a href="tel:+77028579133" className="text-center text-white mb-3 text-decoration-none">
+              <i className="fas fa-phone me-2"></i>
+              +7 702 857 9133
+            </a>
+            <a href="mailto:inroom.tech.info@gmail.com" className="text-center text-white mb-3 text-decoration-none">
+              <i className="fas fa-envelope me-2"></i>
+              inroom.tech.info@gmail.com
+            </a>
+          </div>
+          <a href="https://wa.me/1234567890" className="btn btn-success mb-3 w-100">
+              <i className="fab fa-whatsapp me-2"></i>
+              Написать на WhatsApp
+            </a>
+          <p className="text-center text-white mt-3">Copyright INROOM.TECH© 2023</p>
         </div>
       </footer>
     </>
