@@ -94,8 +94,11 @@ const BrandFittingRoom = () => {
   return (
     <div className="h-100 text-center w-100">
       <nav className="bg-dark d-flex justify-content-center navbar navbar-dark navbar-expand-sm text-white">
-        <a target="_blank" rel="noreferrer" href="https://britishasiahome.kz/">
+        {/* <a target="_blank" rel="noreferrer" href="https://britishasiahome.kz/">
           <span>BritishAsia Home</span>
+        </a> */}
+        <a target="_blank" rel="noreferrer" href="https://inroom.tech/">
+          <span>Главная INROOM</span>
         </a>
       </nav>
       {isSuccess ? (
