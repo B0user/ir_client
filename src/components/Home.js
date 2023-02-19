@@ -167,7 +167,7 @@ const Home = () => {
         objectFit: "cover"
       }}
     >
-      <source src="/landing/video/video.MP4" type="video/mp4" />
+      <source src="/landing/video/video.mp4" type="video/mp4" />
     </video> 
     <div className="container-fluid">
       <div className="row">
