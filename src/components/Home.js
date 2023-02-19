@@ -146,7 +146,7 @@ const Home = () => {
       {/* Hero Section */}
   <section
     className="d-flex align-items-center position-relative"
-    style={{ height: "100vh" }}
+    style={{ backgroundСolor: rgba(0, 0, 0, 0.65), height: "100vh" }}
   >
     {/* <video autoPlay loop muted>
       <source src="/landing/video/video.webm" type="video/webm" />
