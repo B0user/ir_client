@@ -115,8 +115,8 @@ const Home = () => {
 
 
   return (
-    <>
-      <nav className="navbar navbar-expand-lg navbar-dark fixed-top" style={{ backgroundColor: "#004F24" }}>
+    <div>
+      <nav className="navbar navbar-expand-lg navbar-dark fixed-top" style={{ background: "#000", opacity: '0.6'}}>
   <div className="container-fluid">
     <a className="navbar-brand d-flex align-items-center" href="#">
       <img src="/landing/img/logo.png" width={26} height={26} alt="Logo" className="me-2" />
@@ -146,17 +146,17 @@ const Home = () => {
       {/* Hero Section */}
   <section
     className="d-flex align-items-center position-relative"
-    style={{ backgroundColor: "#004F24", height: "100vh" }}
+    style={{ height: "100vh" }}
   >
     {/* <video autoPlay loop muted>
       <source src="/landing/video/video.webm" type="video/webm" />
       Your browser does not support the video tag.
     </video> */}
-    {/* <video
-      autoPlay=""
-      loop=""
-      muted=""
-      playsInline=""
+     <video
+      autoPlay
+      loop
+      muted
+      playsInline
       className="background-video w-100 h-100 position-absolute"
       style={{
         zIndex: -1,
@@ -168,7 +168,7 @@ const Home = () => {
       }}
     >
       <source src="/landing/video/video.mp4" type="video/mp4" />
-    </video> */}
+    </video> 
     <div className="container-fluid">
       <div className="row">
         <div className="d-flex align-items-center justify-content-start">
@@ -470,7 +470,7 @@ const Home = () => {
           <p className="text-center text-white mt-3">Copyright INROOM.TECH© 2023</p>
         </div>
       </footer>
-    </>
+      </div>
   );
 };
 
