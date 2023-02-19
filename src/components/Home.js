@@ -111,12 +111,15 @@ const ContactForm = () => {
 
 
 const Home = () => {
+
+
+
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-dark fixed-top" style={{ background: "#000", opacity: '0.6'}}>
   <div className="container-fluid">
     <a className="navbar-brand d-flex align-items-center" href="#">
-      <img src={`${process.env.PUBLIC_URL}/landing/img/logo.png`} width={26} height={26} alt="Logo" className="me-2" />
+      <img src="/landing/img/logo.png" width={26} height={26} alt="Logo" className="me-2" />
       INROOM
     </a>
     <button className="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -164,7 +167,7 @@ const Home = () => {
         objectFit: "cover"
       }}
     >
-      <source src="/landing/video/video.mp4" type="video/mp4" />
+      <source src="/landing/video/video.MP4" type="video/mp4" />
     </video> 
     <div className="container-fluid">
       <div className="row">
