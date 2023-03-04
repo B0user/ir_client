@@ -33,6 +33,36 @@ const fetchModelInfo = (product_id) => {
   return axios.get(`/mv/models/${product_id}`);
 };
 
+const ARButton = () => {
+  const [ARSupported, setARSupported] = useState(null);
+
+  const handleARSupport = () => {
+    if ("xr" in navigator) {
+      navigator.xr.isSessionSupported("immersive-ar").then((supported) => {
+        setARSupported(supported);
+        if (!supported) {
+          navigator.xr.requestSession("immersive-ar").then(() => {
+            setARSupported(true);
+          });
+        }
+      });
+    }
+  };
+
+  return (
+    <>
+      {!ARSupported && (
+        <button id="ar-button" onClick={handleARSupport}>
+          Включить AR
+        </button>
+      )}
+      {ARSupported && (
+        <p>AR подключено</p>
+      )}
+    </>
+  );
+}
+
 const ModelView = () => {
   const navigate = useNavigate();
   const recaptchaRef = useRef();
@@ -232,6 +262,7 @@ const ModelView = () => {
                   </select>
                 </div>
               </nav>
+              <ARButton/>
               <button slot="ar-button" id="ar-button">
                 Посмотреть у себя
               </button>
