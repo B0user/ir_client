@@ -34,32 +34,38 @@ const fetchModelInfo = (product_id) => {
 };
 
 const ARButton = () => {
-  const [ARSupported, setARSupported] = useState(null);
+  const [hasPermission, setHasPermission] = useState(false);
 
-  const handleARSupport = () => {
-    if ("xr" in navigator) {
-      navigator.xr.isSessionSupported("immersive-ar").then((supported) => {
-        setARSupported(supported);
-        if (!supported) {
-          navigator.xr.requestSession("immersive-ar").then(() => {
-            setARSupported(true);
-          });
-        }
+  async function requestARPermissions() {
+    try {
+      const permissionStatus = await navigator.permissions.request({
+        name: "immersive-ar",
+        // Optional: ask for persistent permission
+        //   if the device supports it.
+        //   That allows you to detect when the user
+        //   has already granted permission
+        //   and avoid asking repeatedly.
+        //   Note that Chrome only supports persistent
+        //   permission since version 85.
+        //   Other browsers may not support it at all.
+        //   See https://developers.google.com/web/updates/2020/07/ar-availability
+        //   for more details.
+        persistent: true,
       });
+      setHasPermission(permissionStatus.state === "granted");
+    } catch (error) {
+      console.error("Failed to request AR permissions:", error);
     }
+  }
+
+  const handleClick = () => {
+    requestARPermissions();
   };
 
   return (
-    <>
-      {!ARSupported && (
-        <button id="ar-button" onClick={handleARSupport}>
-          Включить AR
-        </button>
-      )}
-      {ARSupported && (
-        <p>AR подключено</p>
-      )}
-    </>
+    <button onClick={handleClick}>
+      {hasPermission ? "AR permission granted" : "Request AR permission"}
+    </button>
   );
 }
 
