@@ -34,38 +34,31 @@ const fetchModelInfo = (product_id) => {
 };
 
 const ARButton = () => {
-  const [hasPermission, setHasPermission] = useState(false);
-
-  async function requestARPermissions() {
-    try {
-      const permissionStatus = await navigator.permissions.request({
-        name: "immersive-ar",
-        // Optional: ask for persistent permission
-        //   if the device supports it.
-        //   That allows you to detect when the user
-        //   has already granted permission
-        //   and avoid asking repeatedly.
-        //   Note that Chrome only supports persistent
-        //   permission since version 85.
-        //   Other browsers may not support it at all.
-        //   See https://developers.google.com/web/updates/2020/07/ar-availability
-        //   for more details.
-        persistent: true,
-      });
-      setHasPermission(permissionStatus.state === "granted");
-    } catch (error) {
-      console.error("Failed to request AR permissions:", error);
+  useEffect(() => {
+    if (!window.navigator.xr) {
+      console.log('WebXR API not available');
+      return;
     }
-  }
-
-  const handleClick = () => {
-    requestARPermissions();
-  };
+    const checkPermissions = async () => {
+      try {
+        const permissions = await navigator.permissions.query({ name: 'immersive-ar' });
+        if (permissions.state === 'prompt') {
+          const permissionStatus = await navigator.permissions.request({ name: 'immersive-ar' });
+          if (permissionStatus.state === 'denied') {
+            console.log('AR permission denied');
+          }
+        }
+      } catch (error) {
+        console.error('Error checking AR permissions:', error);
+      }
+    };
+    checkPermissions();
+  }, []);
 
   return (
-    <button onClick={handleClick}>
-      {hasPermission ? "AR permission granted" : "Request AR permission"}
-    </button>
+    <model-viewer>
+      <button slot="ar-button">View in AR</button>
+    </model-viewer>
   );
 }
 
@@ -268,7 +261,6 @@ const ModelView = () => {
                   </select>
                 </div>
               </nav>
-              <ARButton/>
               <button slot="ar-button" id="ar-button">
                 Посмотреть у себя
               </button>

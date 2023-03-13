@@ -36,6 +36,7 @@ const SearchBar = ({ products, setSearchResults }) => {
       </button>
     </div>
   );
+
 };
 
 export default SearchBar;
