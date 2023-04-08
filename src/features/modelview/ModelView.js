@@ -16,7 +16,7 @@ import { useEffect, useState, useReducer, useRef } from "react";
 import { API_URL } from "../../config";
 import QRCode from "../qrcodes/QRCode";
 import axios from "../../api/axios";
-import "../../mv.css";
+import "./mv.css";
 // Design
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuestion } from "@fortawesome/free-solid-svg-icons";

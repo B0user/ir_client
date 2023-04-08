@@ -10,11 +10,17 @@ import Home from './components/Home';
 import LinkPage from './components/LinkPage';
 import Missing from './components/Missing';
 import Unauthorized from './components/Unauthorized';
+// Demo
+import DemoCatalog from './features/demo/DemoCatalog';
+import DemoMV from './features/demo/DemoMV';
 
 function App() {
   return (
     <Routes>
       <Route index element={<Home/>} />
+      {/* demo */}
+      <Route path="/demo" element={<DemoCatalog/>} />
+      <Route path="/demo/:product_id" element={<DemoMV/>} />
       <Route path="/" element={<Layout />}>
         {/* public routes */}
         <Route path="modelview/:client_id" element={<BrandFittingRoom/>} />
