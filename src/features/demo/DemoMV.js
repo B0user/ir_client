@@ -256,11 +256,11 @@ const DemoMV = () => {
         environment-image="neutral"
         auto-rotate
         camera-controls
-        camera-orbit="0deg 90deg 5m"
+        camera-orbit="30deg 60deg 5m"
         >
         <nav className="navbar">
             <div className="container-fluid d-flex justify-content-between">
-            <FontAwesomeIcon icon={faBars} />
+            <FontAwesomeIcon icon={faBars}  onClick={() => navigate(`/show/`)}/>
             <a
                 className="btn rounded-pill btn-primary w-75 text-white"
                 // href={product?.link}
