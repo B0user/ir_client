@@ -10,7 +10,7 @@ import { RWebShare } from "react-web-share";
 // Design
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faXmark} from "@fortawesome/free-solid-svg-icons";
 
 
 
@@ -259,16 +259,7 @@ const DemoMV = () => {
         camera-orbit="30deg 60deg 5m"
         >
         <nav className="navbar">
-            <div className="container-fluid d-flex justify-content-between">
-            <FontAwesomeIcon icon={faBars}  onClick={() => navigate(`/show/`)}/>
-            <a
-                className="btn rounded-pill btn-primary w-75 text-white"
-                // href={product?.link}
-                rel="noreferrer"
-                target="_blank"
-            >
-                {product.name}
-            </a>
+            <div className="container-fluid d-flex justify-content-between px-4">
             <RWebShare
                 data={{
                 title: "INROOM",
@@ -287,6 +278,15 @@ const DemoMV = () => {
                 <path d="M503.7 226.2l-176 151.1c-15.38 13.3-39.69 2.545-39.69-18.16V272.1C132.9 274.3 66.06 312.8 111.4 457.8c5.031 16.09-14.41 28.56-28.06 18.62C39.59 444.6 0 383.8 0 322.3c0-152.2 127.4-184.4 288-186.3V56.02c0-20.67 24.28-31.46 39.69-18.16l176 151.1C514.8 199.4 514.8 216.6 503.7 226.2z" />
                 </svg>
             </RWebShare>
+            <a
+                className="btn rounded-pill btn-primary w-75 text-white"
+                // href={product?.link}
+                rel="noreferrer"
+                target="_blank"
+            >
+                {product.name}
+            </a>
+            <FontAwesomeIcon icon={faXmark}  onClick={() => navigate(`/show/`)}/>
             </div>
         </nav>
         <button slot="ar-button" id="ar-button">
