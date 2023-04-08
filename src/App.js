@@ -18,10 +18,10 @@ function App() {
   return (
     <Routes>
       <Route index element={<Home/>} />
-      {/* demo */}
-      <Route path="/demo" element={<DemoCatalog/>} />
-      <Route path="/demo/:product_id" element={<DemoMV/>} />
       <Route path="/" element={<Layout />}>
+        {/* demo */}
+        <Route path="demo" element={<DemoCatalog/>} />
+        <Route path="demo/:product_id" element={<DemoMV/>} />
         {/* public routes */}
         <Route path="modelview/:client_id" element={<BrandFittingRoom/>} />
         <Route path="modelview/:client_id/:product_id" element={<ModelView/>} />
