@@ -43,3 +43,35 @@ left: 0;
     background-color: #D9D9D9;
     font-size: 12px;
 }
+.sample {
+    display: grid;
+    position: relative;
+    background: white;
+    grid-template-columns: 50% 50%;
+    grid-template-areas: "content demo";
+}
+.content {
+    grid-area: content;
+    position: relative;
+    padding-top: 20px;
+}
+.wrapper-demo {
+    margin: 0px auto;
+    padding: 40px 60px;
+    position: relative;
+    max-width: 920px;
+}
+.demo {
+    grid-area: demo;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    border: 0px solid #555;
+    box-sizing: border-box;
+}
+.demo > model-viewer {
+    width:50vw;
+}

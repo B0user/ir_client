@@ -5,7 +5,7 @@ import './demo.css';
 const ProductCard = ({ img_src, alt, id}) => {  
   const navigate = useNavigate();
   return (
-    <div key={id} className={`product-card col-6 mb-3 text-center ${id%2 ? 'pe-2' : 'ps-2'}`}>
+    <div key={id} className={`product-card col-6 col-lg-3 mb-3 text-center ${id%2 ? 'pe-2' : 'ps-2'}`}>
       <img 
       crossOrigin="anonymous"
       src={img_src} 

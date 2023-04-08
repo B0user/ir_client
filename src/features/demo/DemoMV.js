@@ -7,10 +7,12 @@ import {
   } from "react-router-dom";
 import "@google/model-viewer/dist/model-viewer";
 import { RWebShare } from "react-web-share";
+import { BrowserView, MobileView } from "react-device-detect";
+import QRCode from "../qrcodes/QRCode";
 // Design
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { faBars, faXmark} from "@fortawesome/free-solid-svg-icons";
+import { faBars, faXmark, faAngleLeft} from "@fortawesome/free-solid-svg-icons";
 
 
 
@@ -247,6 +249,9 @@ const DemoMV = () => {
     const product = products.find(el => el.id == product_id);
     if (!product) console.log("wrong URL");
     else return (
+      <>
+        <MobileView className="h-100">
+
         <model-viewer
         src={product.model_src}
         alt="Carpet model"
@@ -256,7 +261,7 @@ const DemoMV = () => {
         environment-image="neutral"
         auto-rotate
         camera-controls
-        camera-orbit="30deg 60deg 5m"
+        camera-orbit="30deg 60deg 2.2m"
         >
         <nav className="navbar">
             <div className="container-fluid d-flex justify-content-between px-4">
@@ -283,6 +288,7 @@ const DemoMV = () => {
                 // href={product?.link}
                 rel="noreferrer"
                 target="_blank"
+                disabled
             >
                 {product.name}
             </a>
@@ -293,7 +299,47 @@ const DemoMV = () => {
             Посмотреть у себя
         </button>
         </model-viewer>
-        )
+        </MobileView>
+        <BrowserView >
+          <div class="sample">
+            <div id="demo-container" class="demo">
+              <model-viewer
+                src={product.model_src}
+                alt="Carpet model"
+                ar-modes="scene-viewer webxr quick-look"
+                ar 
+                poster={product.img_src}
+                environment-image="neutral"
+                auto-rotate
+                camera-controls
+                camera-orbit="30deg 60deg 2.2m"
+                >
+                <button slot="ar-button" id="ar-button">
+                    Посмотреть у себя
+                </button>
+                </model-viewer>
+            </div>
+            <div class="content bg-light  text-center">
+              <FontAwesomeIcon icon={faAngleLeft}  onClick={() => navigate(`/show/`)} className='fa-2xl'/> Назад
+            
+              <div class="wrapper-demo">
+              
+                <h1>Пожалуйста, используйте QR код</h1>
+                <p className='mb-5'>Наведите камеру на QR код, чтобы открыть примерочную.</p>
+                <QRCode
+                  url={window.location.href}
+                  isImage={true}
+                  isButton={false}
+                />
+                <p>
+                  Создано <Link to="/demo">INROOM.TECH</Link>&copy;
+                </p>
+              </div>
+            </div>
+          </div>
+        </BrowserView>
+      </>
+    )
 }
 
 export default DemoMV;
