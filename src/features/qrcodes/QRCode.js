@@ -19,7 +19,7 @@ const QRCode = ({url, isImage, isButton}) => {
     <QRCodeCanvas
       id="qrCode"
       value={url}
-      size={300}
+      size={500}
       bgColor={"#fff"}
       level={"H"}
     />
