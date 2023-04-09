@@ -240,7 +240,7 @@ const DemoMV = () => {
         },
         {
           "id":32,
-          "name":"Пуфик Мышька",
+          "name":"Пуфик Мышка",
           "img_src":"/demo/img/32.webp",
           "model_src":"/demo/models/xz.glb"
         }
@@ -261,7 +261,7 @@ const DemoMV = () => {
         environment-image="neutral"
         auto-rotate
         camera-controls
-        camera-orbit="30deg 60deg 2.2m"
+        camera-orbit="30deg"
         >
         <nav className="navbar">
             <div className="container-fluid d-flex justify-content-between px-4">
@@ -312,16 +312,13 @@ const DemoMV = () => {
                 environment-image="neutral"
                 auto-rotate
                 camera-controls
-                camera-orbit="30deg 60deg 2.2m"
+                camera-orbit="30deg"
                 >
-                <button slot="ar-button" id="ar-button">
-                    Посмотреть у себя
-                </button>
                 </model-viewer>
             </div>
             <div class="content bg-light  text-center">
-              <FontAwesomeIcon icon={faAngleLeft}  onClick={() => navigate(`/show/`)} className='fa-2xl'/> Назад
-            
+              <div className="back-btn" onClick={() => navigate('/show')}><FontAwesomeIcon icon={faAngleLeft} className='fa-2xl'/>Назад</div>
+              
               <div class="wrapper-demo">
               
                 <h1>Пожалуйста, используйте QR код</h1>
@@ -332,7 +329,7 @@ const DemoMV = () => {
                   isButton={false}
                 />
                 <p>
-                  Создано <Link to="/demo">INROOM.TECH</Link>&copy;
+                  Создано <Link to="/show">INROOM.TECH</Link>&copy;
                 </p>
               </div>
             </div>

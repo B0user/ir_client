@@ -251,7 +251,7 @@ const DemoCatalog = () => {
     },
     {
       "id":32,
-      "name":"Пуфик Мышька",
+      "name":"Пуфик Мышка",
       "img_src":"/demo/img/32.webp",
       "model_src":"/demo/models/xz.glb"
     }
