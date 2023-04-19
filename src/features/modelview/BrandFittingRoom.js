@@ -10,61 +10,34 @@ import Filters from "./Filters";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter } from "@fortawesome/free-solid-svg-icons";
 
-const Catalog = ({ products, size, setSize }) => {
+
+// import '../demo/demo.css';
+
+const ProductCard = ({ img_src, alt, id}) => {  
   const navigate = useNavigate();
   return (
-    <div className="catalog d-flex flex-wrap justify-content-evenly py-2">
-      {/* Catalog */}
-      {products?.length ? (
-        products.map((prod, i) => (
-          <div
-            key={i}
-            className="catalog-item col-5 rounded bg-white container-fluid mb-3 mx-0 p-2"
-          >
-            <img
-              crossOrigin="anonymous"
-              src={API_URL + prod.thumb_path}
-              className="img-fluid rounded catalog-item-img"
-              alt={prod.name}
-              id="image"
-              height={205}
-              width={130}
-              onClick={(e) => navigate(`${prod._id}?size=${size}`)}
-            />
-            <form>
-              <label htmlFor="image">
-                <b>{prod.name}</b>
-              </label>
-              <br />
-              <div className="d-flex align-items-center justify-content-between text-nowrap">
-                <label htmlFor="sizes" className="me-1">
-                  Размер:
-                </label>
-                <select
-                  name="sizes"
-                  id="sizes"
-                  onChange={(e) => setSize(e.target.value)}
-                  className="w-75 py-1 rounded-pill"
-                >
-                  {prod.spoma_chain?.map((chain, j) => (
-                    <option value={chain.size} key={j}>
-                      {chain.size} см
-                    </option>
-                  ))}
-                </select>
-              </div>
+    <div key={id} className={`product-card col-6 col-lg-3 mb-3 text-center ${id%2 ? 'pe-2' : 'ps-2'}`}>
+      <img 
+      height={330}
+      crossOrigin="anonymous"
+      src={img_src} 
+      alt={alt} 
+      className="w-100 rounded-1" 
+      onClick={(e) => navigate(`${id}`)}/>
 
-              <button
-                className="btn-sm btn-success rounded-pill mt-2"
-                onClick={(e) => navigate(`${prod._id}?size=${size}`)}
-              >
-                Примерить
-              </button>
-            </form>
-          </div>
-        ))
+      <span className="text-center">{alt}</span>
+    </div>
+  )
+}
+
+const Catalog = ({ products, size, setSize }) => {
+  return (
+    <div className="catalog d-flex flex-wrap justify-content-between">
+        {/* Catalog */}
+      {products?.length ? (
+        products.map((prod) => <ProductCard img_src={API_URL + prod.thumb_path} alt={prod.name} id={prod._id}/>)
       ) : (
-        <p>Товаров у этого бренда больше нет</p>
+        <p>Каталог пуст или в процессе разработки</p>
       )}
     </div>
   );
@@ -92,40 +65,17 @@ const BrandFittingRoom = () => {
   );
 
   return (
-    <div className="h-100 text-center w-100">
-      <nav className="bg-dark d-flex justify-content-center navbar navbar-dark navbar-expand-sm text-white">
-        {/* <a target="_blank" rel="noreferrer" href="https://britishasiahome.kz/">
-          <span>BritishAsia Home</span>
-        </a> */}
-        <a target="_blank" rel="noreferrer" href="https://inroom.tech/">
-          <span>Главная INROOM</span>
-        </a>
-      </nav>
-      {isSuccess ? (
-        <>
-          <SearchBar products={products} setSearchResults={setSearchResults} />
-
-          <button
-            data-bs-toggle="collapse"
-            data-bs-target="#filters"
-            className="btn btn-outline-dark m-auto text-center collapsed"
-          >
-            Фильтр <FontAwesomeIcon icon={faFilter} />
-          </button>
-          <Filters products={products} setSearchResults={setSearchResults} />
-          <h2>Каталог:</h2>
-          <Catalog products={searchResults} size={size} setSize={setSize} />
-        </>
-      ) : isLoading ? (
-        <p>Товары загружаются...</p>
-      ) : (
-        <p>У этого бренда нет товаров</p>
-      )}
-      <footer className="bg-dark d-flex justify-content-center text-white p-3">
-        <span>INROOM.TECH 2022&copy;</span>
-      </footer>
+    <div className="container-fluid px-4">
+      <div className="bg-white header-demo sticky-top">
+        <h1 className="text-center lspace-50 demo-header fw-bold">
+          BRITISH ASIA HOME
+        </h1>
+      </div>
+      <Catalog products={products}/>
     </div>
   );
 };
+
+
 
 export default BrandFittingRoom;

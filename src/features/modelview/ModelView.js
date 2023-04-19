@@ -19,7 +19,7 @@ import axios from "../../api/axios";
 import "./mv.css";
 // Design
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faQuestion } from "@fortawesome/free-solid-svg-icons";
+import { faQuestion, faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 import {
   HowToUseHelp,
   NoButtonHelp,
@@ -204,6 +204,7 @@ const ModelView = () => {
               alt="Carpet model"
               ar-modes="webxr quick-look"
               ar
+              poster={'/demo/img/loading.svg'}
               ar-scale="fixed"
               environment-image="neutral"
               auto-rotate
@@ -376,18 +377,41 @@ const ModelView = () => {
               </Popup>
             </model-viewer>
           </MobileView>
-          <BrowserView className="text-center">
-            <h1>Пожалуйста, используйте QR код</h1>
-            <p>Наведите камеру на QR код, чтобы открыть примерочную.</p>
-            <QRCode
-              url={window.location.href}
-              isImage={true}
-              isButton={false}
-            />
-            <p>
-              Создано <Link to="/">INROOM.TECH</Link>&copy;
-            </p>
-          </BrowserView>
+          <BrowserView >
+          <div class="sample">
+            <div id="demo-container" class="demo">
+              <model-viewer
+                src={API_URL + found?.model_path}
+                alt="Carpet model"
+                ar-modes="scene-viewer webxr quick-look"
+                ar 
+                poster={'/demo/img/loading.svg'}
+                environment-image="neutral"
+                auto-rotate
+                camera-controls
+                camera-orbit="30deg"
+                >
+                </model-viewer>
+            </div>
+            <div class="content bg-light  text-center">
+              <div className="back-btn" onClick={() => navigate(`/modelview/${client_id}`)}><FontAwesomeIcon icon={faAngleLeft} className='fa-2xl'/>Назад</div>
+              
+              <div class="wrapper-demo">
+              
+                <h1>Пожалуйста, используйте QR код</h1>
+                <p className='mb-5'>Наведите камеру на QR код, чтобы открыть примерочную.</p>
+                <QRCode
+                  url={window.location.href}
+                  isImage={true}
+                  isButton={false}
+                />
+                <p>
+                  Создано <Link to="/show">INROOM.TECH</Link>&copy;
+                </p>
+              </div>
+            </div>
+          </div>
+        </BrowserView>
         </>
       );
   }
