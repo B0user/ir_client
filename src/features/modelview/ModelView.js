@@ -84,6 +84,27 @@ const ModelView = () => {
   const [faqPopupActive, setFaqPopupActive] = useState(false);
   const [bugreportActive, setBugreportActive] = useState(false);
 
+  const [isIG, setIsIG] = useState(false);
+  const [instagramChangePopupActive, setInstagramChangePopupActive] = useState(false);
+  
+  useEffect(() => {
+    const isInstagramBrowser = () => {
+      const userAgent = navigator.userAgent;
+      const isIOS = !!userAgent.match(/iPad/i) || !!userAgent.match(/iPhone/i);
+      const isInstagram = !!userAgent.match(/Instagram/i);
+      const isWebView = !!(window.webkit && window.webkit.messageHandlers);
+
+      return isIOS && isInstagram && isWebView;
+    };
+
+    if (isInstagramBrowser()) {
+      setIsIG(true);
+      setInstagramChangePopupActive(true);
+    }
+  }, [setInstagramChangePopupActive]);
+
+
+
   // TEMP ---> reportReducer
   const INITIAL_REPORT_STATE = {
     title: "Public MV report",
@@ -265,6 +286,9 @@ const ModelView = () => {
               <button slot="ar-button" id="ar-button">
                 Посмотреть у себя
               </button>
+              <button className={isIG ? 'd-flex' : 'd-none'} id="ar-button" onClick={() => setInstagramChangePopupActive(true)}>
+                Открыть в Браузере
+              </button>
               <div className="container-fluid fixed-bottom pt-2 px-0 d-flex justify-content-center align-items-center flex-column">
                 <button
                   className="btn btn-primary rounded-0 rounded-top"
@@ -374,6 +398,13 @@ const ModelView = () => {
                   />
                   <Button onClick={handleReportSubmit}>Отправить</Button>
                 </FormGroup>
+              </Popup>
+              <Popup active={instagramChangePopupActive} setActive={setInstagramChangePopupActive}>
+                <div className="tutorial-popup mx-2 h-100">
+                  <FontAwesomeIcon className='float-end' icon={faXmark}  onClick={() => setInstagramChangePopupActive(false)}/>
+                  <div className="h5 mb-3 text-center">Чтобы примерить, следуйте инструкции:</div>
+                  <img src="/tutorial/browser/instagram-ios.jpg" alt="Change browser" className='w-100'/>
+                </div>
               </Popup>
             </model-viewer>
           </MobileView>
