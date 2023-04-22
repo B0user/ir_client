@@ -19,7 +19,7 @@ import axios from "../../api/axios";
 import "./mv.css";
 // Design
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faQuestion, faAngleLeft } from "@fortawesome/free-solid-svg-icons";
+import { faQuestion, faAngleLeft, faXmark } from "@fortawesome/free-solid-svg-icons";
 import {
   HowToUseHelp,
   NoButtonHelp,
