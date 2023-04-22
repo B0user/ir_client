@@ -258,7 +258,7 @@ const DemoMV = () => {
         return isIOS && isInstagram && isWebView;
       };
   
-      if (isInstagramBrowser()) {
+      if (!isInstagramBrowser()) {
         setIsIG(true);
         setInstagramChangePopupActive(true);
       }
@@ -323,8 +323,9 @@ const DemoMV = () => {
         </button>
         <Popup active={instagramChangePopupActive} setActive={setInstagramChangePopupActive}>
           <div className="tutorial-popup mx-2 h-100">
-            <h3 className="mb-3 text-center">Чтобы примерить, следуйте инструкции:</h3>
-            <img src="/tutorial/browser/2.jpg" alt="Change browser" className='w-100'/>
+            <FontAwesomeIcon className='float-end' icon={faXmark}  onClick={() => setInstagramChangePopupActive(false)}/>
+            <div className="h5 mb-3 text-center">Чтобы примерить, следуйте инструкции:</div>
+            <img src="/tutorial/browser/instagram-ios.jpg" alt="Change browser" className='w-100'/>
           </div>
         </Popup>
         </model-viewer>
