@@ -3,7 +3,7 @@ import './popup.css';
 
 const Popup = ({ active, setActive, children}) => {
   return (
-    <div className={active ? 'modal active' : 'modal'} onClick={() => setActive(false)}>
+    <div className={active ? 'popmodal active' : 'popmodal'} onClick={() => setActive(false)}>
       <div className='modal_content' onClick={e => e.stopPropagation()}>
         {children}
       </div>

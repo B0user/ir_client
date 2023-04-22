@@ -1,18 +1,19 @@
-.modal {
-    width: 100vw;
-    height: 100vh;
+.popmodal {
+    position: fixed;
+    width: 100vw !important;
+    height: 100vh !important;
     top: 0;
     left: 0;
     background-color: rgba(0, 0, 0, 0.123);
     opacity: 0;
     transition: 0.5s;
     pointer-events: none;
-    display: flex;
+    display: flex !important;
     justify-content: center;
     align-items: center;
 }
 
-.modal.active {
+.popmodal.active {
     pointer-events: all;
     opacity: 1;
 }

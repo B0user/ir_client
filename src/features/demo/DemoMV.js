@@ -1,7 +1,6 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     useParams,
-    useSearchParams,
     useNavigate,
     Link,
   } from "react-router-dom";
@@ -9,10 +8,11 @@ import "@google/model-viewer/dist/model-viewer";
 import { RWebShare } from "react-web-share";
 import { BrowserView, MobileView } from "react-device-detect";
 import QRCode from "../qrcodes/QRCode";
+import Popup from "../popup/Popup";
 // Design
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { faBars, faXmark, faAngleLeft} from "@fortawesome/free-solid-svg-icons";
+import { faXmark, faAngleLeft} from "@fortawesome/free-solid-svg-icons";
 
 
 
@@ -245,7 +245,27 @@ const DemoMV = () => {
           "model_src":"/demo/models/xz.glb"
         }
       ];
+    const [isIG, setIsIG] = useState(false);
+    const [instagramChangePopupActive, setInstagramChangePopupActive] = useState(false);
     
+    useEffect(() => {
+      const isInstagramBrowser = () => {
+        const userAgent = navigator.userAgent;
+        const isIOS = !!userAgent.match(/iPad/i) || !!userAgent.match(/iPhone/i);
+        const isInstagram = !!userAgent.match(/Instagram/i);
+        const isWebView = !!(window.webkit && window.webkit.messageHandlers);
+
+        return isIOS && isInstagram && isWebView;
+      };
+  
+      if (isInstagramBrowser()) {
+        setIsIG(true);
+        setInstagramChangePopupActive(true);
+      }
+    }, [setInstagramChangePopupActive]);
+
+    
+
     const product = products.find(el => el.id == product_id);
     if (!product) console.log("wrong URL");
     else return (
@@ -298,6 +318,15 @@ const DemoMV = () => {
         <button slot="ar-button" id="ar-button">
             Посмотреть у себя
         </button>
+        <button className={isIG ? 'd-flex' : 'd-none'} id="ar-button" onClick={() => setInstagramChangePopupActive(true)}>
+            Открыть в Браузере
+        </button>
+        <Popup active={instagramChangePopupActive} setActive={setInstagramChangePopupActive}>
+          <div className="tutorial-popup mx-2 h-100">
+            <h3 className="mb-3 text-center">Чтобы примерить, следуйте инструкции:</h3>
+            <img src="/tutorial/browser/2.jpg" alt="Change browser" className='w-100'/>
+          </div>
+        </Popup>
         </model-viewer>
         </MobileView>
         <BrowserView >
