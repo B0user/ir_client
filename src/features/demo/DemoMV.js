@@ -258,7 +258,7 @@ const DemoMV = () => {
         return isIOS && isInstagram && isWebView;
       };
   
-      if (!isInstagramBrowser()) {
+      if (isInstagramBrowser()) {
         setIsIG(true);
         setInstagramChangePopupActive(true);
       }
