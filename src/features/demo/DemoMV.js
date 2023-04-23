@@ -375,9 +375,9 @@ const DemoMV = () => {
           </div>
         </Popup>
         </model-viewer>
-        <button onClick={requestARPermission} disabled={permissionStatus === 'granted'} className='fixed-bottom bg-cp-concrete'>
+        {/* <button onClick={requestARPermission} disabled={permissionStatus === 'granted'} className='fixed-bottom bg-cp-concrete'>
           {permissionStatus === 'granted' ? 'AR Activated' : 'Activate AR'}
-        </button>
+        </button> */}
         </MobileView>
         <BrowserView >
           <div class="sample">
