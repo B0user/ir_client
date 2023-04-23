@@ -268,28 +268,30 @@ const DemoMV = () => {
     const [instagramChangePopupActive, setInstagramChangePopupActive] = useState(false);
     
     const modelViewerRef = useRef(null);
-    const [permissionStatus, setPermissionStatus] = useState(null);
-    const requestARPermission = async () => {
-      if (!navigator.xr) {
-        alert("WebXR is not supported on this browser.");
-        return;
-      }
-      try {
-        const permission = await navigator.permissions.query({ name: "xr" });
-        if (permission.state === "denied") {
-          alert("AR permission is blocked. Please allow it from your browser settings.");
-        } else {
-          permission.onchange = () => {
-            setPermissionStatus(permission.state);
-          };
-          setPermissionStatus(permission.state);
-          modelViewerRef.current.activateAR();
-        }
-      } catch (error) {
-        console.error("Error requesting AR permission:", error);
-        alert("Error requesting AR permission.");
-      }
+    
+    
+
+    const [permissionStatus, setPermissionStatus] = useState('default');
+
+    useEffect(() => {
+      // Check AR permission status when component mounts
+      navigator.permissions.query({ name: 'xr' }).then((status) => {
+        setPermissionStatus(status.state);
+      });
+    }, []);
+  
+    const handlePermissionRequest = () => {
+      // Request AR permission onClick of the button
+      navigator.xr.requestDevice().then(() => {
+        setPermissionStatus('granted');
+      }).catch(() => {
+        setPermissionStatus('denied');
+      });
     };
+
+
+
+
 
 
     useEffect(() => {
@@ -378,6 +380,9 @@ const DemoMV = () => {
         {/* <button onClick={requestARPermission} disabled={permissionStatus === 'granted'} className='fixed-bottom bg-cp-concrete'>
           {permissionStatus === 'granted' ? 'AR Activated' : 'Activate AR'}
         </button> */}
+        {permissionStatus === 'denied' && (
+          <button onClick={handlePermissionRequest} className='fixed-bottom bg-cp-concrete'>Request AR Permission</button>
+        )}
         </MobileView>
         <BrowserView >
           <div class="sample">
