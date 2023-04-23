@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
     useParams,
     useNavigate,
@@ -14,7 +14,26 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { faXmark, faAngleLeft} from "@fortawesome/free-solid-svg-icons";
 
+function ArPermissionChecker() {
+  const [arPermissionEnabled, setArPermissionEnabled] = useState(false);
 
+  useEffect(() => {
+    async function checkArPermission() {
+      if ('xr' in navigator) {
+        const sessionSupported = await navigator.xr.isSessionSupported('immersive-ar');
+        setArPermissionEnabled(sessionSupported);
+        console.log(true);
+      }
+    }
+    checkArPermission();
+  }, []);
+
+  return (
+    <div>
+      {arPermissionEnabled ? "AR permission is enabled" : "AR permission is not enabled"}
+    </div>
+  );
+}
 
 
 const DemoMV = () => {
@@ -248,6 +267,31 @@ const DemoMV = () => {
     const [isIG, setIsIG] = useState(false);
     const [instagramChangePopupActive, setInstagramChangePopupActive] = useState(false);
     
+    const modelViewerRef = useRef(null);
+    const [permissionStatus, setPermissionStatus] = useState(null);
+    const requestARPermission = async () => {
+      if (!navigator.xr) {
+        alert("WebXR is not supported on this browser.");
+        return;
+      }
+      try {
+        const permission = await navigator.permissions.query({ name: "xr" });
+        if (permission.state === "denied") {
+          alert("AR permission is blocked. Please allow it from your browser settings.");
+        } else {
+          permission.onchange = () => {
+            setPermissionStatus(permission.state);
+          };
+          setPermissionStatus(permission.state);
+          modelViewerRef.current.activateAR();
+        }
+      } catch (error) {
+        console.error("Error requesting AR permission:", error);
+        alert("Error requesting AR permission.");
+      }
+    };
+
+
     useEffect(() => {
       const isInstagramBrowser = () => {
         const userAgent = navigator.userAgent;
@@ -264,6 +308,7 @@ const DemoMV = () => {
       }
     }, [setInstagramChangePopupActive]);
 
+    
     
 
     const product = products.find(el => el.id == product_id);
@@ -282,6 +327,7 @@ const DemoMV = () => {
         auto-rotate
         camera-controls
         camera-orbit="30deg"
+        ref={modelViewerRef}
         >
         <nav className="navbar">
             <div className="container-fluid d-flex justify-content-between px-4">
@@ -329,6 +375,9 @@ const DemoMV = () => {
           </div>
         </Popup>
         </model-viewer>
+        <button onClick={requestARPermission} disabled={permissionStatus === 'granted'} className='fixed-bottom bg-cp-concrete'>
+          {permissionStatus === 'granted' ? 'AR Activated' : 'Activate AR'}
+        </button>
         </MobileView>
         <BrowserView >
           <div class="sample">
