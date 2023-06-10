@@ -5,11 +5,6 @@ import React, { useState } from "react";
 import axios from "../../api/axios";
 import { API_URL } from "../../config";
 import SearchBar from "./SearchBar";
-import Filters from "./Filters";
-// Design
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFilter } from "@fortawesome/free-solid-svg-icons";
-
 
 // import '../demo/demo.css';
 
@@ -70,8 +65,11 @@ const BrandFittingRoom = () => {
         <h1 className="text-center lspace-50 demo-header fw-bold">
           BRITISH ASIA HOME
         </h1>
+        <div className="process pb-1">
+          <SearchBar products={products} setSearchResults={setSearchResults} filtersEnabled={true}/>
+        </div>
       </div>
-      <Catalog products={products}/>
+      <Catalog products={searchResults}/>
     </div>
   );
 };

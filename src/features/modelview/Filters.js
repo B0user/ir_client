@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const Checkbox = ({ value, id, chosen }) => {
   const [checked, setChecked] = useState(false);
@@ -49,6 +49,8 @@ const Filters = ({ products, setSearchResults }) => {
   const clearFilter = () => {
     setSizesChosen([]);
     setCharsChosen([]);
+    
+    setSearchResults(products);
   };
 
   useEffect(() => {
@@ -128,20 +130,29 @@ const Filters = ({ products, setSearchResults }) => {
 
   return (
     <div
-      className="collapse text-center bg-light fixed-top min-vh-100"
+      className="collapse text-center "
       id="filters"
     >
-      <nav className="navbar navbar-dark navbar-expand-sm text-white bg-dark">
+      <nav className="navbar navbar-expand-sm text-white ">
         <div className="container-fluid d-flex ">
           <button
             data-bs-toggle="collapse"
             data-bs-target="#filters"
-            className="btn btn-dark"
+            className="bg-transparent"
           >
             <FontAwesomeIcon icon={faChevronLeft} />
+            {" Закрыть"}
           </button>
-          <h3>Фильтры:</h3>
-          <div></div>
+          <button
+          className="btn btn-danger my-2 mx-2 "
+          data-bs-toggle="collapse"
+          data-bs-target="#filters"
+          onClick={clearFilter}
+        >
+          
+          <FontAwesomeIcon icon={faTrash} />
+          {" Сбросить Фильтры"}
+        </button>
         </div>
       </nav>
       <form onSubmit={handleSubmit}>
@@ -219,7 +230,7 @@ const Filters = ({ products, setSearchResults }) => {
               data-bs-parent="#accordionFlushExample"
             >
               <div className="accordion-body">
-                <div className="sizeFilter d-flex flex-wrap">
+                <div className="sizeFilter d-flex flex-wrap row-cols-1 row-cols-sm-3 ">
                   {/* Sizes show */}
                   {sizes?.map((size, i) => (
                     <div
@@ -274,14 +285,7 @@ const Filters = ({ products, setSearchResults }) => {
           </div>
         </div>
 
-        <button
-          className="btn btn-danger my-2 mx-2 rounded-pill"
-          data-bs-toggle="collapse"
-          data-bs-target="#filters"
-          onClick={clearFilter}
-        >
-          Сбросить Фильтры
-        </button>
+        
 
         <input
           type="submit"

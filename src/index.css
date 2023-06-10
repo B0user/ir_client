@@ -45,13 +45,10 @@ width: 60px;
 }
 
 .form-check-input {
-position: absolute;
-right: 0;
+    margin-right: 0.5em;
 }
 
 .form-check-label {
-position: absolute;
-left: 0;
 }
 
 

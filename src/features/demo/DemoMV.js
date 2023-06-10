@@ -266,33 +266,6 @@ const DemoMV = () => {
       ];
     const [isIG, setIsIG] = useState(false);
     const [instagramChangePopupActive, setInstagramChangePopupActive] = useState(false);
-    
-    const modelViewerRef = useRef(null);
-    
-    
-
-    const [permissionStatus, setPermissionStatus] = useState('default');
-
-    useEffect(() => {
-      // Check AR permission status when component mounts
-      navigator.permissions.query({ name: 'xr' }).then((status) => {
-        setPermissionStatus(status.state);
-      });
-    }, []);
-  
-    const handlePermissionRequest = () => {
-      // Request AR permission onClick of the button
-      navigator.xr.requestDevice().then(() => {
-        setPermissionStatus('granted');
-      }).catch(() => {
-        setPermissionStatus('denied');
-      });
-    };
-
-
-
-
-
 
     useEffect(() => {
       const isInstagramBrowser = () => {
@@ -310,9 +283,6 @@ const DemoMV = () => {
       }
     }, [setInstagramChangePopupActive]);
 
-    
-    
-
     const product = products.find(el => el.id == product_id);
     if (!product) console.log("wrong URL");
     else return (
@@ -329,7 +299,6 @@ const DemoMV = () => {
         auto-rotate
         camera-controls
         camera-orbit="30deg"
-        ref={modelViewerRef}
         >
         <nav className="navbar">
             <div className="container-fluid d-flex justify-content-between px-4">
@@ -377,12 +346,6 @@ const DemoMV = () => {
           </div>
         </Popup>
         </model-viewer>
-        {/* <button onClick={requestARPermission} disabled={permissionStatus === 'granted'} className='fixed-bottom bg-cp-concrete'>
-          {permissionStatus === 'granted' ? 'AR Activated' : 'Activate AR'}
-        </button> */}
-        {permissionStatus === 'denied' && (
-          <button onClick={handlePermissionRequest} className='fixed-bottom bg-cp-concrete'>Request AR Permission</button>
-        )}
         </MobileView>
         <BrowserView >
           <div class="sample">
