@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "../../api/axios";
 import { faXmark, faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 import "./productcard.css";
+import { API_URL } from "../../config";
 
 const DetailsThumb = ({ images }) => {
     if (!Array.isArray(images)) {
@@ -18,7 +19,7 @@ const DetailsThumb = ({ images }) => {
     return (
         <div className="images">
         {images.map((img, index) => (
-            <img src={img} alt="" key={index} width="100" />
+            <img src={API_URL + img} alt="" key={index} width="100" />
         ))}
         </div>
     );
@@ -46,7 +47,7 @@ const ProductCard = () => {
             <FontAwesomeIcon icon={faXmark}  onClick={() => navigate(-1)}/>
             
             <div className="big-img">
-                <img src={product?.thumb_path} alt="" />
+                <img src={API_URL + product?.thumb_path} alt="" />
             </div>
             
             <div className="mx-4">
