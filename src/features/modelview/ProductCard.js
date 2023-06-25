@@ -19,7 +19,7 @@ const DetailsThumb = ({ images }) => {
     return (
         <div className="images">
         {images.map((img, index) => (
-            <img crossOrigin="anonymous" src={API_URL + img} alt="" key={index} width="100" />
+            <img crossOrigin="anonymous" src={API_URL + img} alt="" key={index} height="100" />
         ))}
         </div>
     );
