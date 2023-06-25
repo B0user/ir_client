@@ -2,41 +2,63 @@ import React, { useEffect, useRef, useState } from 'react'
 import {
     useParams,
     useNavigate,
-    Link,
   } from "react-router-dom";
 import "@google/model-viewer/dist/model-viewer";
-import { RWebShare } from "react-web-share";
-import { BrowserView, MobileView } from "react-device-detect";
-import QRCode from "../qrcodes/QRCode";
-import Popup from "../popup/Popup";
 // Design
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { faXmark, faAngleLeft, faArrowLeft} from "@fortawesome/free-solid-svg-icons";
+import { faXmark, faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 
-function ArPermissionChecker() {
-  const [arPermissionEnabled, setArPermissionEnabled] = useState(false);
+const MobileProductCard = ({ thumbnail, images, name, description }) => {
+    return (
+      <div className="container">
+        <div className="row">
+          <div className="col-12">
+            <button className="btn btn-primary mb-3">Back</button>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-12">
+            <div className="card">
+              <img src={thumbnail} className="card-img-top" alt="Product Thumbnail" />
+              {images && images.length > 0 && (
+                <div className="row mt-3">
+                    <div className="col-12">
+                    <h6>Images</h6>
+                    <div className="d-flex flex-wrap">
+                        {images.map((image, index) => (
+                        <img key={index} src={image} alt={`Product Image ${index + 1}`} className="img-thumbnail me-2 mb-2" />
+                        ))}
+                    </div>
+                    </div>
+                </div>
+                )}
+              <div className="card-body">
+                <h5 className="card-title">{name}</h5>
+                <p className="card-text">{description}</p>
+                <button className="btn btn-primary me-2">AR</button>
+                <button className="btn btn-primary">Cart</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    );
+  };
 
-  useEffect(() => {
-    async function checkArPermission() {
-      if ('xr' in navigator) {
-        const sessionSupported = await navigator.xr.isSessionSupported('immersive-ar');
-        setArPermissionEnabled(sessionSupported);
-        console.log(true);
-      }
-    }
-    checkArPermission();
-  }, []);
-
-  return (
-    <div>
-      {arPermissionEnabled ? "AR permission is enabled" : "AR permission is not enabled"}
+const DetailsThumb = ({ images }) => {
+return (
+    <div className="images">
+    {images.map((img, index) => (
+        <img src={img} alt="" key={index} width="100" />
+    ))}
     </div>
-  );
-}
+);
+};
+  
 
-
-const DemoMV = () => {
+const DemoProductCard = () => {
     const navigate = useNavigate();
     // URL data
     const { product_id } = useParams();
@@ -45,7 +67,10 @@ const DemoMV = () => {
           "id":1,
           "name":"Шкаф 01",
           "img_src":"/demo/img/1.webp",
-          "model_src":"/demo/models/1.8x.4x1 shkaf.glb"
+          "model_src":"/demo/models/1.8x.4x1 shkaf.glb",
+          "image_paths": [
+          ],
+          "description": "Some text about the product no.1"
         },
         {
           "id":2,
@@ -264,126 +289,36 @@ const DemoMV = () => {
           "model_src":"/demo/models/xz.glb"
         }
       ];
-    const [isIG, setIsIG] = useState(false);
-    const [instagramChangePopupActive, setInstagramChangePopupActive] = useState(false);
-
-    useEffect(() => {
-      const isInstagramBrowser = () => {
-        const userAgent = navigator.userAgent;
-        const isIOS = !!userAgent.match(/iPad/i) || !!userAgent.match(/iPhone/i);
-        const isInstagram = !!userAgent.match(/Instagram/i);
-        const isWebView = !!(window.webkit && window.webkit.messageHandlers);
-
-        return isIOS && isInstagram && isWebView;
-      };
-  
-      if (isInstagramBrowser()) {
-        setIsIG(true);
-        setInstagramChangePopupActive(true);
-      }
-    }, [setInstagramChangePopupActive]);
 
     const product = products.find(el => el.id == product_id);
+    
     if (!product) console.log("wrong URL");
     else return (
-      <>
-        <MobileView className="h-100">
-
-        <model-viewer
-        src={product.model_src}
-        alt="Carpet model"
-        ar-modes="scene-viewer webxr quick-look"
-        ar 
-        poster={product.img_src}
-        environment-image="neutral"
-        auto-rotate
-        camera-controls
-        camera-orbit="30deg"
-        >
-        <nav className="navbar">
-            <div className="container-fluid d-flex justify-content-between px-4">            
+        <div className="details vh-100" key={product.id}>
             <FontAwesomeIcon icon={faAngleLeft}  onClick={() => navigate(-1)}/>
-            <a
-                className="btn rounded-pill btn-primary w-75 text-white"
-                // href={product?.link}
-                rel="noreferrer"
-                target="_blank"
-                disabled
-            >
-                {product.name}
-            </a>
-            <RWebShare
-                data={{
-                title: "INROOM",
-                text: "Выбирайте мебель не выходя из дома",
-                url: window.location.href,
-                }}
-            >
-                <svg
-                className="share"
-                xmlns="http://www.w3.org/2000/svg"
-                width="1em"
-                height="1em"
-                fill="currentColor"
-                viewBox="0 0 512 512"
-                >
-                <path d="M503.7 226.2l-176 151.1c-15.38 13.3-39.69 2.545-39.69-18.16V272.1C132.9 274.3 66.06 312.8 111.4 457.8c5.031 16.09-14.41 28.56-28.06 18.62C39.59 444.6 0 383.8 0 322.3c0-152.2 127.4-184.4 288-186.3V56.02c0-20.67 24.28-31.46 39.69-18.16l176 151.1C514.8 199.4 514.8 216.6 503.7 226.2z" />
-                </svg>
-            </RWebShare>
+            <h2>{product.name}</h2>
+            <FontAwesomeIcon icon={faXmark}  onClick={() => navigate(-1)}/>
+            
+            <div className="big-img">
+                <img src={product.img_src} alt="" />
             </div>
-        </nav>
-        <button slot="ar-button" id="ar-button">
-            Посмотреть у себя
-        </button>
-        <button className={isIG ? 'd-flex' : 'd-none'} id="ar-button" onClick={() => setInstagramChangePopupActive(true)}>
-            Открыть в Браузере
-        </button>
-        <Popup active={instagramChangePopupActive} setActive={setInstagramChangePopupActive}>
-          <div className="tutorial-popup mx-2 h-100">
-            <FontAwesomeIcon className='float-end' icon={faXmark}  onClick={() => setInstagramChangePopupActive(false)}/>
-            <div className="h5 mb-3 text-center">Чтобы примерить, следуйте инструкции:</div>
-            <img src="/tutorial/browser/instagram-ios.jpg" alt="Change browser" className='w-100'/>
-          </div>
-        </Popup>
-        </model-viewer>
-        </MobileView>
-        <BrowserView >
-          <div class="sample">
-            <div id="demo-container" class="demo">
-              <model-viewer
-                src={product.model_src}
-                alt="Carpet model"
-                ar-modes="scene-viewer webxr quick-look"
-                ar 
-                poster={product.img_src}
-                environment-image="neutral"
-                auto-rotate
-                camera-controls
-                camera-orbit="30deg"
-                >
-                </model-viewer>
+            
+            <div className="mx-4">
+                <DetailsThumb images={product.image_paths? product.image_paths: ''} />
+        
+            
+                <div className="row">
+                </div>
+
+                <p>{product.description? product.description : ''}</p>
+                <div className="sticky-bottom px-3 pb-4">
+                    <button className="btn btn-danger rounded-pill w-100 mb-2" onClick={()=>navigate('ar')}>Открыть в 3D</button>
+                    <button className="btn btn-primary w-100" onClick={()=>navigate('/show')}>Открыть на сайте</button>
+                </div>
             </div>
-            <div class="content bg-light  text-center">
-              <div className="back-btn" onClick={() => navigate('/show')}><FontAwesomeIcon icon={faAngleLeft} className='fa-2xl'/>Назад</div>
-              
-              <div class="wrapper-demo">
-              
-                <h1>Пожалуйста, используйте QR код</h1>
-                <p className='mb-5'>Наведите камеру на QR код, чтобы открыть примерочную.</p>
-                <QRCode
-                  url={window.location.href}
-                  isImage={true}
-                  isButton={false}
-                />
-                <p>
-                  Создано <Link to="/show">INROOM.TECH</Link>&copy;
-                </p>
-              </div>
-            </div>
-          </div>
-        </BrowserView>
-      </>
+        </div>
+      
     )
 }
 
-export default DemoMV;
+export default DemoProductCard;
