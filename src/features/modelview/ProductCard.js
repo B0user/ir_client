@@ -19,7 +19,7 @@ const DetailsThumb = ({ images }) => {
     return (
         <div className="images">
         {images.map((img, index) => (
-            <img src={API_URL + img} alt="" key={index} width="100" />
+            <img crossOrigin="anonymous" src={API_URL + img} alt="" key={index} width="100" />
         ))}
         </div>
     );
@@ -47,7 +47,7 @@ const ProductCard = () => {
             <FontAwesomeIcon icon={faXmark}  onClick={() => navigate(-1)}/>
             
             <div className="big-img">
-                <img src={API_URL + product?.thumb_path} alt="" />
+                <img crossOrigin="anonymous" src={API_URL + product?.thumb_path} alt="" />
             </div>
             
             <div className="mx-4">
