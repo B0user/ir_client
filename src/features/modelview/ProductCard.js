@@ -46,13 +46,14 @@ const ProductCard = () => {
     const navigate = useNavigate();
     // URL data
     const { product_id } = useParams();
-    const [selectedImage, setSelectedImage] = useState(product?.thumb_path);
 
     const {isLoading,
         isSuccess,
         data: result,
       } = useQuery(["product", product_id], () => fetchModelInfo(product_id));
     const product= result?.data;
+    
+    const [selectedImage, setSelectedImage] = useState(product?.thumb_path);
     if(isLoading) return <p>Loading...</p>
     if(isSuccess && product) return (
         <div className="align-items-baseline details vh-100" key={product?._id}>
