@@ -11,14 +11,14 @@ import { faXmark, faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 import "./productcard.css";
 import { API_URL } from "../../config";
 
-const DetailsThumb = ({ images, setSelectedImage }) => {
+const DetailsThumb = ({ images }) => {
     if (!Array.isArray(images)) {
       // If images is not an array, you can return null or handle it in a different way
       return null;
     }
   
     const handleImageClick = (image) => {
-      setSelectedImage(image);
+      // setSelectedImage(image);
     };
   
     return (
@@ -52,21 +52,23 @@ const ProductCard = () => {
         data: result,
       } = useQuery(["product", product_id], () => fetchModelInfo(product_id));
     const product= result?.data;
-    
-    const [selectedImage, setSelectedImage] = useState(product?.thumb_path);
+
+
+
     if(isLoading) return <p>Loading...</p>
-    if(isSuccess && product) return (
+    if(isSuccess && product) 
+    return (
         <div className="align-items-baseline details vh-100" key={product?._id}>
             <FontAwesomeIcon icon={faAngleLeft}  onClick={() => navigate(-1)}/>
             <h2 className='w-75'>{product?.name}</h2>
             <FontAwesomeIcon icon={faXmark}  onClick={() => navigate(-1)}/>
             
             <div className="big-img">
-                <img crossOrigin="anonymous" src={API_URL + selectedImage} alt="" />
+                <img crossOrigin="anonymous" src={API_URL + product.thumb_path} alt="" />
             </div>
             
             <div className="mx-4">
-                <DetailsThumb images={product?.image_paths? product.image_paths: ''} setSelectedImage={setSelectedImage}/>
+                <DetailsThumb images={product?.image_paths? product.image_paths: ''} />
         
             
                 <div className="row">
