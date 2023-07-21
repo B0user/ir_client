@@ -6,11 +6,11 @@
     flex-wrap: wrap;
     padding: 30px 0;
   }
-  .details .big-img{
+  .big-img{
     max-width: 500px;
     min-width: 290px;
     overflow: hidden;
-    margin: 25px;
+    margin: 0 25px;
   }
   .big-img img{
     width: 100%;

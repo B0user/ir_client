@@ -47,11 +47,11 @@ const MobileProductCard = ({ thumbnail, images, name, description }) => {
     );
   };
 
-const DetailsThumb = ({ images }) => {
+const DetailsThumb = ({ images, setBigImg }) => {
 return (
     <div className="images">
     {images.map((img, index) => (
-        <img src={img} alt="" key={index} width="100" />
+        <img src={img} alt="" key={index} width="100" onClick={()=>setBigImg(img)}/>
     ))}
     </div>
 );
@@ -289,36 +289,38 @@ const DemoProductCard = () => {
           "model_src":"/demo/models/xz.glb"
         }
       ];
-
+    const [bigImg, setBigImg] = useState();
     const product = products.find(el => el.id == product_id);
     
     if (!product) console.log("wrong URL");
     else return (
-        <div className="details vh-100" key={product.id}>
-            <FontAwesomeIcon icon={faAngleLeft}  onClick={() => navigate(-1)}/>
-            <h2>{product.name}</h2>
-            <FontAwesomeIcon icon={faXmark}  onClick={() => navigate(-1)}/>
-            
-            <div className="big-img">
-                <img src={product.img_src} alt="" />
-            </div>
-            
-            <div className="mx-4">
-                <DetailsThumb images={product.image_paths? product.image_paths: ''} />
-        
-            
-                <div className="row">
-                </div>
+      <div className="details vh-100" key={product.id}>
+          <FontAwesomeIcon icon={faAngleLeft}  onClick={() => navigate(-1)}/>
+          <h2 className="w-75">{product.name}</h2>
+          <FontAwesomeIcon icon={faXmark}  onClick={() => navigate(-1)}/>
+          
+          <div className="big-img">
+              <img src={bigImg? bigImg : product?.img_src} alt="" />
+          </div>
+          
+          <div className="mx-4">
+              <DetailsThumb images={product.image_paths? product.image_paths: ''} setBigImg={setBigImg}/>
+      
+          
+              <div className="row">
+              </div>
 
-                <p>{product.description? product.description : ''}</p>
-                <div className="sticky-bottom px-3 pb-4">
-                    <button className="btn btn-danger rounded-pill w-100 mb-2" onClick={()=>navigate('ar')}>Открыть в 3D</button>
-                    <button className="btn btn-primary w-100" onClick={()=>navigate('/show')}>Открыть на сайте</button>
-                </div>
-            </div>
-        </div>
+              <p>{product.description? product.description : ''}</p>
+              <div className="sticky-bottom px-3 pb-4">
+                  <button className="btn btn-danger rounded-pill w-100 mb-2" onClick={()=>navigate('ar')}>Открыть в 3D</button>
+                  <button className="btn btn-primary w-100" onClick={()=>navigate('/show')}>Открыть на сайте</button>
+              </div>
+          </div>
+      </div>
       
     )
+    
+    
 }
 
 export default DemoProductCard;
