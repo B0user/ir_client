@@ -1,10 +1,11 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // Custom
 import axios from "../../api/axios";
 import { API_URL } from "../../config";
 import SearchBar from "./SearchBar";
+import ReactGA from 'react-ga';
 
 // import '../demo/demo.css';
 
@@ -42,6 +43,10 @@ const BrandFittingRoom = () => {
   const { client_id } = useParams();
   const [size, setSize] = useState("");
   const [searchResults, setSearchResults] = useState();
+
+  useEffect(() => {
+    ReactGA.pageview(window.location.pathname);
+  }, []);
 
   const {
     data: products,
