@@ -10,6 +10,7 @@ import axios from "../../api/axios";
 import { faXmark, faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 import "./productcard.css";
 import { API_URL } from "../../config";
+import ReactGA from 'react-ga';
 
 const DetailsThumb = ({ images, thumb, setBigImg }) => {
   const [isMounted, setIsMounted] = useState(true);
@@ -75,6 +76,11 @@ const ProductCard = () => {
     // URL data
     const { product_id } = useParams();
     const [bigImg, setBigImg] = useState();
+    useEffect(() => {
+      ReactGA.pageview(window.location.pathname, { dimension1: 'product_page'});
+    }, []);
+
+    
     const {isLoading,
         isSuccess,
         data: result,

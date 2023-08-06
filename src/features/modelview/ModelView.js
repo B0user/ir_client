@@ -8,6 +8,7 @@ import { BrowserView, MobileView } from "react-device-detect";
 import { useQuery } from "@tanstack/react-query";
 import "@google/model-viewer/dist/model-viewer";
 import { RWebShare } from "react-web-share";
+import ReactGA from 'react-ga';
 import { useEffect, useState, useReducer, useRef } from "react";
 // Custom
 // import Filters from "./Filters";
@@ -87,6 +88,10 @@ const ModelView = () => {
   const [isIG, setIsIG] = useState(false);
   const [instagramChangePopupActive, setInstagramChangePopupActive] = useState(false);
   
+  useEffect(() => {
+    ReactGA.pageview(window.location.pathname, { dimension1: 'mv'});
+  }, []);
+
   useEffect(() => {
     const isInstagramBrowser = () => {
       const userAgent = navigator.userAgent;
