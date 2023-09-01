@@ -15,7 +15,7 @@ import DemoCatalog from './features/demo/DemoCatalog';
 import DemoMV from './features/demo/DemoMV';
 import DemoProductCard from './features/demo/DemoProductCard';
 import ProductCard from './features/modelview/ProductCard';
-import ReactGA from 'react-ga';
+import ReactGA from 'react-ga4';
 
 const TrackingID = "G-W74SFXJVQ2";
 ReactGA.initialize(TrackingID);

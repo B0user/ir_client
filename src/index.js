@@ -6,10 +6,6 @@ import './index.css';
 import App from './App';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { disableReactDevTools } from '@fvilers/disable-react-devtools';
-// Analytics
-import ReactGA from 'react-ga';
-ReactGA.initialize('G-SQFRZ44X2C');
-ReactGA.pageview(window.location.pathname + window.location.search);
 
 if (process.env.NODE_ENV === 'production'){
   disableReactDevTools();
