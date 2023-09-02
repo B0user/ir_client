@@ -86,7 +86,10 @@ const ProductCard = () => {
       } = useQuery(["product", product_id], () => fetchModelInfo(product_id));
     const product= result?.data;
 
-
+    useEffect(() => {
+      document.title = product ? `${product.name}` : 'Грузится...'; 
+    }, [product]); 
+  
 
     if(isLoading) return <p>Loading...</p>
     if(isSuccess && product) 

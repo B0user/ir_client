@@ -267,6 +267,8 @@ const DemoMV = () => {
     const [isIG, setIsIG] = useState(false);
     const [instagramChangePopupActive, setInstagramChangePopupActive] = useState(false);
 
+    
+
     useEffect(() => {
       const isInstagramBrowser = () => {
         const userAgent = navigator.userAgent;
@@ -284,6 +286,10 @@ const DemoMV = () => {
     }, [setInstagramChangePopupActive]);
 
     const product = products.find(el => el.id == product_id);
+    useEffect(() => {
+      document.title = `Примерка: ${product?.name}`; 
+    }, []); 
+
     if (!product) console.log("wrong URL");
     else return (
       <>

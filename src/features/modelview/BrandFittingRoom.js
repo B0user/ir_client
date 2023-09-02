@@ -43,6 +43,10 @@ const BrandFittingRoom = () => {
   const [size, setSize] = useState("");
   const [searchResults, setSearchResults] = useState();
 
+  useEffect(() => {
+    document.title = 'Каталог'; 
+  }, []); 
+  
 
   const {
     data: products,

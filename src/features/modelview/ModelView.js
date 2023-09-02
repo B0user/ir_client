@@ -87,9 +87,9 @@ const ModelView = () => {
   const [isIG, setIsIG] = useState(false);
   const [instagramChangePopupActive, setInstagramChangePopupActive] = useState(false);
   
-  // useEffect(() => {
-  //   ReactGA.pageview(window.location.pathname, { dimension1: 'mv'});
-  // }, []);
+  useEffect(() => {
+    document.title = 'Примерка AR'; 
+  }, []); 
 
   useEffect(() => {
     const isInstagramBrowser = () => {

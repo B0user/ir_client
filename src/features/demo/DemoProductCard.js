@@ -50,7 +50,7 @@ const MobileProductCard = ({ thumbnail, images, name, description }) => {
 const DetailsThumb = ({ images, setBigImg }) => {
 return (
     <div className="images">
-    {images.map((img, index) => (
+    {images.isArray && images.map((img, index) => (
         <img src={img} alt="" key={index} width="100" onClick={()=>setBigImg(img)}/>
     ))}
     </div>
@@ -291,7 +291,10 @@ const DemoProductCard = () => {
       ];
     const [bigImg, setBigImg] = useState();
     const product = products.find(el => el.id == product_id);
-    
+    useEffect(() => {
+      document.title = product?.name; 
+    }, []); 
+
     if (!product) console.log("wrong URL");
     else return (
       <div className="details vh-100" key={product.id}>

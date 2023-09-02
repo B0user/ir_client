@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import './demo.css';
 
 const ProductCard = ({ img_src, alt, id}) => {  
@@ -11,7 +11,7 @@ const ProductCard = ({ img_src, alt, id}) => {
       src={img_src} 
       alt={alt} 
       className="w-100 rounded-1" 
-      onClick={(e) => navigate(`${id}`)}/>
+      onClick={(e) => navigate(`/show/${id}`)}/>
 
       <span className="text-center">{alt}</span>
     </div>
@@ -32,6 +32,10 @@ const Catalog = ({ products }) => {
 };
 
 const DemoCatalog = () => {
+  useEffect(() => {
+    document.title = 'INROOM Демо'; 
+  }, []); 
+
   const products = [
     {
       "id":1,
